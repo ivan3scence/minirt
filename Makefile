@@ -1,4 +1,4 @@
-CFLAGS =			-Wall -Wextra -Werror
+CFLAGS =			-Wall -Wextra -Werror -fsanitize=address -g
 
 HDRS =				minirt.h
 
@@ -56,7 +56,7 @@ ${LIBFT}:
 ${MLX}:
 					${MAKE} -C ${MLXDIR}
 
-${NAME}:			${HEADERS}
+${NAME}:			${SOURCES} ${HEADERS}
 					${CC} ${INCLUDE} ${CFLAGS} ${SOURCES} ${LIBS} -o $@
 
 ${BUILDIR}:
