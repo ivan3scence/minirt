@@ -27,7 +27,7 @@
 # define CAMERA_ROTATION 1
 # define CANVAS_HEIGHT 1
 # define CANVAS_WIDTH 1
-# define CANVAS_Z 1
+# define CANVAS_Z 0.5
 
 typedef struct s_rgb
 {

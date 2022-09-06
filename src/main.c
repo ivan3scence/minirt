@@ -52,8 +52,8 @@ void	my_mlx_pixel_put(t_mlx *data, int x, int y, int color)
 
 t_dot	canvas_to_viewpoint(double x, double y)
 {
-	t_dot	viewport={x * CANVAS_WIDTH / WIDTH, y * CANVAS_HEIGHT / HEIGHT,
-		CANVAS_Z};
+	t_dot	viewport={5 * x * CANVAS_WIDTH / WIDTH, 5 * y * CANVAS_HEIGHT / HEIGHT,
+		5 * CANVAS_Z};
 	return (viewport);
 }
 
@@ -76,52 +76,56 @@ double	*intersect_ray_sphere(t_dot o, t_dot d, t_sphere *sphere)
 {
 	t_dot	oc;
 	double	dis;
-	double	*ret;
+	double	*tt;
 
-	ret = (double *)malloc(sizeof(double) * 2);
-	if (!ret)
+	tt = (double *)malloc(sizeof(double) * 2);
+	if (!tt)
 		exit(1);
-	ret[0] = DBL_MAX;
-	ret[1] = DBL_MAX;
+	tt[0] = DBL_MAX;
+	tt[1] = DBL_MAX;
 	oc = vector(o, sphere->center);
 	dis = pow(2 * v_mult(oc, d), 2) - 4 * v_mult(d, d) *
 		(v_mult(oc, oc) - sphere->radius * sphere->radius);
 	if (dis < 0)
-		return (ret);
-	ret[0] = (-2 * v_mult(oc, d) + sqrt(dis)) / (2 * v_mult(d, d));
-	ret[1] = (-2 * v_mult(oc, d) - sqrt(dis)) / (2 * v_mult(d, d));
-	return (ret);
+	{
+	//printf("gg\n");
+		return (tt);
+	}
+	tt[0] = (-2 * v_mult(oc, d) + sqrt(dis)) / (2 * v_mult(d, d));
+	tt[1] = (-2 * v_mult(oc, d) - sqrt(dis)) / (2 * v_mult(d, d));
+	//printf("%g, %g\n", tt[0], tt[1]);
+	return (tt);
 }
 
 t_intersec	closest_intersection(t_dot o, t_dot d, double t_min, double t_max,
 		t_mlx *mlx)
 {
 	t_intersec	cls;
-	//t_sphere	*sphere;
 	int			i=-1;
 	double		*tt;
 
 	cls.closest_sphere = NULL;
 	cls.closest_t = DBL_MAX;
-	//sphere = mlx->spheres[0];
 	while (mlx->spheres[++i])
 	{
-		//ft_putendl_fd("xoxo", 1);
 		tt = intersect_ray_sphere(o, d, mlx->spheres[i]);
-		if (tt[0] >= t_min && tt[0] <= t_max && tt[0] <= cls.closest_t)
+		if (tt[0] >= t_min && tt[0] <= t_max && tt[0] < cls.closest_t)
 		{
-			//ft_putendl_fd("in", 1);
+			//if (tt[0] != DBL_MAX)
+			//	printf("gg%g, %g, %g\n", tt[0], tt[1], cls.closest_t);
 			cls.closest_t = tt[0];
 			cls.closest_sphere = mlx->spheres[i];
+			//if (tt[0] != DBL_MAX)
+			//	printf("gg%g, %g, %g\n", tt[0], tt[1], cls.closest_t);
 		}
-		if (tt[1] >= t_min && tt[1] <= t_max && tt[1] <= cls.closest_t)
+		if (tt[1] >= t_min && tt[1] <= t_max && tt[1] < cls.closest_t)
 		{
+			//printf("%g, %g, %g\n", tt[0], tt[1], cls.closest_t);
 			cls.closest_t = tt[1];
 			cls.closest_sphere = mlx->spheres[i];
 		}
 		free(tt);
 	}
-	//ft_putendl_fd("!!!!", 1);
 	return (cls);
 }
 
@@ -152,16 +156,13 @@ void	start_point(t_mlx *mlx)
 		while (y < HEIGHT / 2)
 		{
 			d = canvas_to_viewpoint(x, y);
-			color = trace_ray(cam, d, 1, DBL_MAX, mlx);
-	//ft_putendl_fd("!!!", 1);
+			color = trace_ray(cam, d, -5, DBL_MAX, mlx);
 			my_mlx_pixel_put(mlx, x + WIDTH / 2, y + HEIGHT / 2,
 				create_trgb(0x0, color.r, color.g, color.b));
-	//ft_putendl_fd("????", 1);
 			++y;
 		}
 		++x;
 	}
-	//ft_putendl_fd("????", 1);
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 	return ;
 }
