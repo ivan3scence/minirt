@@ -38,7 +38,7 @@ t_sphere	**get_spheres(void)
 
 int	create_trgb(int t, int r, int g, int b)
 {
-	printf("%d %d %d %d\n", t, r, g, b);
+	//printf("%d %d %d %d\n", t, r, g, b);
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 
@@ -59,7 +59,7 @@ t_dot	canvas_to_viewpoint(double x, double y)
 
 double	v_mult(t_dot v1, t_dot v2)
 {
-	return (v1.x * v2.x + v1.y * v2.y);
+	return (v1.x * v2.x + v1.y * v2.y + v1.z * v2.z);
 }
 
 t_dot	vector(t_dot d1, t_dot d2)
@@ -68,6 +68,7 @@ t_dot	vector(t_dot d1, t_dot d2)
 
 	vec.x = d2.x - d1.x;
 	vec.y = d2.y - d1.y;
+	vec.z = d2.z - d1.z;
 	return (vec);
 }
 
@@ -107,12 +108,13 @@ t_intersec	closest_intersection(t_dot o, t_dot d, double t_min, double t_max,
 	{
 		//ft_putendl_fd("xoxo", 1);
 		tt = intersect_ray_sphere(o, d, mlx->spheres[i]);
-		if (tt[0] >= t_min && tt[0] <= t_max && tt[0] < cls.closest_t)
+		if (tt[0] >= t_min && tt[0] <= t_max && tt[0] <= cls.closest_t)
 		{
+			//ft_putendl_fd("in", 1);
 			cls.closest_t = tt[0];
 			cls.closest_sphere = mlx->spheres[i];
 		}
-		if (tt[1] >= t_min && tt[1] <= t_max && tt[1] < cls.closest_t)
+		if (tt[1] >= t_min && tt[1] <= t_max && tt[1] <= cls.closest_t)
 		{
 			cls.closest_t = tt[1];
 			cls.closest_sphere = mlx->spheres[i];
@@ -153,7 +155,7 @@ void	start_point(t_mlx *mlx)
 			color = trace_ray(cam, d, 1, DBL_MAX, mlx);
 	//ft_putendl_fd("!!!", 1);
 			my_mlx_pixel_put(mlx, x + WIDTH / 2, y + HEIGHT / 2,
-				create_trgb(0xFF, color.r, color.g, color.b));
+				create_trgb(0x0, color.r, color.g, color.b));
 	//ft_putendl_fd("????", 1);
 			++y;
 		}
