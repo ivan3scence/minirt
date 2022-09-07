@@ -46,6 +46,8 @@ INCLUDE = 			-I./mlx -I./includes -I./libft
 
 LIBS = 				-L./mlx/ -lmlx -lm -L./libft/ -lft -framework OpenGL -framework AppKit
 
+LIBS_LINUX =		-L./libft -lft -Lmlx -lmlx_Linux -L/usr/lib -Imlx -lXext -lX11 -lm -lz
+
 .PHONY:				clean all fclean re
 
 all:				${BUILDIR} ${BLDRS} ${LIBFT} ${MLX} ${NAME}
@@ -55,6 +57,9 @@ ${LIBFT}:
 
 ${MLX}:
 					${MAKE} -C ${MLXDIR}
+
+l:					${BUILDIR} ${BLDRS} ${LIBFT} ${MLX} ${SOURCES} ${HEADERS}
+					${CC} ${INCLUDE} ${CFLAGS} ${SOURCES} ${LIBS_LINUX} -o ${NAME}
 
 ${NAME}:			${SOURCES} ${HEADERS}
 					${CC} ${INCLUDE} ${CFLAGS} ${SOURCES} ${LIBS} -o $@

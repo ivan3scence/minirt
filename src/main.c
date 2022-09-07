@@ -132,7 +132,7 @@ t_intersec	closest_intersection(t_dot o, t_dot d, double t_min, double t_max,
 t_rgb	trace_ray(t_dot o, t_dot d, double t_min, double t_max, t_mlx *mlx)
 {
 	t_intersec	cls;
-	t_rgb		rgb={255,255,255};
+	t_rgb		rgb={0,0,0};
 
 	cls = closest_intersection(o, d, t_min, t_max, mlx);
 	if (!cls.closest_sphere)
