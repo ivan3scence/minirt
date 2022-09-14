@@ -36,17 +36,14 @@ void	ft_clean_split(char **split)
 	free(split);
 }
 
-t_rgb	set_rgb(char *str)
+t_rgb	set_rgb(t_inf *inf, char *str)
 {
 	char	**split;
 	t_rgb	rgb;
 
 	split = ft_split(str, ',');
 	if (ft_arrlen(split) != 3)
-	{
-		ft_putstr_fd("wrong map syntax!\n", 2);
-		exit(1);
-	}
+		free_exit(SYNTAX, inf, SYNTAX_CODE);
 	rgb.r = ft_dbatoi(split[0]);
 	rgb.g = ft_dbatoi(split[1]);
 	rgb.b = ft_dbatoi(split[2]);
@@ -54,17 +51,14 @@ t_rgb	set_rgb(char *str)
 	return (rgb);
 }
 
-t_dot	set_coordinates(char *str)
+t_dot	set_coordinates(t_inf *inf, char *str)
 {
 	char	**split;
 	t_dot	dot;
 
 	split = ft_split(str, ',');
 	if (ft_arrlen(split) != 3)
-	{
-		ft_putstr_fd("wrong map syntax!\n", 2);
-		exit(1);
-	}
+		free_exit(SYNTAX, inf, SYNTAX_CODE);
 	dot.x = ft_dbatoi(split[0]);
 	dot.y = ft_dbatoi(split[1]);
 	dot.z = ft_dbatoi(split[2]);
