@@ -6,10 +6,6 @@ HDRS_DIR =			./includes/
 
 CC =				cc
 
-#BONUSDIR =			bonus/
-
-#BONUS =				$(addprefix ${BONUSDIR}, minirt)
-
 RM =				rm -rf
 
 NAME =				minirt
