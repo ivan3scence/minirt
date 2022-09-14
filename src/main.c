@@ -8,7 +8,7 @@ int	main(int argc, char **argv)
 	if (argc < 2)
 	{
 		ft_putstr_fd("o_O?\twhere is the map?\n", 2);
-		exit(228);
+		exit(GAY);
 	}
 	inf = parse(argv[1]);
 	printf("ratio %g  r %d g %d b %d\n", inf->amb.ratio,  inf->amb.rgb.r,  inf->amb.rgb.g, inf->amb.rgb.b);

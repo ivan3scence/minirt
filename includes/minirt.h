@@ -22,6 +22,11 @@
 # include "mlx.h"
 # include "get_next_line_bonus.h"
 
+# define SYNTAX "wrong scene syntax"
+# define SYNTAX_CODE 228
+# define GAY 88
+# define CUM 14
+
 typedef struct s_env
 {
 	char				*key;
@@ -94,8 +99,9 @@ t_inf	*parse(char *filename);
 double	ft_dbatoi(char *str);
 int	ft_arrlen(char **split);
 void	ft_clean_split(char **split);
-t_rgb	set_rgb(char *str);
-t_dot	set_coordinates(char *str);
+t_rgb	set_rgb(t_inf *inf, char *str);
+t_dot	set_coordinates(t_inf *inf, char *str);
 t_figure	*ft_last_figure(t_figure *fig);
+void 	free_exit(char *desc, t_inf *inf, unsigned char exit_code);
 
 # endif

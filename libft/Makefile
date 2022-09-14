@@ -20,7 +20,7 @@ HEADERS_FILES = libft.h
 
 HEADERS = ${addprefix ${HEADERS_DIR}, ${HEADERS_FILES}}
 
-CC = gcc
+CC = cc
 
 RM = rm -f
 
