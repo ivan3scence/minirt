@@ -30,7 +30,7 @@ t_dot    subtraction_vector(t_dot *vector_a, t_dot *vector_b)         //вычи
 	return (vector_c);
 }
 
-double   vector_length(t_dot *vector)             //модуль вектора
+double   vector_length(t_dot *vector)
 {
 	double length;
 
@@ -38,7 +38,7 @@ double   vector_length(t_dot *vector)             //модуль вектора
 	return (length);
 }
 
-void    normalize_vector(t_dot *vector)          //нормализация вектора
+void    normalize_vector(t_dot *vector)
 {
 	double   norm;
 	double   length;

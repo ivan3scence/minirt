@@ -49,10 +49,10 @@ static char	set_sphere(t_inf *inf, char **split)
 	sphere = (t_figure *)malloc(sizeof(t_figure));
 	if (!sphere)
 		return (0);
-	sphere->type = 1;
+	sphere->type = SPHERE_TYPE;
 	sphere->coordinates = set_coordinates(inf, split[1]);
 	sphere->rgb = set_rgb(inf, split[3]);
-	sphere->sphere_diametr = ft_dbatoi(split[2]);
+	sphere->sphere_radius = ft_dbatoi(split[2]) / 2;
 	sphere->next = NULL;
 	if (!inf->figures)
 		inf->figures = sphere;
@@ -75,7 +75,7 @@ static char	set_plane(t_inf *inf, char **split)
 	plane = (t_figure *)malloc(sizeof(t_figure));
 	if (!plane)
 		return (0);
-	plane->type = 2;
+	plane->type = PLANE_TYPE;
 	plane->coordinates = set_coordinates(inf, split[1]);
 	plane->rgb = set_rgb(inf, split[3]);
 	plane->orientation_vec = set_coordinates(inf, split[2]);
@@ -100,7 +100,7 @@ static char	set_cylinder(t_inf *inf, char **split)
 	cylinder = (t_figure *)malloc(sizeof(t_figure));
 	if (!cylinder)
 		return(0);
-	cylinder->type = 3;
+	cylinder->type = CYLINDER_TYPE;
 	cylinder->coordinates = set_coordinates(inf, split[1]);
 	cylinder->orientation_vec = set_coordinates(inf, split[2]);
 	cylinder->rgb = set_rgb(inf, split[5]);
@@ -137,7 +137,7 @@ static char	analize(t_inf *inf, char *line)
 	else if (ft_strncmp(split[0], "cy", 3) == 0)
 		errors += set_cylinder(inf, split);
 	if (!errors)
-		free_exit(SYNTAX, inf, SYNTAX_CODE);
+		free_exit(SYNTAX, inf, SYNTAX_ERROR);
 	return (1);
 }
 

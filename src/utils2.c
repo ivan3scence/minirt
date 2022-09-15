@@ -7,7 +7,7 @@ t_figure	*ft_last_figure(t_figure *fig)
 	return (fig);
 }
 
-void 	free_exit(char *desc, t_inf *inf, unsigned char exit_code)
+void 	free_exit(char *desc, t_inf *inf, int exit_code)
 {
 	t_figure 	*tmp;
 
@@ -21,5 +21,21 @@ void 	free_exit(char *desc, t_inf *inf, unsigned char exit_code)
 		free(inf->figures);
 		inf->figures = tmp;
 	}
-	exit(exit_code);
+	if (exit_code != ONLY_FREE)
+		exit(exit_code);
+}
+
+
+int	create_trgb(int t, int r, int g, int b)
+{
+//	printf("%x\n", t << 24 | r << 16 | g << 8 | b);
+	return (t << 24 | r << 16 | g << 8 | b);
+}
+
+void	my_mlx_pixel_put(t_inf *inf, int x, int y, int color)
+{
+	char	*dst;
+
+	dst = inf->addr + (y * inf->line_length + x * (inf->bpp / 8));
+	*(unsigned int *)dst = color;
 }

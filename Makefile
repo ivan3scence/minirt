@@ -15,7 +15,7 @@ RM =				rm -rf
 NAME =				minirt
 
 SRC =				main.c parser.c get_next_line_utils_bonus.c get_next_line_bonus.c\
-					utils.c utils2.c dot.c
+					utils.c utils2.c vector.c ray_tracing.c
 
 SRC_DIR =			./src/
 
