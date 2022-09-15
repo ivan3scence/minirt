@@ -141,5 +141,6 @@ t_rgb		set_rgb(t_inf *inf, char *str);
 t_dot		set_coordinates(t_inf *inf, char *str);
 t_figure	*ft_last_figure(t_figure *fig);
 void 		free_exit(char *desc, t_inf *inf, int exit_code);
+void		*free_split(char **split);
 
 # endif
