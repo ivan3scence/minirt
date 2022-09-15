@@ -22,8 +22,8 @@
 # include "libft.h"
 # include "mlx.h"
 
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 1500
+# define HEIGHT 1000
 # define CAMERA_ROTATION 1
 # define CANVAS_HEIGHT 1
 # define CANVAS_WIDTH 1

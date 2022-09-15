@@ -11,7 +11,7 @@ t_sphere	**get_spheres(void)
 	spheres[0] = (t_sphere *)malloc(sizeof(t_sphere));
 	spheres[0]->center.x = 0;
 	spheres[0]->center.y = -1;
-	spheres[0]->center.z = 3;
+	spheres[0]->center.z = 13;
 	spheres[0]->radius = 1;
 	spheres[0]->color.r = 255;
 	spheres[0]->color.g = 0;
@@ -19,7 +19,7 @@ t_sphere	**get_spheres(void)
 	spheres[1] = (t_sphere *)malloc(sizeof(t_sphere));
 	spheres[1]->center.x = -2;
 	spheres[1]->center.y = 1;
-	spheres[1]->center.z = 3;
+	spheres[1]->center.z = 13;
 	spheres[1]->radius = 1;
 	spheres[1]->color.r = 0;
 	spheres[1]->color.g = 255;
@@ -27,7 +27,7 @@ t_sphere	**get_spheres(void)
 	spheres[2] = (t_sphere *)malloc(sizeof(t_sphere));
 	spheres[2]->center.x = 2;
 	spheres[2]->center.y = 1;
-	spheres[2]->center.z = 3;
+	spheres[2]->center.z = 13;
 	spheres[2]->radius = 1;
 	spheres[2]->color.r = 0;
 	spheres[2]->color.g = 0;
@@ -52,7 +52,7 @@ void	my_mlx_pixel_put(t_mlx *data, int x, int y, int color)
 
 t_dot	canvas_to_viewpoint(double x, double y)
 {
-	t_dot	viewport={5 * x * CANVAS_WIDTH / WIDTH, 5 * y * CANVAS_HEIGHT / HEIGHT,
+	t_dot	viewport={x * CANVAS_WIDTH / WIDTH, y * CANVAS_HEIGHT / HEIGHT,
 		5 * CANVAS_Z};
 	return (viewport);
 }
@@ -142,26 +142,27 @@ t_rgb	trace_ray(t_dot o, t_dot d, double t_min, double t_max, t_mlx *mlx)
 
 void	start_point(t_mlx *mlx)
 {
-	int		x;
-	int		y;
+	double 		x;
+	double 		y;
 	t_dot	d;
-	t_dot cam={0,0,0};
+	t_dot cam={0 ,0,0};
 	t_rgb	color;
 
-	x = -WIDTH / 2;
+	y = - HEIGHT / 2;
 	mlx->spheres = get_spheres();
-	while (x < WIDTH / 2)
+//	mlx->spheres[0]->center.y = mlx->spheres[0]->center.y * (-1);
+	while (y < HEIGHT / 2)
 	{
-		y = -HEIGHT / 2;
-		while (y < HEIGHT / 2)
+		x = -WIDTH / 2;
+		while (x < WIDTH / 2)
 		{
 			d = canvas_to_viewpoint(x, y);
 			color = trace_ray(cam, d, -5, DBL_MAX, mlx);
-			my_mlx_pixel_put(mlx, x + WIDTH / 2, y + HEIGHT / 2,
+			my_mlx_pixel_put(mlx, (double)(x + WIDTH / 2) * WIDTH / HEIGHT, (double)(y + HEIGHT / 2) * WIDTH / HEIGHT,
 				create_trgb(0x0, color.r, color.g, color.b));
-			++y;
+			++x;
 		}
-		++x;
+		++y;
 	}
 	mlx_put_image_to_window(mlx->mlx, mlx->win, mlx->img, 0, 0);
 	return ;
@@ -170,9 +171,14 @@ void	start_point(t_mlx *mlx)
 int	main(void)
 {
 	t_mlx	mlx;
-
+//	float x;
+//	float y;
+//
+//	x = WIDTH / HEIGHT;
+//	y = HEIGHT / WIDTH;
 	mlx.mlx = mlx_init();
-	mlx.win = mlx_new_window(mlx.mlx, 1920, 1080, "miniRT");
+
+	mlx.win = mlx_new_window(mlx.mlx, WIDTH, HEIGHT, "miniRT");
 	mlx.img = mlx_new_image(mlx.mlx, WIDTH, HEIGHT);
 	mlx.addr = mlx_get_data_addr(mlx.img, &mlx.bpp, &mlx.line_length,
 			&mlx.endian);
