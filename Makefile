@@ -1,4 +1,4 @@
-CFLAGS =			-Wall -Wextra -Werror -fsanitize=address -g
+CFLAGS =			-Wall -Wextra -Werror -g -fsanitize=address
 
 HDRS =				minirt.h
 
@@ -10,7 +10,8 @@ RM =				rm -rf
 
 NAME =				minirt
 
-SRC =				main.c
+SRC =				main.c parser.c get_next_line_utils_bonus.c get_next_line_bonus.c\
+					utils.c utils2.c
 
 SRC_DIR =			./src/
 
@@ -54,10 +55,7 @@ ${LIBFT}:
 ${MLX}:
 					${MAKE} -C ${MLXDIR}
 
-l:					${BUILDIR} ${BLDRS} ${LIBFT} ${MLX} ${SOURCES} ${HEADERS}
-					${CC} ${INCLUDE} ${CFLAGS} ${SOURCES} ${LIBS_LINUX} -o ${NAME}
-
-${NAME}:			${SOURCES} ${HEADERS}
+${NAME}:			${HEADERS} Makefile ${SOURCES}
 					${CC} ${INCLUDE} ${CFLAGS} ${SOURCES} ${LIBS} -o $@
 
 ${BUILDIR}:
