@@ -43,10 +43,8 @@ t_rgb	set_rgb(t_inf *inf, char *str)
 
 	split = ft_split(str, ',');
 	if (ft_arrlen(split) != 3)
-		free_exit(SYNTAX, inf, SYNTAX_CODE);
-	rgb.r = ft_dbatoi(split[0]);
-	rgb.g = ft_dbatoi(split[1]);
-	rgb.b = ft_dbatoi(split[2]);
+		free_exit(SYNTAX, inf, SYNTAX_ERROR);
+	rgb = new_rgb(ft_atoi(split[0]), ft_atoi(split[1]), ft_atoi(split[2]));
 	ft_clean_split(split);
 	return (rgb);
 }
@@ -58,10 +56,8 @@ t_dot	set_coordinates(t_inf *inf, char *str)
 
 	split = ft_split(str, ',');
 	if (ft_arrlen(split) != 3)
-		free_exit(SYNTAX, inf, SYNTAX_CODE);
-	dot.x = ft_dbatoi(split[0]);
-	dot.y = ft_dbatoi(split[1]);
-	dot.z = ft_dbatoi(split[2]);
+		free_exit(SYNTAX, inf, SYNTAX_ERROR);
+	dot = new_dot(ft_dbatoi(split[0]), ft_dbatoi(split[1]), ft_dbatoi(split[2]));
 	ft_clean_split(split);
 	return (dot);
 }

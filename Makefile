@@ -6,12 +6,16 @@ HDRS_DIR =			./includes/
 
 CC =				cc
 
+#BONUSDIR =			bonus/
+
+#BONUS =				$(addprefix ${BONUSDIR}, minirt)
+
 RM =				rm -rf
 
 NAME =				minirt
 
 SRC =				main.c parser.c get_next_line_utils_bonus.c get_next_line_bonus.c\
-					utils.c utils2.c
+					utils.c utils2.c vector.c ray_tracing.c
 
 SRC_DIR =			./src/
 
@@ -42,8 +46,6 @@ MLX =				$(addprefix ${MLX_NAME}, ${MLX_NAME})
 INCLUDE = 			-I./mlx -I./includes -I./libft
 
 LIBS = 				-L./mlx/ -lmlx -lm -L./libft/ -lft -framework OpenGL -framework AppKit
-
-LIBS_LINUX =		-L./libft -lft -Lmlx -lmlx_Linux -L/usr/lib -Imlx -lXext -lX11 -lm -lz
 
 .PHONY:				clean all fclean re
 

@@ -6,11 +6,11 @@
 #    By: sdonny <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/10/07 11:44:18 by sdonny            #+#    #+#              #
-#    Updated: 2022/04/30 19:28:26 by sdonny           ###   ########.fr        #
+#    Updated: 2021/10/18 14:01:05 by sdonny           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 
 HEADERS_DIR = ./
 
@@ -22,11 +22,9 @@ HEADERS = ${addprefix ${HEADERS_DIR}, ${HEADERS_FILES}}
 
 CC = cc
 
-RM = rm -rf
+RM = rm -f
 
-BUILDIR = ../obj/libft/
-
-NAME = libft.a
+NAME = libft.a 
 
 SOURCES = ft_isalpha.c ft_isdigit.c ft_isalnum.c ft_isascii.c ft_isprint.c\
 	ft_strlen.c ft_memset.c ft_bzero.c ft_memcpy.c ft_memmove.c ft_strlcpy.c\
@@ -39,31 +37,28 @@ BONUS_SOURCES = ft_lstnew_bonus.c ft_lstadd_front_bonus.c ft_lstsize_bonus.c\
 	ft_lstlast_bonus.c ft_lstadd_back_bonus.c ft_lstdelone_bonus.c\
 	ft_lstclear_bonus.c ft_lstiter_bonus.c ft_lstmap_bonus.c
 
-OBJS = $(addprefix ${BUILDIR}, $(patsubst %.c, %.o, ${SOURCES}))
+OBJS = $(patsubst %.c, %.o, ${SOURCES})
 
-OBJS_BONUS = $(addprefix ${BUILDIR}, $(patsubst %.c, %.o, ${BONUS_SOURCES}))
+OBJS_BONUS = $(patsubst %.c, %.o, ${BONUS_SOURCES})
 
 DFILES = $(patsubs %.c,%.d,${SOURCES})
 
-all:	bonus
+all:	${NAME}
 
-${BUILDIR}%.o:	%.c ${HEADERS}
-	${CC} -c ${CFLAGS} $< ${INCLUDE} -o $@
+%.o :	%.c ${HEADERS}
+	${CC} -c ${CFLAGS} $< ${INCLUDE} -o ${<:.c=.o}
 
-${NAME}:	${BUILDIR} ${OBJS}
-	ar rcs ${NAME} ${OBJS}
-
-${BUILDIR}:
-	mkdir ${BUILDIR}
+${NAME}:	${OBJS}
+	ar rcs ${NAME} $?
 
 bonus:
-	@make OBJS="${OBJS_BONUS} ${OBJS}" ${NAME}
+	make OBJS="${OBJS_BONUS} ${OBJS}" all
 
 clean:
-	@${RM} -f ${OBJS} ${OBJS_BONUS}
+	${RM} -f ${OBJS} ${OBJS_BONUS}
 
 fclean:		clean
-	@${RM} ${NAME}
+	${RM} -f ${NAME}
 
 re: fclean all
 

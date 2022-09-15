@@ -24,52 +24,23 @@
 # include "mlx.h"
 # include "get_next_line_bonus.h"
 
-# define SYNTAX "wrong scene syntax"
-# define SYNTAX_CODE 228
-# define GAY 88
-# define CUM 14
-
 # define WIDTH 1920
 # define HEIGHT 1080
-# define CAMERA_ROTATION 1
-# define CANVAS_HEIGHT 1
-# define CANVAS_WIDTH 1
-# define CANVAS_Z 0.5
+# define SYNTAX "wrong scene syntax"
+# define MALLOC "malloc rip"
+# define BYE "bye, have a great time"
+# define SYNTAX_ERROR 228
+# define MALLOC_ERROR 11
+# define GAY 88
+# define CUM 14
+# define SPHERE_TYPE 1
+# define PLANE_TYPE 2
+# define CYLINDER_TYPE 3
+# define T_MIN -5
+# define T_MAX DBL_MAX
+# define ONLY_FREE -228
 
-typedef struct s_rgb
-{
-	unsigned char		r;
-	unsigned char		g;
-	unsigned char		b;
-}				t_rgb;
-
-typedef struct s_dot
-{
-	double		x;
-	double		y;
-	double		z;
-}				t_dot;
-
-typedef struct s_sphere
-{
-	t_dot		center;
-	double		radius;
-	t_rgb		color;
-}				t_sphere;
-
-typedef struct s_mlx
-{
-	void		*mlx;
-	void		*win;
-	void		*img;
-	char		*addr;
-	int			bpp;
-	int			line_length;
-	int			endian;
-	t_sphere	**spheres;
-}				t_mlx;
-
-typedef struct s_intersec
+typedef struct s_env
 {
 	char				*key;
 	char				*val;
@@ -78,9 +49,9 @@ typedef struct s_intersec
 
 typedef struct s_rgb
 {
-	unsigned char		r;
-	unsigned char		g;
-	unsigned char		b;
+	int 				r;
+	int 				g;
+	int 				b;
 }t_rgb;
 
 typedef struct s_dot
@@ -89,6 +60,16 @@ typedef struct s_dot
 	double				y;
 	double				z;
 }t_dot;
+
+typedef struct s_vplane
+{
+	float				width;
+	float				height;
+	float				ratio;
+	float				x_pixel;
+	float				y_pixel;
+	unsigned char		fov;
+}t_vplane;
 
 typedef struct s_ambient
 {
@@ -116,11 +97,17 @@ typedef struct s_figure
 	t_dot				coordinates;
 	t_rgb				rgb;
 	t_dot				orientation_vec;	//for plane&cylinder only
-	double				sphere_diametr;
+	double				sphere_radius;
 	double				cylinder_diametr;
 	double				cylinder_height;
 	struct s_figure		*next;
 }t_figure;
+
+typedef struct s_intersec
+{
+	t_figure	*closest_f;
+	double		closest_t;
+}				t_intersec;
 
 typedef struct s_inf
 {
@@ -137,13 +124,22 @@ typedef struct s_inf
 	t_figure			*figures;
 }t_inf;
 
-t_inf	*parse(char *filename);
-double	ft_dbatoi(char *str);
-int	ft_arrlen(char **split);
-void	ft_clean_split(char **split);
-t_rgb	set_rgb(t_inf *inf, char *str);
-t_dot	set_coordinates(t_inf *inf, char *str);
+double   	dot_product_of_vectors(t_dot *vector_a, t_dot *vector_b);
+void		normalize_vector(t_dot *vector);
+double		vector_length(t_dot *vector);
+int			create_trgb(int t, int r, int g, int b);
+t_dot		subtraction_vector(t_dot *vector_a, t_dot *vector_b);
+void		my_mlx_pixel_put(t_inf *data, int x, int y, int color);
+void 		ray_tracing(t_inf *inf);
+t_rgb 		new_rgb(unsigned char x, unsigned char y, unsigned char z);
+t_dot 		new_dot(double x, double y, double z);
+t_inf		*parse(char *filename);
+double		ft_dbatoi(char *str);
+int			ft_arrlen(char **split);
+void		ft_clean_split(char **split);
+t_rgb		set_rgb(t_inf *inf, char *str);
+t_dot		set_coordinates(t_inf *inf, char *str);
 t_figure	*ft_last_figure(t_figure *fig);
-void 	free_exit(char *desc, t_inf *inf, unsigned char exit_code);
+void 		free_exit(char *desc, t_inf *inf, int exit_code);
 
 # endif
