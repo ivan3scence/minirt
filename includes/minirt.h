@@ -95,6 +95,8 @@ typedef struct s_inf
 	t_figure			*figures;
 }t_inf;
 
+t_rgb 	new_rgb(unsigned char x, unsigned char y, unsigned char z);
+t_dot 	new_dot(double x, double y, double z);
 t_inf	*parse(char *filename);
 double	ft_dbatoi(char *str);
 int	ft_arrlen(char **split);
