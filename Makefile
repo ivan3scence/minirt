@@ -47,9 +47,16 @@ INCLUDE = 			-I./mlx -I./includes -I./libft
 
 LIBS = 				-L./mlx/ -lmlx -lm -L./libft/ -lft -framework OpenGL -framework AppKit
 
+ifeq (${MAKECMDGOALS}, l)
+LIBS =				-L./libft -lft -Lmlx -lmlx_Linux -L/usr/lib -Imlx -lXext -lX11 -lm -lz
+MLXDIR =			./mlx_linux/
+endif
+
 .PHONY:				clean all fclean re
 
 all:				${BUILDIR} ${BLDRS} ${LIBFT} ${MLX} ${NAME}
+
+l:					all
 
 ${LIBFT}:
 					${MAKE} -C ${LIBFTDIR}
