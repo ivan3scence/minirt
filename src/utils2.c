@@ -39,3 +39,15 @@ void	my_mlx_pixel_put(t_inf *inf, int x, int y, int color)
 	dst = inf->addr + (y * inf->line_length + x * (inf->bpp / 8));
 	*(unsigned int *)dst = color;
 }
+
+void	*free_split(char **split)
+{
+	int	i;
+
+	i = -1;
+	while (split[++i])
+		free(split[i]);
+	free(split);
+	return (NULL);
+}
+

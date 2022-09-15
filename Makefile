@@ -50,6 +50,7 @@ LIBS = 				-L./mlx/ -lmlx -lm -L./libft/ -lft -framework OpenGL -framework AppKi
 ifeq (${MAKECMDGOALS}, l)
 LIBS =				-L./libft -lft -Lmlx -lmlx_Linux -L/usr/lib -Imlx -lXext -lX11 -lm -lz
 MLXDIR =			./mlx_linux/
+CFLAGS =			-Wall -Wextra -Werror -g -fsanitize=address -D LINUX=1
 endif
 
 .PHONY:				clean all fclean re

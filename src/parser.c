@@ -138,6 +138,7 @@ static char	analize(t_inf *inf, char *line)
 		errors += set_cylinder(inf, split);
 	if (!errors)
 		free_exit(SYNTAX, inf, SYNTAX_ERROR);
+	split = free_split(split);
 	return (1);
 }
 
@@ -164,6 +165,7 @@ t_inf	*parse(char *filename)
 			free(inf);
 			return (NULL);
 		}
+		free(line);
 		line = get_next_line(fd);
 	}
 	close(fd);
