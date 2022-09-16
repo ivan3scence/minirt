@@ -72,9 +72,12 @@ double   dot_product_of_vectors(t_dot *vector_a, t_dot *vector_b)
 	return (res);
 }
 
-void	multiply_vector(t_dot *vector, double num)
+t_dot	multiply_vector(t_dot *vector, double num)
 {
-	vector->x *= num;
-	vector->y *= num;
-	vector->z *= num;
+	t_dot	multed;
+
+	multed.x = vector->x * num;
+	multed.y = vector->y * num;
+	multed.z = vector->z * num;
+	return (multed);
 }

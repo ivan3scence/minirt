@@ -80,10 +80,11 @@ t_rgb	*get_color(t_inf *inf, t_dot *ray, t_rgb *rgb)
 	rgb->r = cls.closest_f->rgb.r;
 	rgb->g = cls.closest_f->rgb.g;
 	rgb->b = cls.closest_f->rgb.b;
-	multiply_vector(ray, cls.closest_t);									//!!!!!!!!!!!!
-	point = addition_vector(&inf->cam.view_point, ray);
+	t_dot multed = multiply_vector(ray, cls.closest_t);									//!!!!!!!!!!!!
+	point = addition_vector(&inf->cam.view_point, &multed);
 	normal = subtraction_vector(&point, &cls.closest_f->coordinates);
-	return (change_color_intensity(rgb, compute_lightning(&point, &normal, inf)));
+	t_dot	view = multiply_vector(ray, -1);
+	return (change_color_intensity(rgb, compute_lightning(&point, &normal, &view, inf, 2000)));
 }
 
 void 	ray_tracing(t_inf *inf)

@@ -15,14 +15,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e1bbf39f-8d8f-464d-ba52-4f5ef07aee8c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/scenes/boobs.rt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/light_computing.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/includes/minirt.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/minirt.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scenes/kek.rt" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/kek.rt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scenes/kek.rt2" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/kek.rt2" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scenes/lol.rt" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/lol.rt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/lol.rtr" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/lol.rtr" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/light_computing.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/light_computing.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ray_tracing.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/ray_tracing.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/vector.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/vector.c" afterDir="false" />
     </list>
@@ -41,6 +40,17 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/Makefile" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/scenes/good.rt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/scenes/lol.rt" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/scenes/lol.rtr" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/light_computing.c" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/main.c" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/parser.c" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/ray_tracing.c" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/src/vector.c" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -62,26 +72,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "last_opened_file_path": "/Users/sdonny/minirt",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "CLionExternalConfigurable",
-    "structure.view.defaults.are.configured": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/sdonny/minirt&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;CLionExternalConfigurable&quot;,
+    &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager" selected="Makefile Application.all">
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="all" type="CLionNativeAppRunConfigurationType" PROGRAM_PARAMS="scenes/lol.rt" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="minirt" TARGET_NAME="minirt" CONFIG_NAME="minirt" version="1" RUN_PATH="minirt">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
@@ -120,7 +125,10 @@
       <workItem from="1663236583595" duration="1889000" />
       <workItem from="1663246372981" duration="12541000" />
       <workItem from="1663313554469" duration="410000" />
-      <workItem from="1663314270788" duration="8015000" />
+      <workItem from="1663314270788" duration="8608000" />
+      <workItem from="1663324815852" duration="1091000" />
+      <workItem from="1663329575129" duration="613000" />
+      <workItem from="1663330385197" duration="2087000" />
     </task>
     <servers />
   </component>
