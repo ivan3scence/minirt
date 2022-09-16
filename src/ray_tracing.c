@@ -18,6 +18,7 @@ double	*intersect_ray_sphere(t_dot cam_sphere, t_dot *ray, t_figure *sphere, t_i
 {
 	double	b;
 	double	c;
+	double	a;
 	double	disc;
 	double	*tt;
 
@@ -28,11 +29,12 @@ double	*intersect_ray_sphere(t_dot cam_sphere, t_dot *ray, t_figure *sphere, t_i
 	tt[1] = DBL_MAX;
 	b = 2 * dot_product_of_vectors(&cam_sphere, ray);
 	c = dot_product_of_vectors(&cam_sphere, &cam_sphere) - sphere->sphere_radius * sphere->sphere_radius;
-	disc = b * b - 4 * c;
+	a = dot_product_of_vectors(ray, ray);
+	disc = b * b - 4 * c * a;
 	if (disc < 0)
 		return (tt);
-	tt[0] = (-b - sqrt(disc)) / 2;
-	tt[1] = (-b + sqrt(disc)) / 2;
+	tt[0] = (-b - sqrt(disc)) / (2 * a);
+	tt[1] = (-b + sqrt(disc)) / (2 * a);
 	return (tt);
 }
 
