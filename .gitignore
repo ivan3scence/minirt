@@ -1,8 +1,6 @@
 minirt
 .DS_S*
-.idea*
 .git*
-.*vs*
 # Prerequisites
 *.d
 
