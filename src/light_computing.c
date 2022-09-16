@@ -31,8 +31,7 @@ double	compute_lightning(t_dot *point, t_dot *normal, t_dot *view, t_inf *inf, d
 	//spec. reflection
 	if (spec != -1)
 	{
-		mult = multiply_vector(normal, 2.0 * dot_product_of_vectors(normal, &vec_l));
-		vec_r = subtraction_vector(&mult, &vec_l);
+		vec_r = reflect_ray(&vec_l, normal);
 		r_dot_v = dot_product_of_vectors(&vec_r, view);
 		if (r_dot_v > 0)
 		{

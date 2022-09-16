@@ -67,14 +67,34 @@ t_intersec	closest_intersection(t_dot *origin, t_dot *ray, t_inf *inf, t_figure 
 	return (cls);
 }
 
-t_rgb	*get_color(t_inf *inf, t_dot *ray, t_rgb *rgb)
+t_rgb	*addition_rgb(t_rgb *col1, t_rgb *col2)
+{
+	t_rgb	*added;
+
+	added->r = col1->r + col2->r;
+	added->g = col1->g + col2->g;
+	added->b = col1->b + col2->b;
+	return (added);
+}
+
+t_dot	reflect_ray(t_dot *v1, t_dot *v2)
+{
+	t_dot	new;
+	t_dot	mult;
+
+	mult = multiply_vector(v2, 2 * dot_product_of_vectors(v1, v2));
+	new = subtraction_vector(&mult, v1);
+	return (new);
+}
+
+t_rgb	*get_color(t_dot *origin, t_inf *inf, t_dot *ray, double t_min, double t_max, t_rgb *rgb, char depth)
 {
 	t_intersec	cls;
 	t_dot		point;
 	t_dot		normal;
 	t_dot		multed;
 	t_dot		view;
-	cls = closest_intersection(&inf->cam.view_point, ray, inf, inf->figures, 1.0, DBL_MAX);
+	cls = closest_intersection(origin, ray, inf, inf->figures, t_min, t_max);
 	if (!cls.closest_f)
 	{
 		rgb->r = 0;
@@ -86,11 +106,16 @@ t_rgb	*get_color(t_inf *inf, t_dot *ray, t_rgb *rgb)
 	rgb->g = cls.closest_f->rgb.g;
 	rgb->b = cls.closest_f->rgb.b;
 	multed = multiply_vector(ray, cls.closest_t);
-	point = addition_vector(&inf->cam.view_point, &multed);
+	point = addition_vector(origin, &multed);
 	normal = subtraction_vector(&point, &cls.closest_f->coordinates);
 	normal = multiply_vector(&normal, 1.0 / vector_length(&normal));
 	view = multiply_vector(ray, -1);
-	return (change_color_intensity(rgb, compute_lightning(&point, &normal, &view, inf, 100)));
+	t_rgb  *col = change_color_intensity(rgb, compute_lightning(&point, &normal, &view, inf, 100));
+	if (!depth)
+		return (col);
+	t_dot	refl_ray = reflect_ray(&view, &normal);
+	t_rgb	refl_col = get_color(&point, inf, &refl_ray, 1e-10, DBL_MAX, rgb, --depth);
+	return (addition_rgb(change_color_intensity(&rgb, 1 - 0.5), change_color_intensity(&refl_col, 0.5));
 }
 
 void 	ray_tracing(t_inf *inf)
@@ -118,7 +143,7 @@ void 	ray_tracing(t_inf *inf)
 			x_ray = x * vplane.x_pixel;
 			ray = new_dot(x_ray, y_ray, -1);
 			normalize_vector(&ray);
-			get_color(inf, &ray, &color);
+			get_color(&inf->cam.view_point, inf, &ray, 1, DBL_MAX, &color, DEPTH);
 			my_mlx_pixel_put(inf, ++mlx_x, mlx_y, create_trgb(0, color.r, color.g, color.b));
 			++x;
 		}
