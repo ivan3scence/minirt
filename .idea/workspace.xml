@@ -16,14 +16,11 @@
   <component name="ChangeListManager">
     <list default="true" id="e1bbf39f-8d8f-464d-ba52-4f5ef07aee8c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/includes/minirt.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/minirt.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/kek.rt" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/kek.rt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/kek.rt2" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/kek.rt2" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/scenes/boobs.rt" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/boobs.rt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scenes/lol.rt" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/lol.rt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/light_computing.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/light_computing.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ray_tracing.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/ray_tracing.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/vector.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/vector.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,7 +41,6 @@
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/Makefile" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/scenes/good.rt" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/scenes/lol.rt" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/scenes/lol.rtr" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/light_computing.c" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/src/main.c" root0="FORCE_HIGHLIGHTING" />
@@ -87,7 +83,7 @@
   }
 }</component>
   <component name="RunManager" selected="Makefile Application.all">
-    <configuration name="all" type="CLionNativeAppRunConfigurationType" PROGRAM_PARAMS="scenes/lol.rt" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="minirt" TARGET_NAME="minirt" CONFIG_NAME="minirt" version="1" RUN_PATH="minirt">
+    <configuration name="all" type="CLionNativeAppRunConfigurationType" PROGRAM_PARAMS="scenes/hey_balls.rt" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" WORKING_DIR="file://$PROJECT_DIR$" PASS_PARENT_ENVS_2="true" PROJECT_NAME="minirt" TARGET_NAME="minirt" CONFIG_NAME="minirt" version="1" RUN_PATH="minirt">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
@@ -128,7 +124,7 @@
       <workItem from="1663314270788" duration="8608000" />
       <workItem from="1663324815852" duration="1091000" />
       <workItem from="1663329575129" duration="613000" />
-      <workItem from="1663330385197" duration="2087000" />
+      <workItem from="1663330385197" duration="10391000" />
     </task>
     <servers />
   </component>

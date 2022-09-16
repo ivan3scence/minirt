@@ -36,7 +36,7 @@ double	*intersect_ray_sphere(t_dot cam_sphere, t_dot *ray, t_figure *sphere, t_i
 	return (tt);
 }
 
-t_intersec	closest_intersection(t_dot *ray, t_inf *inf, t_figure *figure)
+t_intersec	closest_intersection(t_dot *origin, t_dot *ray, t_inf *inf, t_figure *figure, double t_min, double t_max)
 {
 	t_intersec	cls;
 	double		*tt;
@@ -47,12 +47,14 @@ t_intersec	closest_intersection(t_dot *ray, t_inf *inf, t_figure *figure)
 	{
 		if (figure->type == SPHERE_TYPE)
 		{
-			tt = intersect_ray_sphere(subtraction_vector(&inf->cam.view_point, &figure->coordinates), ray, figure, inf);
-			if (tt[0] >= T_MIN && tt[0] <= T_MAX && tt[0] < cls.closest_t) {
+			tt = intersect_ray_sphere(subtraction_vector(origin, &figure->coordinates), ray, figure, inf);
+			if (tt[0] > t_min && tt[0] < t_max && tt[0] < cls.closest_t)
+			{
 				cls.closest_t = tt[0];
 				cls.closest_f = figure;
 			}
-			if (tt[1] >= T_MIN && tt[1] <= T_MAX && tt[1] < cls.closest_t) {
+			if (tt[1] > t_min && tt[1] < t_max && tt[1] < cls.closest_t)
+			{
 				cls.closest_t = tt[1];
 				cls.closest_f = figure;
 			}
@@ -68,8 +70,9 @@ t_rgb	*get_color(t_inf *inf, t_dot *ray, t_rgb *rgb)
 	t_intersec	cls;
 	t_dot		point;
 	t_dot		normal;
-
-	cls = closest_intersection(ray, inf, inf->figures);
+	t_dot		multed;
+	t_dot		view;
+	cls = closest_intersection(&inf->cam.view_point, ray, inf, inf->figures, 1.0, DBL_MAX);
 	if (!cls.closest_f)
 	{
 		rgb->r = 0;
@@ -80,11 +83,12 @@ t_rgb	*get_color(t_inf *inf, t_dot *ray, t_rgb *rgb)
 	rgb->r = cls.closest_f->rgb.r;
 	rgb->g = cls.closest_f->rgb.g;
 	rgb->b = cls.closest_f->rgb.b;
-	t_dot multed = multiply_vector(ray, cls.closest_t);									//!!!!!!!!!!!!
+	multed = multiply_vector(ray, cls.closest_t);
 	point = addition_vector(&inf->cam.view_point, &multed);
 	normal = subtraction_vector(&point, &cls.closest_f->coordinates);
-	t_dot	view = multiply_vector(ray, -1);
-	return (change_color_intensity(rgb, compute_lightning(&point, &normal, &view, inf, 2000)));
+	normal = multiply_vector(&normal, 1.0 / vector_length(&normal));
+	view = multiply_vector(ray, -1);
+	return (change_color_intensity(rgb, compute_lightning(&point, &normal, &view, inf, 1000)));
 }
 
 void 	ray_tracing(t_inf *inf)

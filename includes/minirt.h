@@ -36,7 +36,7 @@
 # define SPHERE_TYPE 1
 # define PLANE_TYPE 2
 # define CYLINDER_TYPE 3
-# define T_MIN -5
+# define T_MIN 0
 # define T_MAX DBL_MAX
 # define ONLY_FREE -228
 
@@ -143,8 +143,9 @@ t_figure	*ft_last_figure(t_figure *fig);
 void 		free_exit(char *desc, t_inf *inf, int exit_code);
 void		*free_split(char **split);
 t_rgb		*change_color_intensity(t_rgb *color, double intense);
-double		compute_lightning(t_dot *point, t_dot *normal, t_dot *view, t_inf *inf, int spec);
+double		compute_lightning(t_dot *point, t_dot *normal, t_dot *view, t_inf *inf, double spec);
 t_dot		multiply_vector(t_dot *vector, double num);
 t_dot		addition_vector(t_dot *vector_a, t_dot *vector_b);
+t_intersec	closest_intersection(t_dot *origin, t_dot *ray, t_inf *inf, t_figure *figure, double t_min, double t_max);
 
 # endif

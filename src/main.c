@@ -12,7 +12,7 @@ int	main(int argc, char **argv)
 {
 	t_inf	*inf;
 	//printf("%g %g %g %g %g %g\n", ft_dbatoi("0"), ft_dbatoi("0.1"), ft_dbatoi("123.321"), ft_dbatoi("00000"), ft_dbatoi("123456"), ft_dbatoi("0.000004"));
-	//printf("%g\n", ft_dbatoi("123.321"));
+//	printf("%g\n", DBL_MIN);
 	if (argc < 2)
 	{
 		ft_putstr_fd("o_O?\twhere is the map?\n", 2);

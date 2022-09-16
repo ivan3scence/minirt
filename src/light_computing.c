@@ -8,14 +8,20 @@ t_rgb	*change_color_intensity(t_rgb *color, double intense)
 	return (color);
 }
 
-double	compute_lightning(t_dot *point, t_dot *normal, t_dot *view, t_inf *inf, int spec)
+double	compute_lightning(t_dot *point, t_dot *normal, t_dot *view, t_inf *inf, double spec)
 {
-	t_dot	vec_l;
-	t_dot	vec_r;
-	double	n_dot_l;
-	double	r_dot_v;
+	t_intersec	cls;
+	t_dot		vec_l;
+	t_dot		vec_r;
+	double		n_dot_l;
+	double		r_dot_v;
 
 	vec_l = subtraction_vector(&inf->light.l_point, point);
+	cls = closest_intersection(point, &vec_l, inf, inf->figures, 1e-10, 1.0);
+	if (!cls.closest_f)
+	{
+		return (1);
+	}
 	n_dot_l = dot_product_of_vectors(normal, &vec_l);
 	if (n_dot_l > 0)
 		n_dot_l = inf->amb.ratio + inf->light.brightness * n_dot_l /
@@ -30,5 +36,8 @@ double	compute_lightning(t_dot *point, t_dot *normal, t_dot *view, t_inf *inf, i
 			n_dot_l += inf->light.brightness * pow(r_dot_v / (vector_length(&vec_r) * vector_length(view)), spec);
 	}
 //	printf("%g\n", n_dot_l);
+	if (n_dot_l <= 0)
+		return (0.5);
 	return (n_dot_l);
+//	return (1);
 }
