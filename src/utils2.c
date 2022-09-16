@@ -25,10 +25,27 @@ void 	free_exit(char *desc, t_inf *inf, int exit_code)
 		exit(exit_code);
 }
 
-
 int	create_trgb(int t, int r, int g, int b)
 {
-//	printf("%x\n", t << 24 | r << 16 | g << 8 | b);
+//	if (r > 255 || g > 255 || b > 255)
+//		printf("%g %g %g\n", r, g, b);
+	if (r < 0)
+		r = 0;
+	if (g < 0)
+		g = 0;
+	if (b < 0)
+		b = 0;
+	if (r > 255)
+		r = 255;
+	if (g > 255)
+		g = 255;
+	if (b > 255)
+		b = 255;
+//	if (r > 255 || g > 255 || b > 255)
+//	{
+//		return (0x00ffffff);
+//	}
+//		printf("%d %d %d\n", r, g, b);
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 

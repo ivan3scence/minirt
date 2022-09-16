@@ -27,10 +27,10 @@ double	*intersect_ray_sphere(t_dot cam_sphere, t_dot *ray, t_figure *sphere, t_i
 		free_exit(MALLOC, inf, MALLOC_ERROR);
 	tt[0] = DBL_MAX;
 	tt[1] = DBL_MAX;
+	a = dot_product_of_vectors(ray, ray);
 	b = 2 * dot_product_of_vectors(&cam_sphere, ray);
 	c = dot_product_of_vectors(&cam_sphere, &cam_sphere) - sphere->sphere_radius * sphere->sphere_radius;
-	a = dot_product_of_vectors(ray, ray);
-	disc = b * b - 4 * c * a;
+	disc = b * b - 4 * a * c;
 	if (disc < 0)
 		return (tt);
 	tt[0] = (-b - sqrt(disc)) / (2 * a);
@@ -90,7 +90,7 @@ t_rgb	*get_color(t_inf *inf, t_dot *ray, t_rgb *rgb)
 	normal = subtraction_vector(&point, &cls.closest_f->coordinates);
 	normal = multiply_vector(&normal, 1.0 / vector_length(&normal));
 	view = multiply_vector(ray, -1);
-	return (change_color_intensity(rgb, compute_lightning(&point, &normal, &view, inf, 1000)));
+	return (change_color_intensity(rgb, compute_lightning(&point, &normal, &view, inf, 100)));
 }
 
 void 	ray_tracing(t_inf *inf)

@@ -14,6 +14,7 @@ t_rgb 	new_rgb(unsigned char x, unsigned char y, unsigned char z)
 {
 	t_rgb 	new;
 
+//	new.t = 255;
 	new.r = x;
 	new.g = y;
 	new.b = z;

@@ -12,16 +12,16 @@ int	main(int argc, char **argv)
 {
 	t_inf	*inf;
 	//printf("%g %g %g %g %g %g\n", ft_dbatoi("0"), ft_dbatoi("0.1"), ft_dbatoi("123.321"), ft_dbatoi("00000"), ft_dbatoi("123456"), ft_dbatoi("0.000004"));
-//	printf("%g\n", DBL_MIN);
+	printf("%g %g\n", DBL_MIN, DBL_MAX);
 	if (argc < 2)
 	{
 		ft_putstr_fd("o_O?\twhere is the map?\n", 2);
 		exit(GAY);
 	}
 	inf = parse(argv[1]);
-	printf("ratio %g  r %d g %d b %d\n", inf->amb.ratio,  inf->amb.rgb.r,  inf->amb.rgb.g, inf->amb.rgb.b);
+	printf("ratio %g  r %g g %g b %g\n", inf->amb.ratio,  inf->amb.rgb.r,  inf->amb.rgb.g, inf->amb.rgb.b);
 //	printf("x %g y %g z %g x %g y %g z %g fov %d\n", inf->cam.view_point.x,inf->cam.view_point.y,inf->cam.view_point.z,  inf->cam.n_vector.x,inf->cam.n_vector.y,inf->cam.n_vector.z,  inf->cam.fov);
-	printf("x %g y %g z %g brightness %g r %d g %d b %d\n", inf->light.l_point.x,inf->light.l_point.y,inf->light.l_point.z, inf->light.brightness,inf->light.rgb.r, inf->light.rgb.g, inf->light.rgb.b);
+	printf("x %g y %g z %g brightness %g r %g g %g b %g\n", inf->light.l_point.x,inf->light.l_point.y,inf->light.l_point.z, inf->light.brightness,inf->light.rgb.r, inf->light.rgb.g, inf->light.rgb.b);
 //	printf("x %g y %g z %g d %g r %d g %d b %d type %d\n", inf->figures->coordinates.x,inf->figures->coordinates.y,inf->figures->coordinates.z, inf->figures->sphere_radius, inf->figures->rgb.r, inf->figures->rgb.g, inf->figures->rgb.b, inf->figures->type);
 //	printf("x %g y %g z %g vx %g vy %g vz %g r %d g %d b %d type %d\n", inf->figures->next->coordinates.x,inf->figures->next->coordinates.y,inf->figures->next->coordinates.z,
 //		   inf->figures->next->orientation_vec.x,inf->figures->next->orientation_vec.y,inf->figures->next->orientation_vec.z,

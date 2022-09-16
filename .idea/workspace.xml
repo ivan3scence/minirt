@@ -16,10 +16,13 @@
   <component name="ChangeListManager">
     <list default="true" id="e1bbf39f-8d8f-464d-ba52-4f5ef07aee8c" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/includes/minirt.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/minirt.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/scenes/hey_balls.rt" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/hey_balls.rt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/lol.rt" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/lol.rt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/light_computing.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/light_computing.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ray_tracing.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/ray_tracing.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils2.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils2.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vector.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/vector.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +126,7 @@
       <workItem from="1663314270788" duration="8608000" />
       <workItem from="1663324815852" duration="1091000" />
       <workItem from="1663329575129" duration="613000" />
-      <workItem from="1663330385197" duration="12683000" />
+      <workItem from="1663330385197" duration="20317000" />
     </task>
     <servers />
   </component>
