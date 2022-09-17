@@ -40,7 +40,7 @@
 # define T_MAX DBL_MAX
 # define ONLY_FREE -228
 
-# define RECURSIVE 3
+# define RECURSION_DEPTH 2
 
 typedef struct s_env
 {
@@ -126,7 +126,7 @@ typedef struct s_inf
 	t_figure			*figures;
 }t_inf;
 
-t_dot	reflect_ray(t_dot *v1, t_dot *v2);
+t_dot		reflect_ray(t_dot *v1, t_dot *v2);
 double   	dot_product_of_vectors(t_dot *vector_a, t_dot *vector_b);
 void		normalize_vector(t_dot *vector);
 double		vector_length(t_dot *vector);
@@ -145,7 +145,7 @@ t_dot		set_coordinates(t_inf *inf, char *str);
 t_figure	*ft_last_figure(t_figure *fig);
 void 		free_exit(char *desc, t_inf *inf, int exit_code);
 void		*free_split(char **split);
-t_rgb		*change_color_intensity(t_rgb *color, double intense);
+t_rgb		change_color_intensity(t_rgb *color, double intense);
 double		compute_lightning(t_dot *point, t_dot *normal, t_dot *view, t_inf *inf, double spec);
 t_dot		multiply_vector(t_dot *vector, double num);
 t_dot		addition_vector(t_dot *vector_a, t_dot *vector_b);

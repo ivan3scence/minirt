@@ -1,12 +1,13 @@
 #include "minirt.h"
 
-t_rgb	*change_color_intensity(t_rgb *color, double intense)
+t_rgb	change_color_intensity(t_rgb *color, double intense)
 {
+	t_rgb	rgb;
 //	color->t = 255 - color->t * intense;
-	color->r *= intense;
-	color->g *= intense;
-	color->b *= intense;
-	return (color);
+	rgb.r = color->r * intense;
+	rgb.g = color->g * intense;
+	rgb.b = color->b * intense;
+	return (rgb);
 }
 
 double	compute_lightning(t_dot *point, t_dot *normal, t_dot *view, t_inf *inf, double spec)
@@ -17,7 +18,6 @@ double	compute_lightning(t_dot *point, t_dot *normal, t_dot *view, t_inf *inf, d
 	double		n_dot_l;
 	double		r_dot_v;
 	double		intense;
-	t_dot		mult;
 
 	intense = inf->amb.ratio;
 	vec_l = subtraction_vector(&inf->light.l_point, point);
