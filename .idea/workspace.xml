@@ -5,13 +5,14 @@
   </component>
   <component name="CMakeRunConfigurationManager">
     <generated>
-      <config projectName="minirt" targetName="l" />
-      <config projectName="minirt" targetName="rel" />
-      <config projectName="minirt" targetName="libmlx.alibmlx.a" />
-      <config projectName="minirt" targetName="re" />
-      <config projectName="minirt" targetName="all" />
-      <config projectName="minirt" targetName="fclean" />
-      <config projectName="minirt" targetName="minirt" />
+      <config projectName="push" targetName="minirt" />
+      <config projectName="push" targetName="all" />
+      <config projectName="push" targetName="libmlx.alibmlx.a" />
+      <config projectName="push" targetName="l" />
+      <config projectName="push" targetName="re" />
+      <config projectName="push" targetName="fclean" />
+      <config projectName="push" targetName="rel" />
+      <config projectName="push" targetName="obj" />
     </generated>
   </component>
   <component name="CMakeSettings">
@@ -20,18 +21,22 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6783fde4-486c-408a-8630-26865104fee8" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/customTargets.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/minirt.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/tools/External Tools.xml" beforeDir="false" />
+    <list default="true" id="546b0fe0-2e86-4c47-8a84-c892e3a47096" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/light/reflection.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/includes/minirt.h" beforeDir="false" afterPath="$PROJECT_DIR$/includes/minirt.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mlx_linux/Makefile.gen" beforeDir="false" afterPath="$PROJECT_DIR$/mlx_linux/Makefile.gen" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mlx_linux/test/Makefile.gen" beforeDir="false" afterPath="$PROJECT_DIR$/mlx_linux/test/Makefile.gen" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/scenes/hey_balls.rt" beforeDir="false" afterPath="$PROJECT_DIR$/scenes/hey_balls.rt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/light_computing.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/light_computing.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/get_next_line_bonus.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/gnl/get_next_line_bonus.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/get_next_line_utils_bonus.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/gnl/get_next_line_utils_bonus.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/light_computing.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/light/light_computing.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/parser.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/parser/parser.c" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ray_tracing.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/ray_tracing.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/utils.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils2.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/utils2.c" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/vector.c" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/vector.c" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -49,8 +54,8 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="MacroExpansionManager">
-    <option name="directoryName" value="1j32pq2h" />
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/main.c" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MakefileLocalSettings">
     <option name="availableProjects">
@@ -58,14 +63,14 @@
         <entry>
           <key>
             <ExternalProjectPojo>
-              <option name="name" value="minirt" />
+              <option name="name" value="push" />
               <option name="path" value="$PROJECT_DIR$" />
             </ExternalProjectPojo>
           </key>
           <value>
             <list>
               <ExternalProjectPojo>
-                <option name="name" value="minirt" />
+                <option name="name" value="push" />
                 <option name="path" value="$PROJECT_DIR$" />
               </ExternalProjectPojo>
             </list>
@@ -82,19 +87,21 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="OCResolveContextSettings">
+    <option name="configuration" value="$PROJECT_DIR$/src/main.c" />
+  </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
     <option name="majorVersion" value="2022" />
     <option name="minorVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2Es8VnJeCTXLAO7dPg8GS2mu31O" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectId" id="2DfALlq4OTwv6yPhqc9HwJWP7WX" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
-    <option name="autoscrollToSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
-    <option name="showMembers" value="true" />
-    <option name="showVisibilityIcons" value="true" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
@@ -103,46 +110,69 @@
     "RunOnceActivity.cidr.known.project.marker": "true",
     "WebServerToolWindowFactoryState": "false",
     "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true"
+    "cidr.known.project.marker": "true",
+    "last_opened_file_path": "/Users/sdonny/minishell_main/push",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/bonus/src" />
+      <recent name="$PROJECT_DIR$/bonus" />
+      <recent name="$PROJECT_DIR$/src/parser" />
+      <recent name="$PROJECT_DIR$/includes" />
+      <recent name="$PROJECT_DIR$/src/exec" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/light" />
+      <recent name="$PROJECT_DIR$/src/gnl" />
+      <recent name="$PROJECT_DIR$/src/utils" />
+      <recent name="$PROJECT_DIR$/src/parser" />
+    </key>
+  </component>
   <component name="RunManager" selected="Makefile Application.all">
     <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="all" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="minirt" TARGET_NAME="all" CONFIG_NAME="all" version="1">
+    <configuration name="all" type="CLionNativeAppRunConfigurationType" PROGRAM_PARAMS="scenes/hey_balls.rt" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="push" TARGET_NAME="all" CONFIG_NAME="all" version="1" RUN_PATH="minirt">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="fclean" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="minirt" TARGET_NAME="fclean" CONFIG_NAME="fclean" version="1">
+    <configuration name="fclean" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="push" TARGET_NAME="fclean" CONFIG_NAME="fclean" version="1">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="l" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="minirt" TARGET_NAME="l" CONFIG_NAME="l" version="1">
+    <configuration name="l" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="push" TARGET_NAME="l" CONFIG_NAME="l" version="1">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="libmlx.alibmlx.a" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="minirt" TARGET_NAME="libmlx.alibmlx.a" CONFIG_NAME="libmlx.alibmlx.a" version="1">
+    <configuration name="libmlx.alibmlx.a" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="push" TARGET_NAME="libmlx.alibmlx.a" CONFIG_NAME="libmlx.alibmlx.a" version="1">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="minirt" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="minirt" TARGET_NAME="minirt" CONFIG_NAME="minirt" version="1">
+    <configuration name="minirt" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="push" TARGET_NAME="minirt" CONFIG_NAME="minirt" version="1">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="re" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="minirt" TARGET_NAME="re" CONFIG_NAME="re" version="1">
+    <configuration name="obj" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="push" TARGET_NAME="obj" CONFIG_NAME="obj" version="1">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="rel" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="minirt" TARGET_NAME="rel" CONFIG_NAME="rel" version="1">
+    <configuration name="re" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="push" TARGET_NAME="re" CONFIG_NAME="re" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="rel" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="push" TARGET_NAME="rel" CONFIG_NAME="rel" version="1">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
@@ -154,22 +184,38 @@
       <item itemvalue="Makefile Application.l" />
       <item itemvalue="Makefile Application.libmlx.alibmlx.a" />
       <item itemvalue="Makefile Application.minirt" />
+      <item itemvalue="Makefile Application.obj" />
       <item itemvalue="Makefile Application.rel" />
     </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="6783fde4-486c-408a-8630-26865104fee8" name="Changes" comment="" />
-      <created>1663372959858</created>
+      <changelist id="546b0fe0-2e86-4c47-8a84-c892e3a47096" name="Changes" comment="" />
+      <created>1661079712009</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1663372959858</updated>
-      <workItem from="1663372965475" duration="1583000" />
+      <updated>1661079712009</updated>
+      <workItem from="1661079713764" duration="1587000" />
+      <workItem from="1661082953041" duration="9573000" />
+      <workItem from="1661102312824" duration="9935000" />
+      <workItem from="1662364470535" duration="32000" />
+      <workItem from="1663576759192" duration="5779000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

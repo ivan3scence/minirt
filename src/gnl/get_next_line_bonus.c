@@ -112,4 +112,3 @@ char	*ft_after_n(char *last)
 	free(last);
 	return (s);
 }
-

@@ -53,6 +53,7 @@ static char	set_sphere(t_inf *inf, char **split)
 	sphere->coordinates = set_coordinates(inf, split[1]);
 	sphere->rgb = set_rgb(inf, split[3]);
 	sphere->sphere_radius = ft_dbatoi(split[2]) / 2;
+	sphere->sphere_rr = sphere->sphere_radius * sphere->sphere_radius;
 	sphere->next = NULL;
 	if (!inf->figures)
 		inf->figures = sphere;

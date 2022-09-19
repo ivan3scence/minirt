@@ -28,7 +28,7 @@
 # define HEIGHT 1080
 # define SYNTAX "wrong scene syntax"
 # define MALLOC "malloc rip"
-# define BYE "bye, have a great time"
+# define BYE "bye, have a great time\n"
 # define SYNTAX_ERROR 228
 # define MALLOC_ERROR 11
 # define GAY 88
@@ -40,7 +40,7 @@
 # define T_MAX DBL_MAX
 # define ONLY_FREE -228
 
-# define RECURSION_DEPTH 2
+# define RECURSION_DEPTH 7
 
 typedef struct s_env
 {
@@ -97,9 +97,11 @@ typedef struct s_figure
 {
 	char				type;				//1 - sphere;2 - plane; 3 - cylinder;
 	t_dot				coordinates;
+//	double				oc;					//вектор от камеры до центра сферы, чтобы не пересчитывать каждый раз
 	t_rgb				rgb;
 	t_dot				orientation_vec;	//for plane&cylinder only
 	double				sphere_radius;
+	double				sphere_rr;			//радиус сферы в квадрате, чтобы его не пересчитывать каждый раз
 	double				cylinder_diametr;
 	double				cylinder_height;
 	struct s_figure		*next;
@@ -109,6 +111,7 @@ typedef struct s_intersec
 {
 	t_figure	*closest_f;
 	double		closest_t;
+	double		t_min;
 }				t_intersec;
 
 typedef struct s_inf
@@ -124,6 +127,7 @@ typedef struct s_inf
 	t_camera			cam;
 	t_light				light;
 	t_figure			*figures;
+	t_dot				*ray;
 }t_inf;
 
 t_dot		reflect_ray(t_dot *v1, t_dot *v2);
@@ -149,6 +153,12 @@ t_rgb		change_color_intensity(t_rgb *color, double intense);
 double		compute_lightning(t_dot *point, t_dot *normal, t_dot *view, t_inf *inf, double spec);
 t_dot		multiply_vector(t_dot *vector, double num);
 t_dot		addition_vector(t_dot *vector_a, t_dot *vector_b);
-t_intersec	closest_intersection(t_dot *origin, t_dot *ray, t_inf *inf, t_figure *figure, double t_min, double t_max);
+void		closest_intersection(t_dot *origin, t_inf *inf, t_intersec *cls);
+t_rgb		addition_rgb(t_rgb col1, t_rgb col2);
+t_dot		reflect_ray(t_dot *v1, t_dot *v2);
+void		get_color(t_dot *origin, double t_min, double t_max,
+					t_rgb *rgb, char depth, t_inf *inf);
+t_rgb		addition_rgb(t_rgb col1, t_rgb col2);
+t_dot		reflect_ray(t_dot *v1, t_dot *v2);
 
 # endif

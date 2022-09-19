@@ -3,6 +3,7 @@
 static int	close_win(void *inf)
 {
 	//free_exit(BYE, inf, 0);
+	ft_putstr_fd(BYE, 1);
 	exit(0);
 	(void)inf;
 	return (0);
