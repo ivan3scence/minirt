@@ -29,10 +29,13 @@
 # define SYNTAX "wrong scene syntax"
 # define MALLOC "malloc rip"
 # define BYE "bye, have a great time\n"
+# define RT "need *.rt file only"
+# define FILE_ERR "can not open file"
 # define SYNTAX_ERROR 228
 # define MALLOC_ERROR 11
 # define GAY 88
 # define CUM 14
+# define SEX 13
 # define SPHERE_TYPE 1
 # define PLANE_TYPE 2
 # define CYLINDER_TYPE 3
@@ -158,7 +161,7 @@ t_figure	*ft_last_figure(t_figure *fig);
 void 		free_exit(char *desc, t_inf *inf, int exit_code);
 void		*free_split(char **split);
 t_rgb		change_color_intensity(t_rgb *color, double intense);
-double		compute_lightning(t_dot *point, t_dot *normal, t_dot *view, t_inf *inf, double spec);
+double		compute_lightning(t_dot vec_l, t_inf *inf, double spec);
 t_dot		multiply_vector(t_dot *vector, double num);
 t_dot		addition_vector(t_dot *vector_a, t_dot *vector_b);
 void		closest_intersection(t_dot *origin, t_inf *inf, t_intersec *cls);
@@ -168,5 +171,6 @@ void		get_color(t_dot *origin, t_rgb *rgb, char depth, t_inf *inf);
 t_rgb		addition_rgb(t_rgb col1, t_rgb col2);
 t_dot		reflect_ray(t_dot *v1, t_dot *v2);
 void		ray_tracing(t_inf *inf, int mlx_y, int mlx_x, double y);
+char		is_intersect(t_intersec *cls, t_inf *inf, t_dot *origin, double flag);
 
 # endif

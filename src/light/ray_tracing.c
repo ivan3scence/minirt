@@ -119,14 +119,14 @@ void	background(t_rgb *rgb)
 // 	normal = subtraction_vector(&point, &cls->closest_f->coordinates);
 // 	normal = multiply_vector(&normal, 1.0 / vector_length(&normal));
 // 	view = multiply_vector(inf->ray, -1);
-// 	*color_without_reflection = change_color_intensity(rgb, compute_lightning(&point, &normal, &view, inf, 100));
+// 	*color_without_reflection = change_color_intensity(rgb, compute_lightning(inf, 100));
 // 	return (reflect_ray(&view, &normal));
 // }
 
-char	is_intersect(t_intersec *cls, t_inf *inf, t_dot *origin)
+char	is_intersect(t_intersec *cls, t_inf *inf, t_dot *origin, double flag)
 {
-	cls->t_min = 1e-10;
-	cls->closest_t = DBL_MAX;
+	cls->t_min = (double)flag * 1e-10 + (!flag) * 1e-2;
+	cls->closest_t = (double)flag * DBL_MAX + (!flag) * 1.0;
 	cls->closest_f = NULL;
 	closest_intersection(origin, inf, cls);
 	if (cls->closest_f)
@@ -157,7 +157,7 @@ void	get_color(t_dot *origin, t_rgb *rgb, char depth, t_inf *inf)
 	t_intersec	cls;
 	t_rgb		color_without_reflection;
 
-	if (!is_intersect(&cls, inf, origin))
+	if (!is_intersect(&cls, inf, origin, 1))
 		return (background(rgb));
 	*rgb = cls.closest_f->rgb;
 	inf->params.multed = multiply_vector(inf->ray, cls.closest_t);
@@ -168,8 +168,8 @@ void	get_color(t_dot *origin, t_rgb *rgb, char depth, t_inf *inf)
 			/ vector_length(&inf->params.normal));
 	inf->params.view = multiply_vector(inf->ray, -1);
 	color_without_reflection = change_color_intensity(rgb,
-			compute_lightning(&inf->params.point,
-				&inf->params.normal, &inf->params.view, inf, 100));
+			compute_lightning(subtraction_vector(&inf->light.l_point,
+					&inf->params.normal), inf, 100));
 	reflection(rgb, &color_without_reflection, inf, depth);
 }
 

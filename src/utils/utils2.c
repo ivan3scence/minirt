@@ -7,9 +7,9 @@ t_figure	*ft_last_figure(t_figure *fig)
 	return (fig);
 }
 
-void 	free_exit(char *desc, t_inf *inf, int exit_code)
+void	free_exit(char *desc, t_inf *inf, int exit_code)
 {
-	t_figure 	*tmp;
+	t_figure	*tmp;
 
 	if (desc)
 		ft_putendl_fd(desc, 2);
@@ -27,8 +27,6 @@ void 	free_exit(char *desc, t_inf *inf, int exit_code)
 
 int	create_trgb(int t, int r, int g, int b)
 {
-//	if (r > 255 || g > 255 || b > 255)
-//		printf("%g %g %g\n", r, g, b);
 	if (r < 0)
 		r = 0;
 	if (g < 0)
@@ -41,11 +39,6 @@ int	create_trgb(int t, int r, int g, int b)
 		g = 255;
 	if (b > 255)
 		b = 255;
-//	if (r > 255 || g > 255 || b > 255)
-//	{
-//		return (0x00ffffff);
-//	}
-//		printf("%d %d %d\n", r, g, b);
 	return (t << 24 | r << 16 | g << 8 | b);
 }
 
@@ -67,4 +60,3 @@ void	*free_split(char **split)
 	free(split);
 	return (NULL);
 }
-

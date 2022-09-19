@@ -1,13 +1,17 @@
 #include "minirt.h"
 
-static char		ends_with(char *str, char *end)
+static int	ends_with(char *str, char *end)
 {
 	char	*find;
+	int		fd;
 
 	find = str + ft_strlen(str) - ft_strlen(end);
 	if (!ft_strnstr(find, end, ft_strlen(end)))
-		return (0);
-	return (1);
+		free_exit(RT, NULL, CUM);
+	fd = open(str, O_RDONLY);
+	if (fd == -1)
+		free_exit(FILE_ERR, NULL, SEX);
+	return (fd);
 }
 
 static char	set_ambient(t_inf *inf, char **split)
@@ -65,7 +69,6 @@ static char	set_sphere(t_inf *inf, char **split)
 	return (1);
 }
 
-
 static char	set_plane(t_inf *inf, char **split)
 {
 	t_figure	*plane;
@@ -100,7 +103,7 @@ static char	set_cylinder(t_inf *inf, char **split)
 		exit(0);
 	cylinder = (t_figure *)malloc(sizeof(t_figure));
 	if (!cylinder)
-		return(0);
+		return (0);
 	cylinder->type = CYLINDER_TYPE;
 	cylinder->coordinates = set_coordinates(inf, split[1]);
 	cylinder->orientation_vec = set_coordinates(inf, split[2]);
@@ -121,7 +124,7 @@ static char	set_cylinder(t_inf *inf, char **split)
 static char	analize(t_inf *inf, char *line)
 {
 	char	**split;
-	char 	errors;
+	char	errors;
 
 	errors = 0;
 	split = ft_split(line, ' ');
@@ -149,11 +152,7 @@ t_inf	*parse(char *filename)
 	t_inf	*inf;
 	int		fd;
 
-	if (!ends_with(filename, ".rt"))
-		free_exit("need *.rt file only", NULL, CUM);
-	fd = open(filename, O_RDONLY);
-	if (fd == -1)
-		exit(1);
+	fd = ends_with(filename, ".rt");
 	inf = (t_inf *)malloc(sizeof(t_inf));
 	if (!inf)
 		exit(1);
@@ -172,4 +171,3 @@ t_inf	*parse(char *filename)
 	close(fd);
 	return (inf);
 }
-	
