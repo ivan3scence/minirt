@@ -35,7 +35,7 @@ int	main(int argc, char **argv)
 	inf->img = mlx_new_image(inf->mlx, WIDTH, HEIGHT);
 	inf->addr = mlx_get_data_addr(inf->img, &inf->bpp, &inf->line_length,
 								 &inf->endian);
-	ray_tracing(inf);
+	ray_tracing(inf, 0, 0, (double)HEIGHT / 2);
 	mlx_hook(inf->win, 17, 0, close_win, &inf);;
 	mlx_loop(inf->mlx);
 }

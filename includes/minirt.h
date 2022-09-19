@@ -109,10 +109,18 @@ typedef struct s_figure
 
 typedef struct s_intersec
 {
-	t_figure	*closest_f;
-	double		closest_t;
-	double		t_min;
-}				t_intersec;
+	t_figure			*closest_f;
+	double				closest_t;
+	double				t_min;
+}t_intersec;
+
+typedef struct s_parametrs
+{
+	t_dot				point;
+	t_dot				normal;
+	t_dot				multed;
+	t_dot				view;
+}t_parametrs;
 
 typedef struct s_inf
 {
@@ -128,6 +136,7 @@ typedef struct s_inf
 	t_light				light;
 	t_figure			*figures;
 	t_dot				*ray;
+	t_parametrs			params;
 }t_inf;
 
 t_dot		reflect_ray(t_dot *v1, t_dot *v2);
@@ -137,7 +146,6 @@ double		vector_length(t_dot *vector);
 int			create_trgb(int t, int r, int g, int b);
 t_dot		subtraction_vector(t_dot *vector_a, t_dot *vector_b);
 void		my_mlx_pixel_put(t_inf *data, int x, int y, int color);
-void 		ray_tracing(t_inf *inf);
 t_rgb 		new_rgb(unsigned char x, unsigned char y, unsigned char z);
 t_dot 		new_dot(double x, double y, double z);
 t_inf		*parse(char *filename);
@@ -156,9 +164,9 @@ t_dot		addition_vector(t_dot *vector_a, t_dot *vector_b);
 void		closest_intersection(t_dot *origin, t_inf *inf, t_intersec *cls);
 t_rgb		addition_rgb(t_rgb col1, t_rgb col2);
 t_dot		reflect_ray(t_dot *v1, t_dot *v2);
-void		get_color(t_dot *origin, double t_min, double t_max,
-					t_rgb *rgb, char depth, t_inf *inf);
+void		get_color(t_dot *origin, t_rgb *rgb, char depth, t_inf *inf);
 t_rgb		addition_rgb(t_rgb col1, t_rgb col2);
 t_dot		reflect_ray(t_dot *v1, t_dot *v2);
+void		ray_tracing(t_inf *inf, int mlx_y, int mlx_x, double y);
 
 # endif
