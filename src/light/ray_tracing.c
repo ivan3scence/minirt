@@ -13,33 +13,44 @@ t_vplane	get_view_plane(double width, double height, unsigned char fov)
 	return (vplane);
 }
 
-//double	*intersect_ray_cylinder(t_dot cam_cyl, t_dot *ray,
-//t_figure *cyl, t_inf *inf)
-//{
-//	double a = (dir.x * dir.x) + (dir.z * dir.z);
-//	double b = 2*(dir.x*(pos.x-center.x) + dir.z*(pos.z-center.z));
-//	double c = (pos.x - center.x) * (pos.x - center.x) + (pos.z - center.z) * (pos.z - center.z) - (radius*radius);
-//
-//	double delta = b*b - 4*(a*c);
-//	if(fabs(delta) < 0.001) return -1.0;
-//	if(delta < 0.0) return -1.0;
-//
-//	double t1 = (-b - sqrt(delta))/(2*a);
-//	double t2 = (-b + sqrt(delta))/(2*a);
-//	else return ;
-//
-//	double	b;
-//	double	c;
-//	double	a;
-//	double	disc;
-//	double	*tt;
-//
-//	tt = (double *)malloc(sizeof(double) * 2);
-//	if (!tt)
-//		free_exit(MALLOC, inf, MALLOC_ERROR);
-//	a = ray->x * ray->x + ray->z * ray->z;
-//	b = 2 * (ray)
-//}
+double	*intersect_ray_cylinder(t_dot cam_cyl, t_dot *ray,
+t_figure *cyl, t_inf *inf)
+{
+	// double a = (dir.x * dir.x) + (dir.z * dir.z);
+	// double b = 2*(dir.x*(pos.x-center.x) + dir.z*(pos.z-center.z));
+	// double c = (pos.x - center.x) * (pos.x - center.x) + (pos.z - center.z) * (pos.z - center.z) - (radius*radius);
+
+	// double delta = b*b - 4*(a*c);
+	// if(fabs(delta) < 0.001) return -1.0;
+	// if(delta < 0.0) return -1.0;
+
+	// double t1 = (-b - sqrt(delta))/(2*a);
+	// double t2 = (-b + sqrt(delta))/(2*a);
+	// else return ;
+
+
+	double	b;
+	double	c;
+	double	a;
+	double	disc;
+	double	*tt;
+
+	tt = (double *)malloc(sizeof(double) * 2);
+	if (!tt)
+		free_exit(MALLOC, inf, MALLOC_ERROR);
+	tt[0] = DBL_MAX;
+	tt[1] = DBL_MAX;
+	a = cyl_dot_product_of_vectors(ray, ray);
+	b = 2 * cyl_dot_product_of_vectors(&cam_cyl, ray);
+	c = cyl_dot_product_of_vectors(&cam_cyl, &cam_cyl)
+		- cyl->radius * cyl->radius;
+	disc = b * b - 4 * a * c;
+	if (disc < 0)
+		return (tt);
+	tt[0] = (-b - sqrt(disc)) / (2 * a);
+	tt[1] = (-b + sqrt(disc)) / (2 * a);
+	return (tt);
+}
 
 double	*intersect_ray_sphere(t_dot cam_sphere, t_dot *ray, t_figure *sphere, t_inf *inf)
 {
@@ -57,7 +68,7 @@ double	*intersect_ray_sphere(t_dot cam_sphere, t_dot *ray, t_figure *sphere, t_i
 	a = dot_product_of_vectors(ray, ray);
 	b = 2 * dot_product_of_vectors(&cam_sphere, ray);
 	c = dot_product_of_vectors(&cam_sphere, &cam_sphere)
-		- sphere->sphere_radius * sphere->sphere_radius;
+		- sphere->radius * sphere->radius;
 	disc = b * b - 4 * a * c;
 	if (disc < 0)
 		return (tt);
@@ -65,6 +76,31 @@ double	*intersect_ray_sphere(t_dot cam_sphere, t_dot *ray, t_figure *sphere, t_i
 	tt[1] = (-b + sqrt(disc)) / (2 * a);
 	return (tt);
 }
+
+// double	*intersect_ray_plane(t_dot cam_plane, t_dot *ray, t_figure *plane, t_inf *inf)
+// {
+// 	double	b;
+// 	double	c;
+// 	double	a;
+// 	double	disc;
+// 	double	*tt;
+
+// 	tt = (double *)malloc(sizeof(double) * 2);
+// 	if (!tt)
+// 		free_exit(MALLOC, inf, MALLOC_ERROR);
+// 	tt[0] = DBL_MAX;
+// 	tt[1] = DBL_MAX;
+// 	a = dot_product_of_vectors(ray, ray);
+// 	b = 2 * dot_product_of_vectors(&cam_plane, ray);
+// 	c = dot_product_of_vectors(&cam_sphere, &cam_sphere)
+// 		- plane->sphere_radius * plane->sphere_radius;
+// 	disc = b * b - 4 * a * c;
+// 	if (disc < 0)
+// 		return (tt);
+// 	tt[0] = (-b - sqrt(disc)) / (2 * a);
+// 	tt[1] = (-b + sqrt(disc)) / (2 * a);
+// 	return (tt);
+// }
 
 void	closest_sphere(t_dot *origin, t_figure *figure, t_inf *inf, t_intersec *cls)
 {
@@ -95,6 +131,10 @@ void	closest_intersection(t_dot *origin, t_inf *inf, t_intersec *cls)
 	{
 		if (figure->type == SPHERE_TYPE)
 			closest_sphere(origin, figure, inf, cls);
+		else if (figure->type == CYLINDER_TYPE)
+			closest_sphere(origin, figure, inf, cls);
+		// else if (figure->type == PLANE_TYPE)
+		// 	closest_plane(origin, figure, inf, cls);
 		figure = figure->next;
 	}
 }

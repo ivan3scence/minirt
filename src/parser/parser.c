@@ -56,8 +56,7 @@ static char	set_sphere(t_inf *inf, char **split)
 	sphere->type = SPHERE_TYPE;
 	sphere->coordinates = set_coordinates(inf, split[1]);
 	sphere->rgb = set_rgb(inf, split[3]);
-	sphere->sphere_radius = ft_dbatoi(split[2]) / 2;
-	sphere->sphere_rr = sphere->sphere_radius * sphere->sphere_radius;
+	sphere->radius = ft_dbatoi(split[2]) / 2;
 	sphere->next = NULL;
 	if (!inf->figures)
 		inf->figures = sphere;
@@ -108,7 +107,7 @@ static char	set_cylinder(t_inf *inf, char **split)
 	cylinder->coordinates = set_coordinates(inf, split[1]);
 	cylinder->orientation_vec = set_coordinates(inf, split[2]);
 	cylinder->rgb = set_rgb(inf, split[5]);
-	cylinder->cylinder_diametr = ft_dbatoi(split[3]);
+	cylinder->radius = ft_dbatoi(split[3]) / 2;
 	cylinder->cylinder_height = ft_dbatoi(split[4]);
 	cylinder->next = NULL;
 	if (!inf->figures)

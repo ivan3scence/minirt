@@ -103,9 +103,8 @@ typedef struct s_figure
 //	double				oc;					//вектор от камеры до центра сферы, чтобы не пересчитывать каждый раз
 	t_rgb				rgb;
 	t_dot				orientation_vec;	//for plane&cylinder only
-	double				sphere_radius;
-	double				sphere_rr;			//радиус сферы в квадрате, чтобы его не пересчитывать каждый раз
-	double				cylinder_diametr;
+	double				radius;
+	// double				rr;			//радиус сферы в квадрате, чтобы его не пересчитывать каждый раз
 	double				cylinder_height;
 	struct s_figure		*next;
 }t_figure;
@@ -144,6 +143,7 @@ typedef struct s_inf
 
 t_dot		reflect_ray(t_dot *v1, t_dot *v2);
 double   	dot_product_of_vectors(t_dot *vector_a, t_dot *vector_b);
+double		cyl_dot_product_of_vectors(t_dot *vector_a, t_dot *vector_b);
 void		normalize_vector(t_dot *vector);
 double		vector_length(t_dot *vector);
 int			create_trgb(int t, int r, int g, int b);
@@ -172,5 +172,8 @@ t_rgb		addition_rgb(t_rgb col1, t_rgb col2);
 t_dot		reflect_ray(t_dot *v1, t_dot *v2);
 void		ray_tracing(t_inf *inf, int mlx_y, int mlx_x, double y);
 char		is_intersect(t_intersec *cls, t_inf *inf, t_dot *origin, double flag);
+void		closest_sphere(t_dot *origin, t_figure *figure, t_inf *inf, t_intersec *cls);
+double		*intersect_ray_cylinder(t_dot cam_cyl, t_dot *ray,
+t_figure *cyl, t_inf *inf);
 
 # endif

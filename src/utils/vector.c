@@ -20,7 +20,7 @@ t_rgb	new_rgb(unsigned char x, unsigned char y, unsigned char z)
 	return (new);
 }
 
-t_dot	ubtraction_vector(t_dot *vector_a, t_dot *vector_b)
+t_dot	subtraction_vector(t_dot *vector_a, t_dot *vector_b)
 {
 	t_dot	vector_c;
 
@@ -65,6 +65,14 @@ double	dot_product_of_vectors(t_dot *vector_a, t_dot *vector_b)
 
 	res = ((vector_a->x * vector_b->x) + (vector_a->y * vector_b->y)
 			+ (vector_a->z * vector_b->z));
+	return (res);
+}
+
+double	cyl_dot_product_of_vectors(t_dot *vector_a, t_dot *vector_b)
+{
+	double	res;
+
+	res = ((vector_a->x * vector_b->x) + (vector_a->y * vector_b->y));
 	return (res);
 }
 
