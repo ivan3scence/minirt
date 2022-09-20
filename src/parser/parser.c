@@ -109,7 +109,7 @@ static char	set_cylinder(t_inf *inf, char **split, char type)
 	cylinder->radius = ft_dbatoi(split[3]) / 2;
 	cylinder->height = (double)ft_dbatoi(split[4]);
 	if (type == CYLINDER_TYPE)
-		cylinder->height = (double)ft_dbatoi(split[4]) / 2.0;
+		cylinder->height /= 2.0;
 	cylinder->rgb = set_rgb(inf, split[5]);
 	cylinder->next = NULL;
 	if (!inf->figures)

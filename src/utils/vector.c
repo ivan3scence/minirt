@@ -70,8 +70,6 @@ double	dot_product_of_vectors(t_dot *vector_a, t_dot *vector_b)
 
 double	cyl_dot_product_of_vectors(t_dot *vector_a, t_dot *vector_b)
 {
-	// double	res;
-
 	return ((vector_a->x * vector_b->x) + (vector_a->z * vector_b->z));
 }
 
