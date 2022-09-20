@@ -39,6 +39,7 @@ t_figure *cyl, t_inf *inf)
 	double	a;
 	double	disc;
 	double	*tt;
+	double	tmp;
 
 	tt = (double *)malloc(sizeof(double) * 2);
 	if (!tt)
@@ -55,10 +56,17 @@ t_figure *cyl, t_inf *inf)
 	tt[0] = (-b - sqrt(disc)) / (2 * a);
 	tt[1] = (-b + sqrt(disc)) / (2 * a);
 
+	if (tt[0] > tt[1])
+	{
+		tmp = tt[0];
+		tt[0] = tt[1];
+		tt[1] = tmp;
+	}
+
 	double y1 = cam_cyl.y + tt[0] * ray->y;
 	double y2 = cam_cyl.y + tt[1] * ray->y;
-	double ymax = cam_cyl.y + cyl->cylinder_half_height;
-	double ymin = cam_cyl.y - cyl->cylinder_half_height;
+	double ymax = cyl->cylinder_half_height;
+	double ymin = ymax * (-1);
 	if (y1 < ymin || y1 > ymax || y2 < ymin || y2 > ymax)
 	{
 		tt[0] = DBL_MAX;
@@ -67,7 +75,7 @@ t_figure *cyl, t_inf *inf)
 	if ((y1 < y2 && y1 < ymin && y2 > ymin) || (y1 > y2 && y2 < ymin && y1 > ymin))
 		tt[0] = (ymin - cam_cyl.y) / ray->y;
 	if ((y1 < y2 && y1 < ymax && y2 > ymax) || (y1 > y2 && y2 < ymax && y1 > ymax))
-		tt[0] = (ymax - cam_cyl.y) / ray->y;
+		tt[1] = (ymax - cam_cyl.y) / ray->y;
 	return (tt);
 }
 
@@ -152,7 +160,7 @@ void	closest_figure(t_dot *origin, t_figure *figure, t_inf *inf, t_intersec *cls
 
 void	closest_intersection(t_dot *origin, t_inf *inf, t_intersec *cls)
 {
-	double		*tt;
+	// double		*tt;
 	t_figure	*figure;
 
 	figure = inf->figures;

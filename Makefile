@@ -43,14 +43,14 @@ MLX_NAME =			libmlx.a
 
 MLXDIR =			./mlx/
 
-MLX =				$(addprefix ${MLX_NAME}, ${MLX_NAME})
+MLX =				$(addprefix ${MLXDIR}, ${MLX_NAME})
 
 INCLUDE = 			-I./mlx -I./includes -I./libft
 
 LIBS = 				-L./mlx/ -lmlx -lm -L./libft/ -lft -framework OpenGL -framework AppKit
 
 ifeq (${MAKECMDGOALS}, l)
-LIBS =				-L./libft -lft -Lmlx -lmlx_Linux -L/usr/lib -Imlx -lXext -lX11 -lm -lz
+LIBS =				-L./libft -lft -Lmlx -L/usr/lib -Imlx -lXext -lX11 -lm
 MLXDIR =			./mlx_linux/
 CFLAGS =			-Wall -Wextra -Werror -g -fsanitize=address -D LINUX=1
 endif
@@ -68,7 +68,7 @@ ${MLX}:
 					${MAKE} -C ${MLXDIR}
 
 ${NAME}:			${HEADERS} Makefile ${SOURCES}
-					${CC} ${INCLUDE} ${CFLAGS} ${SOURCES} ${LIBS} -o $@
+					${CC} ${INCLUDE} ${CFLAGS} ${SOURCES} ${LIBS} ${MLX} -o $@
 
 ${BUILDIR}:
 					mkdir -p $@
