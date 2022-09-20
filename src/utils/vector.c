@@ -72,8 +72,7 @@ double	cyl_dot_product_of_vectors(t_dot *vector_a, t_dot *vector_b)
 {
 	double	res;
 
-	res = ((vector_a->x * vector_b->x) + (vector_a->y * vector_b->y));
-	return (res);
+	return ((vector_a->x * vector_b->x) + (vector_a->z * vector_b->z));
 }
 
 t_dot	multiply_vector(t_dot *vector, double num)

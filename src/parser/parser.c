@@ -106,9 +106,9 @@ static char	set_cylinder(t_inf *inf, char **split)
 	cylinder->type = CYLINDER_TYPE;
 	cylinder->coordinates = set_coordinates(inf, split[1]);
 	cylinder->orientation_vec = set_coordinates(inf, split[2]);
-	cylinder->rgb = set_rgb(inf, split[5]);
 	cylinder->radius = ft_dbatoi(split[3]) / 2;
-	cylinder->cylinder_height = ft_dbatoi(split[4]);
+	cylinder->cylinder_half_height = (double)ft_dbatoi(split[4]) / 2.0;
+	cylinder->rgb = set_rgb(inf, split[5]);
 	cylinder->next = NULL;
 	if (!inf->figures)
 		inf->figures = cylinder;

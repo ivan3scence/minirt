@@ -13,6 +13,11 @@ t_vplane	get_view_plane(double width, double height, unsigned char fov)
 	return (vplane);
 }
 
+// char	on_cap(t_dot *cam_cyl, t_dot *ray, t_figure *cyl, double *tt)
+// {
+
+// }
+
 double	*intersect_ray_cylinder(t_dot cam_cyl, t_dot *ray,
 t_figure *cyl, t_inf *inf)
 {
@@ -49,6 +54,20 @@ t_figure *cyl, t_inf *inf)
 		return (tt);
 	tt[0] = (-b - sqrt(disc)) / (2 * a);
 	tt[1] = (-b + sqrt(disc)) / (2 * a);
+
+	double y1 = cam_cyl.y + tt[0] * ray->y;
+	double y2 = cam_cyl.y + tt[1] * ray->y;
+	double ymax = cam_cyl.y + cyl->cylinder_half_height;
+	double ymin = cam_cyl.y - cyl->cylinder_half_height;
+	if (y1 < ymin || y1 > ymax || y2 < ymin || y2 > ymax)
+	{
+		tt[0] = DBL_MAX;
+		tt[1] = DBL_MAX;
+	}
+	if ((y1 < y2 && y1 < ymin && y2 > ymin) || (y1 > y2 && y2 < ymin && y1 > ymin))
+		tt[0] = (ymin - cam_cyl.y) / ray->y;
+	if ((y1 < y2 && y1 < ymax && y2 > ymax) || (y1 > y2 && y2 < ymax && y1 > ymax))
+		tt[0] = (ymax - cam_cyl.y) / ray->y;
 	return (tt);
 }
 
@@ -102,12 +121,22 @@ double	*intersect_ray_sphere(t_dot cam_sphere, t_dot *ray, t_figure *sphere, t_i
 // 	return (tt);
 // }
 
-void	closest_sphere(t_dot *origin, t_figure *figure, t_inf *inf, t_intersec *cls)
+void	closest_figure(t_dot *origin, t_figure *figure, t_inf *inf, t_intersec *cls)
 {
 	double	*tt;
 
-	tt = intersect_ray_sphere(subtraction_vector(origin,
-				&figure->coordinates), inf->ray, figure, inf);
+	if (figure->type == SPHERE_TYPE)
+		tt = intersect_ray_sphere(subtraction_vector(origin,
+					&figure->coordinates), inf->ray, figure, inf);
+	else if (figure->type == CYLINDER_TYPE)
+		tt = intersect_ray_cylinder(subtraction_vector(origin,
+					&figure->coordinates), inf->ray, figure, inf);
+	// else if (figure->type == PLANE_TYPE)
+	// 	tt = intersect_ray_plane(subtraction_vector(origin,
+	// 				&figure->coordinates), inf->ray, figure, inf);
+	else
+		return ;
+	// 	free_exit(ERROR, inf, ERROR_CODE);
 	if (tt[0] > cls->t_min && tt[0] < cls->closest_t)
 	{
 		cls->closest_t = tt[0];
@@ -130,9 +159,9 @@ void	closest_intersection(t_dot *origin, t_inf *inf, t_intersec *cls)
 	while (figure)
 	{
 		if (figure->type == SPHERE_TYPE)
-			closest_sphere(origin, figure, inf, cls);
+			closest_figure(origin, figure, inf, cls);
 		else if (figure->type == CYLINDER_TYPE)
-			closest_sphere(origin, figure, inf, cls);
+			closest_figure(origin, figure, inf, cls);
 		// else if (figure->type == PLANE_TYPE)
 		// 	closest_plane(origin, figure, inf, cls);
 		figure = figure->next;
@@ -145,23 +174,6 @@ void	background(t_rgb *rgb)
 	rgb->g = 0;
 	rgb->b = 0;
 }
-
-// t_dot	get_refl_ray(t_rgb *rgb, t_inf *inf, t_rgb *color_without_reflection, t_intersec *cls, t_dot *origin)
-// {
-// 	t_dot	view;
-// 	t_dot	multed;
-// 	t_dot	point;
-// 	t_dot	normal;
-// 	t_dot	refl_ray;
-
-// 	multed = multiply_vector(inf->ray, cls->closest_t);
-// 	point = addition_vector(origin, &multed);
-// 	normal = subtraction_vector(&point, &cls->closest_f->coordinates);
-// 	normal = multiply_vector(&normal, 1.0 / vector_length(&normal));
-// 	view = multiply_vector(inf->ray, -1);
-// 	*color_without_reflection = change_color_intensity(rgb, compute_lightning(inf, 100));
-// 	return (reflect_ray(&view, &normal));
-// }
 
 char	is_intersect(t_intersec *cls, t_inf *inf, t_dot *origin, double flag)
 {
