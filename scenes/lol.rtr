@@ -1,8 +1,50 @@
-A    0.2 255,255,123
-C 0.0,0.0,0.0    0,0,-1 90
-L 2.0,1.0,0.0 0.6 255,255,255
-sp 0,-1,-3 1 10,0,255
-pl 0.0,0.0,-10.0 0.0,1.0,0.0 0,0,225
-cy 50.0,0.0,20.3 0.0,0.0,1.0 14.2 21.42 10,0,255
-sp 2,0,4 1 255,125,255
-sp -2,0,4 1 0,128,255
+A    0.6 255,255,123
+C 0.0,0.0,0    0,0,-1 110
+L 2,2,2 0.6 255,255,255
+sp 2,0,-4 2 0,0,255
+cn 0.0,0,-5 0.0,0,-1 4 2 255,0,255
+sp -2,0,-4 2 0,255,0
+
+
+double	*intersect_ray_cone(t_dot cam, t_dot *ray,
+t_figure *cone, t_inf *inf)
+{
+	double	b;
+	double	c;
+	double	a;
+	double	disc;
+	double	*tt;
+	double	tan;
+
+	tt = (double *)malloc(sizeof(double) * 2);
+	if (!tt)
+		free_exit(MALLOC, inf, MALLOC_ERROR);
+	tt[0] = DBL_MAX;
+	tt[1] = DBL_MAX;
+	tan = cone->radius * cone->radius / cone->height / cone->height;
+	a = cone_dot_product_of_vectors(ray, ray, tan);
+	b = 2 * cone_dot_product_of_vectors(&cam, ray, tan);
+	c = cone_dot_product_of_vectors(&cam, &cam, tan);
+		// - cone->radius * cone->radius;
+	disc = b * b - 4 * a * c;
+	if (disc < 0)
+		return (tt);
+	tt[0] = (-b - sqrt(disc)) / (2 * a);
+	tt[1] = (-b + sqrt(disc)) / (2 * a);
+
+	double y1 = cam.y + tt[0] * ray->y;
+	double y2 = cam.y + tt[1] * ray->y;
+	// double ymax = cone->coordinates.y + cone->cylinder_half_height;
+	double ymin = cone->coordinates.y - cone->height;
+	double ymax = 0;
+	if (y1 < ymin || y1 > ymax || y2 < ymin || y2 > ymax)
+	{
+		tt[0] = DBL_MAX;
+		tt[1] = DBL_MAX;
+	}
+	if ((y1 < y2 && y1 < ymin && y2 > ymin) || (y1 > y2 && y2 < ymin && y1 > ymin))
+		tt[0] = (ymin - cam.y) / ray->y;
+	if ((y1 < y2 && y1 < ymax && y2 > ymax) || (y1 > y2 && y2 < ymax && y1 > ymax))
+		tt[0] = (ymax - cam.y) / ray->y;
+	return (tt);
+}
