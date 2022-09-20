@@ -93,7 +93,7 @@ static char	set_plane(t_inf *inf, char **split)
 	return (1);
 }
 
-static char	set_cylinder(t_inf *inf, char **split)
+static char	set_cylinder(t_inf *inf, char **split, char type)
 {
 	t_figure	*cylinder;
 	t_figure	*last;
@@ -103,11 +103,13 @@ static char	set_cylinder(t_inf *inf, char **split)
 	cylinder = (t_figure *)malloc(sizeof(t_figure));
 	if (!cylinder)
 		return (0);
-	cylinder->type = CYLINDER_TYPE;
+	cylinder->type = type;
 	cylinder->coordinates = set_coordinates(inf, split[1]);
 	cylinder->orientation_vec = set_coordinates(inf, split[2]);
 	cylinder->radius = ft_dbatoi(split[3]) / 2;
-	cylinder->cylinder_half_height = (double)ft_dbatoi(split[4]) / 2.0;
+	cylinder->height = (double)ft_dbatoi(split[4]);
+	if (type == CYLINDER_TYPE)
+		cylinder->height = (double)ft_dbatoi(split[4]) / 2.0;
 	cylinder->rgb = set_rgb(inf, split[5]);
 	cylinder->next = NULL;
 	if (!inf->figures)
@@ -138,7 +140,9 @@ static char	analize(t_inf *inf, char *line)
 	else if (ft_strncmp(split[0], "pl", 3) == 0)
 		errors += set_plane(inf, split);
 	else if (ft_strncmp(split[0], "cy", 3) == 0)
-		errors += set_cylinder(inf, split);
+		errors += set_cylinder(inf, split, CYLINDER_TYPE);
+	else if (ft_strncmp(split[0], "cn", 3) == 0)
+		errors += set_cylinder(inf, split, CONE_TYPE);
 	if (!errors)
 		free_exit(SYNTAX, inf, SYNTAX_ERROR);
 	split = free_split(split);

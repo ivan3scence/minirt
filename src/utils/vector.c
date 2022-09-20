@@ -70,9 +70,12 @@ double	dot_product_of_vectors(t_dot *vector_a, t_dot *vector_b)
 
 double	cyl_dot_product_of_vectors(t_dot *vector_a, t_dot *vector_b)
 {
-	double	res;
-
 	return ((vector_a->x * vector_b->x) + (vector_a->z * vector_b->z));
+}
+
+double	cone_dot_product_of_vectors(t_dot *vector_a, t_dot *vector_b, double tan)
+{
+	return (vector_a->x * vector_b->x + vector_a->z * vector_b->z - tan * vector_a->y * vector_b->y);
 }
 
 t_dot	multiply_vector(t_dot *vector, double num)

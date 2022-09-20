@@ -30,7 +30,7 @@ int	main(int argc, char **argv)
 	printf("x %g y %g z %g vx %g vy %g vz %g r %g g %g b %g type %d cyl_r %g cyl_h %g\n", inf->figures->next->next->coordinates.x,inf->figures->next->next->coordinates.y,inf->figures->next->next->coordinates.z,
 			inf->figures->next->next->orientation_vec.x,inf->figures->next->next->orientation_vec.y,inf->figures->next->next->orientation_vec.z,
 		   	inf->figures->next->next->rgb.r, inf->figures->next->next->rgb.g, inf->figures->next->next->rgb.b,
-			inf->figures->next->next->type, inf->figures->next->next->radius, inf->figures->next->next->cylinder_half_height);
+			inf->figures->next->next->type, inf->figures->next->next->radius, inf->figures->next->next->height);
 	inf->mlx = mlx_init();
 	inf->win = mlx_new_window(inf->mlx, WIDTH, HEIGHT, "miniRT");
 	inf->img = mlx_new_image(inf->mlx, WIDTH, HEIGHT);
