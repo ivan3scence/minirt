@@ -21,6 +21,7 @@ int	main(int argc, char **argv)
 	}
 	inf = parse(argv[1]);
 	printf("ratio %g  r %g g %g b %g\n", inf->amb.ratio,  inf->amb.rgb.r,  inf->amb.rgb.g, inf->amb.rgb.b);
+	printf("refl: %d\n", inf->figures->refl);
 //	printf("x %g y %g z %g x %g y %g z %g fov %d\n", inf->cam.view_point.x,inf->cam.view_point.y,inf->cam.view_point.z,  inf->cam.n_vector.x,inf->cam.n_vector.y,inf->cam.n_vector.z,  inf->cam.fov);
 	// printf("x %g y %g z %g brightness %g r %g g %g b %g\n", inf->light.l_point.x,inf->light.l_point.y,inf->light.l_point.z, inf->light.brightness,inf->light.rgb.r, inf->light.rgb.g, inf->light.rgb.b);
 	// printf("x %g y %g z %g d %g r %g g %g b %g type %d\n", inf->figures->coordinates.x,inf->figures->coordinates.y,inf->figures->coordinates.z, inf->figures->radius, inf->figures->rgb.r, inf->figures->rgb.g, inf->figures->rgb.b, inf->figures->type);

@@ -51,7 +51,7 @@
 
 # define ONLY_FREE -228
 
-# define RECURSION_DEPTH 3
+# define START_RECURSION -2
 
 typedef struct s_env
 {
@@ -114,6 +114,7 @@ typedef struct s_figure
 	double				radius;
 	// double				rr;			//радиус сферы в квадрате, чтобы его не пересчитывать каждый раз
 	double				height;
+	char				refl;
 	struct s_figure		*next;
 }t_figure;
 

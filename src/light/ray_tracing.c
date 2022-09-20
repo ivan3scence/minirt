@@ -89,31 +89,6 @@ double	*intersect_ray_sphere(t_dot cam_sphere, t_dot *ray, t_figure *sphere, t_i
 	return (tt);
 }
 
-// double	*intersect_ray_plane(t_dot cam_plane, t_dot *ray, t_figure *plane, t_inf *inf)
-// {
-// 	double	b;
-// 	double	c;
-// 	double	a;
-// 	double	disc;
-// 	double	*tt;
-
-// 	tt = (double *)malloc(sizeof(double) * 2);
-// 	if (!tt)
-// 		free_exit(MALLOC, inf, MALLOC_ERROR);
-// 	tt[0] = DBL_MAX;
-// 	tt[1] = DBL_MAX;
-// 	a = dot_product_of_vectors(ray, ray);
-// 	b = 2 * dot_product_of_vectors(&cam_plane, ray);
-// 	c = dot_product_of_vectors(&cam_sphere, &cam_sphere)
-// 		- plane->sphere_radius * plane->sphere_radius;
-// 	disc = b * b - 4 * a * c;
-// 	if (disc < 0)
-// 		return (tt);
-// 	tt[0] = (-b - sqrt(disc)) / (2 * a);
-// 	tt[1] = (-b + sqrt(disc)) / (2 * a);
-// 	return (tt);
-// }
-
 double	*intersect_ray_cone(t_dot cam, t_dot *ray,
 t_figure *cone, t_inf *inf)
 {
@@ -133,18 +108,15 @@ t_figure *cone, t_inf *inf)
 	a = cone_dot_product_of_vectors(ray, ray, tan);
 	b = 2 * cone_dot_product_of_vectors(&cam, ray, tan);
 	c = cone_dot_product_of_vectors(&cam, &cam, tan);
-		// - cone->radius * cone->radius;
 	disc = b * b - 4 * a * c;
 	if (disc < 0)
 		return (tt);
 	tt[0] = (-b - sqrt(disc)) / (2 * a);
 	tt[1] = (-b + sqrt(disc)) / (2 * a);
-
 	double y1 = cam.y + tt[0] * ray->y;
 	double y2 = cam.y + tt[1] * ray->y;
-	// double ymax = cone->coordinates.y + cone->cylinder_half_height;
 	double ymin = cone->coordinates.y - cone->height;
-	double ymax = 0;
+	double ymax = cone->coordinates.y;
 	if (y1 < ymin || y1 > ymax || y2 < ymin || y2 > ymax)
 	{
 		tt[0] = DBL_MAX;
@@ -152,8 +124,6 @@ t_figure *cone, t_inf *inf)
 	}
 	if ((y1 < y2 && y1 < ymin && y2 > ymin) || (y1 > y2 && y2 < ymin && y1 > ymin))
 		tt[0] = (ymin - cam.y) / ray->y;
-	if ((y1 < y2 && y1 < ymax && y2 > ymax) || (y1 > y2 && y2 < ymax && y1 > ymax))
-		tt[0] = (ymax - cam.y) / ray->y;
 	return (tt);
 }
 void	closest_figure(t_dot *origin, t_figure *figure, t_inf *inf, t_intersec *cls)
@@ -190,7 +160,6 @@ void	closest_figure(t_dot *origin, t_figure *figure, t_inf *inf, t_intersec *cls
 
 void	closest_intersection(t_dot *origin, t_inf *inf, t_intersec *cls)
 {
-	// double		*tt;
 	t_figure	*figure;
 
 	figure = inf->figures;
@@ -255,7 +224,16 @@ void	get_color(t_dot *origin, t_rgb *rgb, char depth, t_inf *inf)
 	// color_without_reflection = change_color_intensity(rgb,
 	// 		compute_lightning(subtraction_vector(&inf->light.l_point,
 	// 				&inf->params.normal), inf, 100));
-	// reflection(rgb, &color_without_reflection, inf, depth);
+	// if (depth == START_RECURSION)
+	// {
+	// 	if (cls.closest_f->type == CONE_TYPE)
+	// 		printf("ura");
+	// 	depth = cls.closest_f->refl;
+	// }
+	// if (depth > 0)
+	// 	reflection(rgb, &color_without_reflection, inf, --depth);
+	// else
+		// *rgb = color_without_reflection;
 }
 
 void	ray_tracing(t_inf *inf, int mlx_y, int mlx_x, double y)
@@ -279,7 +257,7 @@ void	ray_tracing(t_inf *inf, int mlx_y, int mlx_x, double y)
 			normalize_vector(&ray);
 			inf->ray = &ray;
 			get_color(&inf->cam.view_point, &color,
-				RECURSION_DEPTH, inf);
+				START_RECURSION, inf);
 			my_mlx_pixel_put(inf, ++mlx_x, mlx_y,
 				create_trgb(0, color.r, color.g, color.b));
 			++x;
