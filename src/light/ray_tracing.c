@@ -21,13 +21,8 @@ t_vplane	get_view_plane(double width, double height, unsigned char fov)
 double	*intersect_ray_plane(t_dot cam_pln, t_dot *ray,
 t_figure *pln, t_inf *inf)
 {
-	// double	b;
-	// double	c;
-	// double	a;
-	// double	disc;
 	double	*t;
-	// double	tmp;
-	double denom;
+	double	denom;
 	t_dot	l;
 
 	t = (double *)malloc(sizeof(double) * 2);
@@ -36,7 +31,7 @@ t_figure *pln, t_inf *inf)
 	t[0] = DBL_MAX;
 	t[1] = DBL_MAX;
 	denom = dot_product_of_vectors(ray, &pln->orientation_vec);
-	if (denom > 1e-6)
+	if (denom > 0.001)
 	{
 		l = subtraction_vector(&pln->coordinates, &inf->cam.view_point);
 		t[0] = dot_product_of_vectors(&l, &pln->orientation_vec) / denom;
@@ -45,45 +40,6 @@ t_figure *pln, t_inf *inf)
 		return (t);
 	t[0] = DBL_MAX;
 	return (t);
-	// else
-	// 	return ();
-
-	// tt = (double *)malloc(sizeof(double) * 2);
-	// if (!tt)
-	// 	free_exit(MALLOC, inf, MALLOC_ERROR);
-
-
-	// tt[0] = DBL_MAX;
-	// tt[1] = DBL_MAX;
-	// a = cyl_dot_product_of_vectors(ray, ray);
-	// b = 2 * cyl_dot_product_of_vectors(&cam_cyl, ray);
-	// c = cyl_dot_product_of_vectors(&cam_cyl, &cam_cyl)
-	// 	- cyl->radius * cyl->radius;
-	// disc = b * b - 4 * a * c;
-	// if (disc < 0)
-	// 	return (tt);
-	// tt[0] = (-b - sqrt(disc)) / (2 * a);
-	// tt[1] = (-b + sqrt(disc)) / (2 * a);
-	// if (tt[0] > tt[1])
-	// {
-	// 	tmp = tt[0];
-	// 	tt[0] = tt[1];
-	// 	tt[1] = tmp;
-	// }
-	// double y1 = cam_cyl.y + tt[0] * ray->y;
-	// double y2 = cam_cyl.y + tt[1] * ray->y;
-	// double ymax = cyl->height;
-	// double ymin = -ymax;
-	// if (y1 < ymin || y1 > ymax || y2 < ymin || y2 > ymax)
-	// {
-	// 	tt[0] = DBL_MAX;
-	// 	tt[1] = DBL_MAX;
-	// }
-	// if ((y1 < y2 && y1 < ymin && y2 > ymin) || (y1 > y2 && y2 < ymin && y1 > ymin))
-	// 	tt[0] = (ymin - cam_cyl.y) / ray->y;
-	// if ((y1 < y2 && y1 < ymax && y2 > ymax) || (y1 > y2 && y2 < ymax && y1 > ymax))
-	// 	tt[1] = (ymax - cam_cyl.y) / ray->y;
-	// return (tt);
 }
 
 double	*intersect_ray_cylinder(t_dot cam_cyl, t_dot *ray,

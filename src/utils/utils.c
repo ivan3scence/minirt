@@ -14,11 +14,19 @@ double	ft_dbatoi(char *str)
 {
 	char	*frac;
 	double	frac_i;
+	char	minus;
+	int		zel;
 
+	minus = 0;
+	if (*str == '-')
+		minus = 1;
 	frac = ft_strchr(str, '.');
 	frac_i = 0;
 	if (frac)
-		frac_i = ((double) ft_atoi(frac + 1)) / pow(10, ft_strlen(frac + 1));
+		frac_i = ((double)ft_atoi(frac + 1)) / pow(10, ft_strlen(frac + 1));
+	zel = ft_atoi(str);
+	if (!zel && minus)
+		return (-frac_i);
 	return (ft_atoi(str) + frac_i);
 }
 

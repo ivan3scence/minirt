@@ -22,11 +22,8 @@ t_rgb	new_rgb(unsigned char x, unsigned char y, unsigned char z)
 
 t_dot	subtraction_vector(t_dot *vector_a, t_dot *vector_b)
 {
-	t_dot	vector_c;
-
-	vector_c = new_dot(vector_a->x - vector_b->x, vector_a->y - vector_b->y,
-			vector_a->z - vector_b->z);
-	return (vector_c);
+	return (new_dot(vector_a->x - vector_b->x, vector_a->y - vector_b->y,
+			vector_a->z - vector_b->z));
 }
 
 t_dot	addition_vector(t_dot *vector_a, t_dot *vector_b)
