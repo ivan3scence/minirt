@@ -18,6 +18,74 @@ t_vplane	get_view_plane(double width, double height, unsigned char fov)
 
 // }
 
+double	*intersect_ray_plane(t_dot cam_pln, t_dot *ray,
+t_figure *pln, t_inf *inf)
+{
+	// double	b;
+	// double	c;
+	// double	a;
+	// double	disc;
+	double	*t;
+	// double	tmp;
+	double denom;
+	t_dot	l;
+
+	t = (double *)malloc(sizeof(double) * 2);
+	if (!t)
+		free_exit(MALLOC, inf, MALLOC_ERROR);
+	t[0] = DBL_MAX;
+	t[1] = DBL_MAX;
+	denom = dot_product_of_vectors(ray, &pln->orientation_vec);
+	if (denom > 1e-6)
+	{
+		l = subtraction_vector(&pln->coordinates, &inf->cam.view_point);
+		t[0] = dot_product_of_vectors(&l, &pln->orientation_vec) / denom;
+	}
+	if (t[0] >= 0)
+		return (t);
+	t[0] = DBL_MAX;
+	return (t);
+	// else
+	// 	return ();
+
+	// tt = (double *)malloc(sizeof(double) * 2);
+	// if (!tt)
+	// 	free_exit(MALLOC, inf, MALLOC_ERROR);
+
+
+	// tt[0] = DBL_MAX;
+	// tt[1] = DBL_MAX;
+	// a = cyl_dot_product_of_vectors(ray, ray);
+	// b = 2 * cyl_dot_product_of_vectors(&cam_cyl, ray);
+	// c = cyl_dot_product_of_vectors(&cam_cyl, &cam_cyl)
+	// 	- cyl->radius * cyl->radius;
+	// disc = b * b - 4 * a * c;
+	// if (disc < 0)
+	// 	return (tt);
+	// tt[0] = (-b - sqrt(disc)) / (2 * a);
+	// tt[1] = (-b + sqrt(disc)) / (2 * a);
+	// if (tt[0] > tt[1])
+	// {
+	// 	tmp = tt[0];
+	// 	tt[0] = tt[1];
+	// 	tt[1] = tmp;
+	// }
+	// double y1 = cam_cyl.y + tt[0] * ray->y;
+	// double y2 = cam_cyl.y + tt[1] * ray->y;
+	// double ymax = cyl->height;
+	// double ymin = -ymax;
+	// if (y1 < ymin || y1 > ymax || y2 < ymin || y2 > ymax)
+	// {
+	// 	tt[0] = DBL_MAX;
+	// 	tt[1] = DBL_MAX;
+	// }
+	// if ((y1 < y2 && y1 < ymin && y2 > ymin) || (y1 > y2 && y2 < ymin && y1 > ymin))
+	// 	tt[0] = (ymin - cam_cyl.y) / ray->y;
+	// if ((y1 < y2 && y1 < ymax && y2 > ymax) || (y1 > y2 && y2 < ymax && y1 > ymax))
+	// 	tt[1] = (ymax - cam_cyl.y) / ray->y;
+	// return (tt);
+}
+
 double	*intersect_ray_cylinder(t_dot cam_cyl, t_dot *ray,
 t_figure *cyl, t_inf *inf)
 {
@@ -139,12 +207,11 @@ void	closest_figure(t_dot *origin, t_figure *figure, t_inf *inf, t_intersec *cls
 	else if (figure->type == CONE_TYPE)
 		tt = intersect_ray_cone(subtraction_vector(origin,
 					&figure->coordinates), inf->ray, figure, inf);
-	// else if (figure->type == PLANE_TYPE)
-	// 	tt = intersect_ray_plane(subtraction_vector(origin,
-	// 				&figure->coordinates), inf->ray, figure, inf);
+	else if (figure->type == PLANE_TYPE)
+		tt = intersect_ray_plane(subtraction_vector(origin,
+					&figure->coordinates), inf->ray, figure, inf);
 	else
 		return ;
-	// 	free_exit(ERROR, inf, ERROR_CODE);
 	if (tt[0] > cls->t_min && tt[0] < cls->closest_t)
 	{
 		cls->closest_t = tt[0];
@@ -214,26 +281,26 @@ void	get_color(t_dot *origin, t_rgb *rgb, char depth, t_inf *inf)
 	if (!is_intersect(&cls, inf, origin, 1))
 		return (background(rgb));
 	*rgb = cls.closest_f->rgb;
-	// inf->params.multed = multiply_vector(inf->ray, cls.closest_t);
-	// inf->params.point = addition_vector(origin, &inf->params.multed);
-	// inf->params.normal = subtraction_vector(&inf->params.point,
-	// 		&cls.closest_f->coordinates);
-	// inf->params.normal = multiply_vector(&inf->params.normal, 1.0
-	// 		/ vector_length(&inf->params.normal));
-	// inf->params.view = multiply_vector(inf->ray, -1);
-	// color_without_reflection = change_color_intensity(rgb,
-	// 		compute_lightning(subtraction_vector(&inf->light.l_point,
-	// 				&inf->params.normal), inf, 100));
-	// if (depth == START_RECURSION)
-	// {
-	// 	if (cls.closest_f->type == CONE_TYPE)
-	// 		printf("ura");
-	// 	depth = cls.closest_f->refl;
-	// }
-	// if (depth > 0)
-	// 	reflection(rgb, &color_without_reflection, inf, --depth);
-	// else
-		// *rgb = color_without_reflection;
+	inf->params.multed = multiply_vector(inf->ray, cls.closest_t);
+	inf->params.point = addition_vector(origin, &inf->params.multed);
+	inf->params.normal = subtraction_vector(&inf->params.point,
+			&cls.closest_f->coordinates);
+	inf->params.normal = multiply_vector(&inf->params.normal, 1.0
+			/ vector_length(&inf->params.normal));
+	inf->params.view = multiply_vector(inf->ray, -1);
+	color_without_reflection = change_color_intensity(rgb,
+			compute_lightning(subtraction_vector(&inf->light.l_point,
+					&inf->params.normal), inf, 100));
+	if (depth == START_RECURSION)
+	{
+		// if (cls.closest_f->type == CONE_TYPE)
+			// printf("ura");
+		depth = cls.closest_f->refl;
+	}
+	if (depth > 0)
+		reflection(rgb, &color_without_reflection, inf, --depth);
+	else
+		*rgb = color_without_reflection;
 }
 
 void	ray_tracing(t_inf *inf, int mlx_y, int mlx_x, double y)
