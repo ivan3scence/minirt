@@ -18,7 +18,7 @@ t_vplane	get_view_plane(double width, double height, unsigned char fov)
 
 // }
 
-double	*intersect_ray_plane(t_dot cam_pln, t_dot *ray,
+double	*intersect_ray_plane(t_dot *ray,
 t_figure *pln, t_inf *inf)
 {
 	double	*t;
@@ -31,10 +31,10 @@ t_figure *pln, t_inf *inf)
 	t[0] = DBL_MAX;
 	t[1] = DBL_MAX;
 	denom = dot_product_of_vectors(ray, &pln->orientation_vec);
-	if (denom > 0.001)
+	if (denom > 1e-6)
 	{
 		l = subtraction_vector(&pln->coordinates, &inf->cam.view_point);
-		t[0] = dot_product_of_vectors(&l, &pln->orientation_vec) / denom;
+		t[0] = dot_product_of_vectors(&l, ray) / denom;
 	}
 	if (t[0] >= 0)
 		return (t);
@@ -51,21 +51,31 @@ t_figure *cyl, t_inf *inf)
 	double	disc;
 	double	*tt;
 	double	tmp;
+	t_dot	cross2;
+	t_elem	el;
+	// double	t;
 
 	tt = (double *)malloc(sizeof(double) * 2);
 	if (!tt)
 		free_exit(MALLOC, inf, MALLOC_ERROR);
 	tt[0] = DBL_MAX;
 	tt[1] = DBL_MAX;
-	a = cyl_dot_product_of_vectors(ray, ray);
-	b = 2 * cyl_dot_product_of_vectors(&cam_cyl, ray);
-	c = cyl_dot_product_of_vectors(&cam_cyl, &cam_cyl)
-		- cyl->radius * cyl->radius;
+	el.cross = vec_cross(ray, &cyl->orientation_vec);
+	cross2 = vec_cross(&cam_cyl, &cyl->orientation_vec);
+	a = dot_product_of_vectors(&el.cross, &el.cross);
+	b = 2 * dot_product_of_vectors(&el.cross, &cross2);
+	c = dot_product_of_vectors(&cross2, &cross2) - (cyl->radius * cyl->radius
+		* dot_product_of_vectors(&cyl->orientation_vec, &cyl->orientation_vec));
 	disc = b * b - 4 * a * c;
 	if (disc < 0)
 		return (tt);
 	tt[0] = (-b - sqrt(disc)) / (2 * a);
 	tt[1] = (-b + sqrt(disc)) / (2 * a);
+	// printf("...x = %f...\n", el.cross.x);
+	// printf("...y = %f...\n", el.cross.y);
+	// printf("...z = %f...\n", el.cross.z);
+	// printf("...b = %f...\n", b);
+	// printf("...c = %f...\n", c);
 	if (tt[0] > tt[1])
 	{
 		tmp = tt[0];
@@ -164,8 +174,7 @@ void	closest_figure(t_dot *origin, t_figure *figure, t_inf *inf, t_intersec *cls
 		tt = intersect_ray_cone(subtraction_vector(origin,
 					&figure->coordinates), inf->ray, figure, inf);
 	else if (figure->type == PLANE_TYPE)
-		tt = intersect_ray_plane(subtraction_vector(origin,
-					&figure->coordinates), inf->ray, figure, inf);
+		tt = intersect_ray_plane(inf->ray, figure, inf);
 	else
 		return ;
 	if (tt[0] > cls->t_min && tt[0] < cls->closest_t)

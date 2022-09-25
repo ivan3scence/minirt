@@ -84,3 +84,23 @@ t_dot	multiply_vector(t_dot *vector, double num)
 	multed.z = vector->z * num;
 	return (multed);
 }
+
+t_dot	vec_cross(t_dot *vector_a, t_dot *vector_b)
+{
+	t_dot	v;
+
+	v.x = vector_a->y * vector_b->z - vector_a->z * vector_b->y;
+	v.y = vector_a->z * vector_b->x - vector_a->x * vector_b->z;
+	v.z = vector_a->x * vector_b->y - vector_a->y * vector_b->x;
+	return (v);
+}
+
+t_dot	vec_add(t_dot vector_a, t_dot vector_b)
+{
+	t_dot	v;
+
+	v.x = vector_a.x + vector_b.x;
+	v.y = vector_a.y + vector_b.y;
+	v.z = vector_a.z + vector_b.z;
+	return (v);
+}

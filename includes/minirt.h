@@ -125,6 +125,12 @@ typedef struct s_intersec
 	double				t_min;
 }t_intersec;
 
+typedef	struct s_elem
+{
+	t_dot	cross;
+}t_elem;
+
+
 typedef struct s_parametrs
 {
 	t_dot				point;
@@ -185,5 +191,8 @@ char		is_intersect(t_intersec *cls, t_inf *inf, t_dot *origin, double flag);
 void		closest_sphere(t_dot *origin, t_figure *figure, t_inf *inf, t_intersec *cls);
 double		*intersect_ray_cylinder(t_dot cam_cyl, t_dot *ray,
 t_figure *cyl, t_inf *inf);
+
+t_dot	vec_cross(t_dot *vector_a, t_dot *vector_b);
+t_dot	vec_add(t_dot vector_a, t_dot vector_b);
 
 # endif
