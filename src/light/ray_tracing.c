@@ -13,13 +13,9 @@ t_vplane	get_view_plane(double width, double height, unsigned char fov)
 	return (vplane);
 }
 
-// char	on_cap(t_dot *cam_cyl, t_dot *ray, t_figure *cyl, double *tt)
-// {
-
-// }
-
-double	*intersect_ray_plane(t_dot cam, t_dot *ray, t_figure *pln, t_inf *inf)
+double	*intersect_ray_plane(t_dot *ray, t_figure *pln, t_inf *inf)
 {
+	t_dot	hui;
 	double	*tt;
 	double	denom;
 
@@ -29,36 +25,19 @@ double	*intersect_ray_plane(t_dot cam, t_dot *ray, t_figure *pln, t_inf *inf)
 	tt[0] = DBL_MAX;
 	tt[1] = DBL_MAX;
 	denom = dot_product_of_vectors(&pln->orientation_vec, ray);
-	if (denom < 1e-6)
+	if (denom == 0)
 		return (tt);
-	t_dot hui;
-	hui = subtraction_vector(&pln->coordinates, &cam);
+	hui = subtraction_vector(&pln->coordinates, &inf->cam.view_point);
 	tt[0] = dot_product_of_vectors(&hui, &pln->orientation_vec) / denom;
-	if (tt[0] < 0)
+	if (tt[0] <= 0)
 		tt[0] = DBL_MAX;
 	return (tt);
 }
-//{
-//	double	*t;
-//	double	denom;
-//	t_dot	l;
-//
-//	t = (double *)malloc(sizeof(double) * 2);
-//	if (!t)
-//		free_exit(MALLOC, inf, MALLOC_ERROR);
-//	t[0] = DBL_MAX;
-//	t[1] = DBL_MAX;
-//	denom = dot_product_of_vectors(ray, &pln->orientation_vec);
-//	if (denom > 1e-6)
-//	{
-//		l = subtraction_vector(&pln->coordinates, &inf->cam.view_point);
-//		t[0] = dot_product_of_vectors(&l, ray) / denom;
-//	}
-//	if (t[0] >= 0)
-//		return (t);
-//	t[0] = DBL_MAX;
-//	return (t);
-//}
+
+double	*intersect_disks(double *tt, t_dot *ray, t_figure *cyl, t_inf *inf)
+{
+
+}
 
 double	*intersect_ray_cylinder(t_dot cam_cyl, t_dot *ray,
 t_figure *cyl, t_inf *inf)
@@ -71,7 +50,6 @@ t_figure *cyl, t_inf *inf)
 	double	tmp;
 	t_dot	cross2;
 	t_elem	el;
-	// double	t;
 
 	tt = (double *)malloc(sizeof(double) * 2);
 	if (!tt)
@@ -89,30 +67,26 @@ t_figure *cyl, t_inf *inf)
 		return (tt);
 	tt[0] = (-b - sqrt(disc)) / (2 * a);
 	tt[1] = (-b + sqrt(disc)) / (2 * a);
-	// printf("...x = %f...\n", el.cross.x);
-	// printf("...y = %f...\n", el.cross.y);
-	// printf("...z = %f...\n", el.cross.z);
-	// printf("...b = %f...\n", b);
-	// printf("...c = %f...\n", c);
-	if (tt[0] > tt[1])
-	{
-		tmp = tt[0];
-		tt[0] = tt[1];
-		tt[1] = tmp;
-	}
-	double y1 = cam_cyl.y + tt[0] * ray->y;
-	double y2 = cam_cyl.y + tt[1] * ray->y;
-	double ymax = cyl->coordinates.y + cyl->height / 2.0;
-	double ymin = cyl->coordinates.y - cyl->height / 2.0;
-	if (y1 < ymin || y1 > ymax || y2 < ymin || y2 > ymax)
-	{
-		tt[0] = DBL_MAX;
-		tt[1] = DBL_MAX;
-	}
-	if ((y1 < y2 && y1 < ymin && y2 > ymin) || (y1 > y2 && y2 < ymin && y1 > ymin))
-		tt[0] = (ymin - cam_cyl.y) / ray->y;
-	if ((y1 < y2 && y1 < ymax && y2 > ymax) || (y1 > y2 && y2 < ymax && y1 > ymax))
-		tt[1] = (ymax - cam_cyl.y) / ray->y;
+	return (intersect_disks(tt, ray, cyl, inf));
+	//if (tt[0] > tt[1])
+	//{
+	//	tmp = tt[0];
+	//	tt[0] = tt[1];
+	//	tt[1] = tmp;
+	//}
+	//double y1 = cam_cyl.y + tt[0] * ray->y;
+	//double y2 = cam_cyl.y + tt[1] * ray->y;
+	//double ymax = cyl->coordinates.y + cyl->height / 2.0;
+	//double ymin = cyl->coordinates.y - cyl->height / 2.0;
+	//if (y1 < ymin || y1 > ymax || y2 < ymin || y2 > ymax)
+	//{
+	//	tt[0] = DBL_MAX;
+	//	tt[1] = DBL_MAX;
+	//}
+	//if ((y1 < y2 && y1 < ymin && y2 > ymin) || (y1 > y2 && y2 < ymin && y1 > ymin))
+	//	tt[0] = (ymin - cam_cyl.y) / ray->y;
+	//if ((y1 < y2 && y1 < ymax && y2 > ymax) || (y1 > y2 && y2 < ymax && y1 > ymax))
+	//	tt[1] = (ymax - cam_cyl.y) / ray->y;
 	return (tt);
 }
 
@@ -138,6 +112,7 @@ double	*intersect_ray_sphere(t_dot cam_sphere, t_dot *ray, t_figure *sphere, t_i
 		return (tt);
 	tt[0] = (-b - sqrt(disc)) / (2 * a);
 	tt[1] = (-b + sqrt(disc)) / (2 * a);
+	//printf("%g:%g\n", tt[0], tt[1]);
 	return (tt);
 }
 
@@ -192,8 +167,7 @@ void	closest_figure(t_dot *origin, t_figure *figure, t_inf *inf, t_intersec *cls
 		tt = intersect_ray_cone(subtraction_vector(origin,
 					&figure->coordinates), inf->ray, figure, inf);
 	else if (figure->type == PLANE_TYPE)
-		tt = intersect_ray_plane(subtraction_vector(origin,
-					&figure->coordinates),inf->ray, figure, inf);
+		tt = intersect_ray_plane(inf->ray, figure, inf);
 	else
 		return ;
 	if (tt[0] > cls->t_min && tt[0] < cls->closest_t)
