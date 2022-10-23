@@ -34,7 +34,7 @@ double	*intersect_ray_plane(t_dot *ray, t_figure *pln, t_inf *inf)
 	return (tt);
 }
 
-static double	*disks(t_dot o, t_dot *d, t_figure *cyl, t_inf *inf, double *tt)
+static void	disks(t_dot o, t_dot *d, t_figure *cyl, t_inf *inf, double *tt)
 {
 	t_dot	sub=subtraction_vector(&cyl->coordinates, &o);
 	t_dot	mult=multiply_vector(d, tt[0]);
@@ -52,7 +52,6 @@ static double	*disks(t_dot o, t_dot *d, t_figure *cyl, t_inf *inf, double *tt)
 		tt[0] = DBL_MAX;
 		tt[1] = DBL_MAX;
 	}
-	return (tt);
 }
 
 
@@ -114,6 +113,36 @@ static double	*disks(t_dot o, t_dot *d, t_figure *cyl, t_inf *inf, double *tt)
 //	return (INFINITY);
 //}
 
+static t_dot	*normilize_cy(double *tt, t_dot *o, t_dot *d, t_inf *inf, t_figure *cyl)
+{
+	double	dist;
+	double	t;
+
+	if ((cyl->dist1 >= 0 && cyl->dist2 >= 0
+			&& tt[0] > EPSILON) && (cyl->dist2 >= 0
+			&& cyl->dist2 <=cyl->height && tt[1] > EPSIOLON))
+	{
+		dist = cyl->dist2;
+		t = tt[1];
+		if (tt[0] < tt[1])
+		{
+			t = tt[0];
+			dist = cyl->dist1;
+		}
+	}
+	else
+	{
+		dist = cyl->dist2;
+		t = tt[1];
+	}
+	tt[0] = t;
+	t_dot	mult=multiply_vect(d, tt[0]);
+	t_dot	mult2=multiply_vect(cyl->orientation_vec, dist);
+	t_dot	scal2=
+	t_dot	sub=subtraction_vector(&scal, &scal2);
+	return (normalize_vector(
+}
+
 double	*intersect_ray_cylinder(t_dot o, t_dot *ray, t_figure *cyl,
 									t_inf *inf)
 {
@@ -144,7 +173,9 @@ double	*intersect_ray_cylinder(t_dot o, t_dot *ray, t_figure *cyl,
 	tt[1] = (-b + sqrt(disc)) / (2 * a);
 	if (tt[0] == DBL_MAX && tt[1] == DBL_MAX)
 		return (tt);
-	return (disks(o, ray, cyl, inf, tt));
+	disks(o, ray, cyl, inf, tt);
+	cyl->normal = normilize_cy(tt, &o, d, inf, cyl);
+	return (tt);
 }
 
 double	*intersect_ray_sphere(t_dot cam_sphere, t_dot *ray, t_figure *sphere, t_inf *inf)
