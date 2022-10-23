@@ -13,7 +13,7 @@ t_vplane	get_view_plane(double width, double height, unsigned char fov)
 	return (vplane);
 }
 
-double	*intersect_ray_plane(t_dot *ray, t_dot *coordinates, t_dot *orientation_vec, t_inf *inf)
+double	*intersect_ray_plane(t_dot *o, t_dot *ray, t_dot *coordinates, t_dot *orientation_vec, t_inf *inf)
 {
 	t_dot	hui;
 	double	*tt;
@@ -27,7 +27,7 @@ double	*intersect_ray_plane(t_dot *ray, t_dot *coordinates, t_dot *orientation_v
 	denom = dot_product_of_vectors(orientation_vec, ray);
 	if (denom == 0)
 		return (tt);
-	hui = subtraction_vector(coordinates, &inf->cam.view_point);
+	hui = subtraction_vector(coordinates, o);
 	tt[0] = dot_product_of_vectors(&hui, orientation_vec) / denom;
 	if (tt[0] <= 0)
 		tt[0] = DBL_MAX;
@@ -85,18 +85,57 @@ static void	normilize_cy(double *tt, t_dot *o, t_dot *d, t_inf *inf, t_figure *c
 	normalize_vector(&cyl->normal);
 }
 
-//static double	*cap_intersection(t_dot *o, t_dot *d, t_figure *cyl, t_int *inf)
-//{
-//	double	id1;
-//	double	id2;
-//	t_dot	ip1;
-//	t_dot	ip2;
-//	t_dot	c2;
-//
-//	ip1 = multiply_vector(&cyl->orientation_vec, cyl->height);
-//	c2 = addition_vector(&cyl->coordinates, &ip1);
-//	id1 = intersect_ray_plane(d, cyl->coordinates, cyl->orientation_vec);
-//}
+static double	*cap_intersection(t_dot *o, t_dot *d, t_figure *cyl, t_inf *inf, double *tt)
+{
+	double	id1;
+	double	*id;
+	double	id2;
+	t_dot	ip1;
+	t_dot	ip2;
+	t_dot	c2;
+
+	ip1 = multiply_vector(&cyl->orientation_vec, cyl->height);
+	c2 = addition_vector(&cyl->coordinates, &ip1);
+	id = intersect_ray_plane(o, d, &cyl->coordinates, &cyl->orientation_vec, inf);
+	id1 = id[0] < id[1] ? id[0] : id[1];
+	id = intersect_ray_plane(o, d, &c2, &cyl->orientation_vec, inf);
+	id2 = id[0] < id[1] ? id[0] : id[1];
+	if (id1 < DBL_MAX || id2 < DBL_MAX)
+	{
+		t_dot	mult=multiply_vector(d, id1);
+		ip1 = addition_vector(o, &mult);
+		mult=multiply_vector(d, id2);
+		ip2 = addition_vector(o, &mult);
+		if ((id1 < DBL_MAX && distance(ip1, cyl->coordinates) <= cyl->radius)
+				&& (id2 < DBL_MAX && distance(ip2, c2) <= cyl->radius))
+		{
+			tt[0] = id1;
+			tt[1] = id2;
+			return (tt);
+		}
+		else if (id1 < DBL_MAX && distance(ip1, cyl->coordinates) <= cyl->radius)
+		{
+			tt[1] = DBL_MAX;
+			tt[0] = id1;
+			return (tt);
+		}
+		else if (id2 < DBL_MAX && distance(ip2, c2) <= cyl->radius)
+		{
+			tt[1] = DBL_MAX;
+			tt[0] = id2;
+			return (tt);
+		}
+		else
+		{
+			tt[0] = DBL_MAX;
+			tt[1] = DBL_MAX;
+			return (tt);
+		}
+	}
+	tt[0] = DBL_MAX;
+	tt[1] = DBL_MAX;
+	return (tt);
+}
 
 double	*intersect_ray_cylinder(t_dot o, t_dot *d, t_figure *cyl,
 									t_inf *inf)
@@ -130,7 +169,14 @@ double	*intersect_ray_cylinder(t_dot o, t_dot *d, t_figure *cyl,
 		return (tt);
 	disks(o, d, cyl, inf, tt);
 	normilize_cy(tt, &o, d, inf, cyl);
-	//cap_intersection(&o, d, cyl, inf);
+	double	*tt2=(double*)malloc(sizeof(double)*2);
+	cap_intersection(&o, d, cyl, inf, tt2);
+	double min=tt[0]<tt[1]?tt[0]:tt[1];
+	double min2=tt2[0]<tt2[1]?tt2[0]:tt2[1];
+	tt[1] = DBL_MAX;
+	tt[0] = min;
+	if (min2 < min)
+		tt[0] = min2;
 	return (tt);
 }
 
@@ -211,7 +257,7 @@ void	closest_figure(t_dot *origin, t_figure *figure, t_inf *inf, t_intersec *cls
 		tt = intersect_ray_cone(subtraction_vector(origin,
 					&figure->coordinates), inf->ray, figure, inf);
 	else if (figure->type == PLANE_TYPE)
-		tt = intersect_ray_plane(inf->ray, &figure->coordinates, &figure->orientation_vec, inf);
+		tt = intersect_ray_plane(&inf->cam.view_point, inf->ray, &figure->coordinates, &figure->orientation_vec, inf);
 	else
 		return ;
 	if (tt[0] > cls->t_min && tt[0] < cls->closest_t)

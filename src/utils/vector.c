@@ -104,3 +104,11 @@ t_dot	vec_add(t_dot vector_a, t_dot vector_b)
 	v.z = vector_a.z + vector_b.z;
 	return (v);
 }
+
+double	distance(t_dot p1, t_dot p2)
+{
+	double d;
+
+	d = sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2) + pow(p2.z - p1.z, 2));
+	return (d);
+}
