@@ -54,73 +54,14 @@ static void	disks(t_dot o, t_dot *d, t_figure *cyl, t_inf *inf, double *tt)
 	}
 }
 
-
-//static double	cy_intersection(t_p3 o, t_p3 d, t_p3 *normal, t_figures *lst)
-//{
-//	double	x2[2];
-//
-//	if (solve_cylinder(x2, o, d, lst) == 0)
-//		return (INFINITY);
-//	lst->fig.cy.dist1 = dot(lst->fig.cy.nv, vsubstract(scal_x_vec(x2[0], d),
-//												vsubstract(lst->fig.cy.c, o)));
-//	lst->fig.cy.dist2 = dot(lst->fig.cy.nv, vsubstract(scal_x_vec(x2[1], d),
-//												vsubstract(lst->fig.cy.c, o)));
-//	if (!((lst->fig.cy.dist1 >= 0 && lst->fig.cy.dist1 <= lst->fig.cy.h
-//					&& x2[0] > EPSILON) || (lst->fig.cy.dist2 >= 0
-//					&& lst->fig.cy.dist2 <= lst->fig.cy.h && x2[0] > EPSILON)))
-//		return (INFINITY);
-//	*normal = calc_cy_normal(x2, o, d, lst);
-//	return (x2[0]);
-//}
-
-//double	*intersect_disks(t_dot o, double *tt, t_dot *ray, t_figure *cyl, t_inf *inf)
-//{
-//	double	id1;
-//	double	id2;
-//	t_p3	ip1;
-//	t_p3	ip2;
-//	t_p3	c2;
-//
-//	c2 = vec_add(cyl->coordinates, multiply_vector(
-//	return (tt);
-//}
-
-//static double	caps_intersection(t_p3 o, t_p3 d, t_figures *lst)
-//{
-//	double	id1;
-//	double	id2;
-//	t_p3	ip1;
-//	t_p3	ip2;
-//	t_p3	c2;
-//
-//	c2 = vadd(lst->fig.cy.c, scal_x_vec(lst->fig.cy.h, lst->fig.cy.nv));
-//	id1 = solve_plane(o, d, lst->fig.cy.c, lst->fig.cy.nv);
-//	id2 = solve_plane(o, d, c2, lst->fig.cy.nv);
-//	if (id1 < INFINITY || id2 < INFINITY)
-//	{
-//		ip1 = vadd(o, scal_x_vec(id1, d));
-//		ip2 = vadd(o, scal_x_vec(id2, d));
-//		if ((id1 < INFINITY && distance(ip1, lst->fig.cy.c) <= lst->fig.cy.r)
-//				&& (id2 < INFINITY && distance(ip2, c2) <= lst->fig.cy.r))
-//			return (id1 < id2 ? id1 : id2);
-//		else if (id1 < INFINITY
-//						&& distance(ip1, lst->fig.cy.c) <= lst->fig.cy.r)
-//			return (id1);
-//		else if (id2 < INFINITY && distance(ip2, c2) <= lst->fig.cy.r)
-//			return (id2);
-//		return (INFINITY);
-//	}
-//	return (INFINITY);
-//}
-
-static t_dot	*normilize_cy(double *tt, t_dot *o, t_dot *d, t_inf *inf, t_figure *cyl)
+static void	normilize_cy(double *tt, t_dot *o, t_dot *d, t_inf *inf, t_figure *cyl)
 {
 	double	dist;
 	double	t;
 
 	if ((cyl->dist1 >= 0 && cyl->dist2 >= 0
 			&& tt[0] > EPSILON) && (cyl->dist2 >= 0
-			&& cyl->dist2 <=cyl->height && tt[1] > EPSIOLON))
+			&& cyl->dist2 <=cyl->height && tt[1] > EPSILON))
 	{
 		dist = cyl->dist2;
 		t = tt[1];
@@ -136,14 +77,28 @@ static t_dot	*normilize_cy(double *tt, t_dot *o, t_dot *d, t_inf *inf, t_figure 
 		t = tt[1];
 	}
 	tt[0] = t;
-	t_dot	mult=multiply_vect(d, tt[0]);
-	t_dot	mult2=multiply_vect(cyl->orientation_vec, dist);
-	t_dot	scal2=
-	t_dot	sub=subtraction_vector(&scal, &scal2);
-	return (normalize_vector(
+	t_dot	mult=multiply_vector(d, tt[0]);
+	t_dot	mult2=multiply_vector(&cyl->orientation_vec, dist);
+	t_dot	sub2=subtraction_vector(&cyl->coordinates, o);
+	t_dot	sub=subtraction_vector(&mult, &mult2);
+	cyl->normal = subtraction_vector(&sub, &sub2);
+	normalize_vector(&cyl->normal);
 }
 
-double	*intersect_ray_cylinder(t_dot o, t_dot *ray, t_figure *cyl,
+//static double	*cap_intersection(t_dot *o, t_dot *d, t_figure *cyl, t_int *inf)
+//{
+//	double	id1;
+//	double	id2;
+//	t_dot	ip1;
+//	t_dot	ip2;
+//	t_dot	c2;
+//
+//	ip1 = multiply_vector(&cyl->orientation_vec, cyl->height);
+//	c2 = addition_vector(&cyl->coordinates, &ip1);
+//	id1 = 
+//}
+
+double	*intersect_ray_cylinder(t_dot o, t_dot *d, t_figure *cyl,
 									t_inf *inf)
 {
 	double	b;
@@ -160,7 +115,7 @@ double	*intersect_ray_cylinder(t_dot o, t_dot *ray, t_figure *cyl,
 		free_exit(MALLOC, inf, MALLOC_ERROR);
 	tt[0] = DBL_MAX;
 	tt[1] = DBL_MAX;
-	el.cross = vec_cross(ray, &cyl->orientation_vec);
+	el.cross = vec_cross(d, &cyl->orientation_vec);
 	cross2 = vec_cross(&o, &cyl->orientation_vec);
 	a = dot_product_of_vectors(&el.cross, &el.cross);
 	b = 2 * dot_product_of_vectors(&cross2, &el.cross);
@@ -173,8 +128,9 @@ double	*intersect_ray_cylinder(t_dot o, t_dot *ray, t_figure *cyl,
 	tt[1] = (-b + sqrt(disc)) / (2 * a);
 	if (tt[0] == DBL_MAX && tt[1] == DBL_MAX)
 		return (tt);
-	disks(o, ray, cyl, inf, tt);
-	cyl->normal = normilize_cy(tt, &o, d, inf, cyl);
+	disks(o, d, cyl, inf, tt);
+	normilize_cy(tt, &o, d, inf, cyl);
+	//cap_intersection(&o, d, cyl, inf);
 	return (tt);
 }
 

@@ -27,6 +27,8 @@
 # define WIDTH 1920
 # define HEIGHT 1080
 
+# define EPSILON 1e-6
+
 # define SYNTAX "wrong scene syntax"
 # define MALLOC "malloc rip"
 # define BYE "bye, have a great time\n"
@@ -117,7 +119,7 @@ typedef struct s_figure
 	char				refl;
 	double				dist1;
 	double				dist2;
-	t_dot				*normal;
+	t_dot				normal;
 	struct s_figure		*next;
 }t_figure;
 
