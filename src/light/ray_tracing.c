@@ -41,7 +41,8 @@ static double	*disks(t_dot o, t_dot *d, t_figure *cyl, t_inf *inf, double *tt)
 	t_dot	sub2=subtraction_vector(&mult, &sub);
 
 	cyl->dist1 = dot_product_of_vectors(&cyl->orientation_vec, &sub2);
-	mult=multiply_vector(d, tt[0]);
+
+	mult=multiply_vector(d, tt[1]);
 	sub2=subtraction_vector(&mult, &sub);
 	cyl->dist2 = dot_product_of_vectors(&cyl->orientation_vec, &sub2);
 	if (!((cyl->dist1 >= 0 && cyl->dist1 <= cyl->height
@@ -144,26 +145,6 @@ double	*intersect_ray_cylinder(t_dot o, t_dot *ray, t_figure *cyl,
 	if (tt[0] == DBL_MAX && tt[1] == DBL_MAX)
 		return (tt);
 	return (disks(o, ray, cyl, inf, tt));
-	//if (tt[0] > tt[1])
-	//{
-	//	tmp = tt[0];
-	//	tt[0] = tt[1];
-	//	tt[1] = tmp;
-	//}
-	//double y1 = o.y + tt[0] * ray->y;
-	//double y2 = o.y + tt[1] * ray->y;
-	//double ymax = cyl->coordinates.y + cyl->height / 2.0;
-	//double ymin = cyl->coordinates.y - cyl->height / 2.0;
-	//if (y1 < ymin || y1 > ymax || y2 < ymin || y2 > ymax)
-	//{
-	//	tt[0] = DBL_MAX;
-	//	tt[1] = DBL_MAX;
-	//}
-	//if ((y1 < y2 && y1 < ymin && y2 > ymin) || (y1 > y2 && y2 < ymin && y1 > ymin))
-	//	tt[0] = (ymin - o.y) / ray->y;
-	//if ((y1 < y2 && y1 < ymax && y2 > ymax) || (y1 > y2 && y2 < ymax && y1 > ymax))
-	//	tt[1] = (ymax - o.y) / ray->y;
-	return (tt);
 }
 
 double	*intersect_ray_sphere(t_dot cam_sphere, t_dot *ray, t_figure *sphere, t_inf *inf)
