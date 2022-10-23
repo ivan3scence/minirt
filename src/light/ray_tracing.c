@@ -169,7 +169,6 @@ double	*intersect_ray_sphere(t_dot cam_sphere, t_dot *ray, t_figure *sphere, t_i
 		return (tt);
 	tt[0] = (-b - sqrt(disc)) / (2 * a);
 	tt[1] = (-b + sqrt(disc)) / (2 * a);
-	//printf("%g:%g\n", tt[0], tt[1]);
 	return (tt);
 }
 

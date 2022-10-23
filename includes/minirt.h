@@ -132,7 +132,6 @@ typedef	struct s_elem
 	t_dot	cross;
 }t_elem;
 
-
 typedef struct s_parametrs
 {
 	t_dot				point;
