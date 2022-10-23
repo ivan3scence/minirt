@@ -117,6 +117,7 @@ typedef struct s_figure
 	char				refl;
 	double				dist1;
 	double				dist2;
+	t_dot				*normal;
 	struct s_figure		*next;
 }t_figure;
 
