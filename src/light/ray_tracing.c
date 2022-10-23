@@ -34,13 +34,87 @@ double	*intersect_ray_plane(t_dot *ray, t_figure *pln, t_inf *inf)
 	return (tt);
 }
 
-double	*intersect_disks(double *tt, t_dot *ray, t_figure *cyl, t_inf *inf)
+static double	*disks(t_dot o, t_dot *d, t_figure *cyl, t_inf *inf, double *tt)
 {
+	t_dot	sub=subtraction_vector(&cyl->coordinates, &o);
+	t_dot	mult=multiply_vector(d, tt[0]);
+	t_dot	sub2=subtraction_vector(&mult, &sub);
 
+	cyl->dist1 = dot_product_of_vectors(&cyl->orientation_vec, &sub2);
+	mult=multiply_vector(d, tt[0]);
+	sub2=subtraction_vector(&mult, &sub);
+	cyl->dist2 = dot_product_of_vectors(&cyl->orientation_vec, &sub2);
+	if (!((cyl->dist1 >= 0 && cyl->dist1 <= cyl->height
+					&& tt[0] > 1e-10) || (cyl->dist2 >= 0 && cyl->dist2 <= cyl->height
+					&& tt[1] > 1e-10)))
+	{
+		tt[0] = DBL_MAX;
+		tt[1] = DBL_MAX;
+	}
+	return (tt);
 }
 
-double	*intersect_ray_cylinder(t_dot cam_cyl, t_dot *ray,
-t_figure *cyl, t_inf *inf)
+
+//static double	cy_intersection(t_p3 o, t_p3 d, t_p3 *normal, t_figures *lst)
+//{
+//	double	x2[2];
+//
+//	if (solve_cylinder(x2, o, d, lst) == 0)
+//		return (INFINITY);
+//	lst->fig.cy.dist1 = dot(lst->fig.cy.nv, vsubstract(scal_x_vec(x2[0], d),
+//												vsubstract(lst->fig.cy.c, o)));
+//	lst->fig.cy.dist2 = dot(lst->fig.cy.nv, vsubstract(scal_x_vec(x2[1], d),
+//												vsubstract(lst->fig.cy.c, o)));
+//	if (!((lst->fig.cy.dist1 >= 0 && lst->fig.cy.dist1 <= lst->fig.cy.h
+//					&& x2[0] > EPSILON) || (lst->fig.cy.dist2 >= 0
+//					&& lst->fig.cy.dist2 <= lst->fig.cy.h && x2[0] > EPSILON)))
+//		return (INFINITY);
+//	*normal = calc_cy_normal(x2, o, d, lst);
+//	return (x2[0]);
+//}
+
+//double	*intersect_disks(t_dot o, double *tt, t_dot *ray, t_figure *cyl, t_inf *inf)
+//{
+//	double	id1;
+//	double	id2;
+//	t_p3	ip1;
+//	t_p3	ip2;
+//	t_p3	c2;
+//
+//	c2 = vec_add(cyl->coordinates, multiply_vector(
+//	return (tt);
+//}
+
+//static double	caps_intersection(t_p3 o, t_p3 d, t_figures *lst)
+//{
+//	double	id1;
+//	double	id2;
+//	t_p3	ip1;
+//	t_p3	ip2;
+//	t_p3	c2;
+//
+//	c2 = vadd(lst->fig.cy.c, scal_x_vec(lst->fig.cy.h, lst->fig.cy.nv));
+//	id1 = solve_plane(o, d, lst->fig.cy.c, lst->fig.cy.nv);
+//	id2 = solve_plane(o, d, c2, lst->fig.cy.nv);
+//	if (id1 < INFINITY || id2 < INFINITY)
+//	{
+//		ip1 = vadd(o, scal_x_vec(id1, d));
+//		ip2 = vadd(o, scal_x_vec(id2, d));
+//		if ((id1 < INFINITY && distance(ip1, lst->fig.cy.c) <= lst->fig.cy.r)
+//				&& (id2 < INFINITY && distance(ip2, c2) <= lst->fig.cy.r))
+//			return (id1 < id2 ? id1 : id2);
+//		else if (id1 < INFINITY
+//						&& distance(ip1, lst->fig.cy.c) <= lst->fig.cy.r)
+//			return (id1);
+//		else if (id2 < INFINITY && distance(ip2, c2) <= lst->fig.cy.r)
+//			return (id2);
+//		return (INFINITY);
+//	}
+//	return (INFINITY);
+//}
+
+double	*intersect_ray_cylinder(t_dot o, t_dot *ray, t_figure *cyl,
+									t_inf *inf)
 {
 	double	b;
 	double	c;
@@ -57,7 +131,7 @@ t_figure *cyl, t_inf *inf)
 	tt[0] = DBL_MAX;
 	tt[1] = DBL_MAX;
 	el.cross = vec_cross(ray, &cyl->orientation_vec);
-	cross2 = vec_cross(&cam_cyl, &cyl->orientation_vec);
+	cross2 = vec_cross(&o, &cyl->orientation_vec);
 	a = dot_product_of_vectors(&el.cross, &el.cross);
 	b = 2 * dot_product_of_vectors(&cross2, &el.cross);
 	c = dot_product_of_vectors(&cross2, &cross2) - (cyl->radius * cyl->radius
@@ -67,15 +141,17 @@ t_figure *cyl, t_inf *inf)
 		return (tt);
 	tt[0] = (-b - sqrt(disc)) / (2 * a);
 	tt[1] = (-b + sqrt(disc)) / (2 * a);
-	return (intersect_disks(tt, ray, cyl, inf));
+	if (tt[0] == DBL_MAX && tt[1] == DBL_MAX)
+		return (tt);
+	return (disks(o, ray, cyl, inf, tt));
 	//if (tt[0] > tt[1])
 	//{
 	//	tmp = tt[0];
 	//	tt[0] = tt[1];
 	//	tt[1] = tmp;
 	//}
-	//double y1 = cam_cyl.y + tt[0] * ray->y;
-	//double y2 = cam_cyl.y + tt[1] * ray->y;
+	//double y1 = o.y + tt[0] * ray->y;
+	//double y2 = o.y + tt[1] * ray->y;
 	//double ymax = cyl->coordinates.y + cyl->height / 2.0;
 	//double ymin = cyl->coordinates.y - cyl->height / 2.0;
 	//if (y1 < ymin || y1 > ymax || y2 < ymin || y2 > ymax)
@@ -84,9 +160,9 @@ t_figure *cyl, t_inf *inf)
 	//	tt[1] = DBL_MAX;
 	//}
 	//if ((y1 < y2 && y1 < ymin && y2 > ymin) || (y1 > y2 && y2 < ymin && y1 > ymin))
-	//	tt[0] = (ymin - cam_cyl.y) / ray->y;
+	//	tt[0] = (ymin - o.y) / ray->y;
 	//if ((y1 < y2 && y1 < ymax && y2 > ymax) || (y1 > y2 && y2 < ymax && y1 > ymax))
-	//	tt[1] = (ymax - cam_cyl.y) / ray->y;
+	//	tt[1] = (ymax - o.y) / ray->y;
 	return (tt);
 }
 

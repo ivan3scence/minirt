@@ -115,6 +115,8 @@ typedef struct s_figure
 	// double				rr;			//радиус сферы в квадрате, чтобы его не пересчитывать каждый раз
 	double				height;
 	char				refl;
+	double				dist1;
+	double				dist2;
 	struct s_figure		*next;
 }t_figure;
 
