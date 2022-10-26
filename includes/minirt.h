@@ -27,7 +27,7 @@
 # define WIDTH 1920
 # define HEIGHT 1080
 
-# define EPSILON 1e-6
+# define EPSILON 1e-5
 
 # define SYNTAX "wrong scene syntax"
 # define MALLOC "malloc rip"
