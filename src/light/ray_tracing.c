@@ -30,66 +30,66 @@ double	intersect_ray_plane(t_dot *o, t_dot *ray, t_dot *coordinates, t_dot *orie
 	return (tt);
 }
 
-static void	normilize_cy(double *tt, t_dot *o, t_dot *d, t_inf *inf, t_figure *cyl)
-{
-	double	dist;
-	double	t;
+// static void	normilize_cy(double *tt, t_dot *o, t_dot *d, t_inf *inf, t_figure *cyl)
+// {
+// 	double	dist;
+// 	double	t;
 
-	if ((cyl->dist1 >= 0 && cyl->dist1 <= cyl->height
-			&& tt[0] > EPSILON) && (cyl->dist2 >= 0
-			&& cyl->dist2 <=cyl->height && tt[1] > EPSILON))
-	{
-		dist = cyl->dist2;
-		t = tt[1];
-		if (tt[0] < tt[1])
-		{
-			t = tt[0];
-			dist = cyl->dist1;
-		}
-	}
-	else if (cyl->dist1 >= 0 && cyl->dist1 <= cyl->height
-				&& tt[0] > EPSILON)
-	{
-		dist = cyl->dist1;
-		t = tt[0];
-	}
-	else
-	{
-		dist = cyl->dist2;
-		t = tt[1];
-	}
-	tt[0] = t;
-	tt[1] = DBL_MAX;
-	t_dot	mult=multiply_vector(d, tt[0]);
-	t_dot	mult2=multiply_vector(&cyl->orientation_vec, dist);
-	t_dot	sub2=subtraction_vector(&cyl->coordinates, o);
-	t_dot	sub=subtraction_vector(&mult, &mult2);
-	cyl->normal = subtraction_vector(&sub, &sub2);
-	normalize_vector(&cyl->normal);
-}
+// 	if ((cyl->dist1 >= 0 && cyl->dist1 <= cyl->height
+// 			&& tt[0] > EPSILON) && (cyl->dist2 >= 0
+// 			&& cyl->dist2 <=cyl->height && tt[1] > EPSILON))
+// 	{
+// 		dist = cyl->dist2;
+// 		t = tt[1];
+// 		if (tt[0] < tt[1])
+// 		{
+// 			t = tt[0];
+// 			dist = cyl->dist1;
+// 		}
+// 	}
+// 	else if (cyl->dist1 >= 0 && cyl->dist1 <= cyl->height
+// 				&& tt[0] > EPSILON)
+// 	{
+// 		dist = cyl->dist1;
+// 		t = tt[0];
+// 	}
+// 	else
+// 	{
+// 		dist = cyl->dist2;
+// 		t = tt[1];
+// 	}
+// 	tt[0] = t;
+// 	tt[1] = DBL_MAX;
+// 	t_dot	mult=multiply_vector(d, tt[0]);
+// 	t_dot	mult2=multiply_vector(&cyl->orientation_vec, dist);
+// 	t_dot	sub2=subtraction_vector(&cyl->coordinates, o);
+// 	t_dot	sub=subtraction_vector(&mult, &mult2);
+// 	cyl->normal = subtraction_vector(&sub, &sub2);
+// 	normalize_vector(&cyl->normal);
+// }
 
-static void	disks(t_dot *o, t_dot *d, t_figure *cyl, t_inf *inf, double *tt)
-{
-	t_dot	sub=subtraction_vector(&cyl->coordinates, o);
-	t_dot	mult=multiply_vector(d, tt[0]);
-	t_dot	sub2=subtraction_vector(&mult, &sub);
+// static void	disks(t_dot *o, t_dot *d, t_figure *cyl, t_inf *inf, double *tt)
+// {
+// 	t_dot	sub=subtraction_vector(&cyl->coordinates, o);
+// 	t_dot	mult=multiply_vector(d, tt[0]);
+// 	t_dot	sub2=subtraction_vector(&mult, &sub);
 
-	cyl->dist1 = dot_product_of_vectors(&cyl->orientation_vec, &sub2);
+// 	cyl->dist1 = dot_product_of_vectors(&cyl->orientation_vec, &sub2);
 
-	mult=multiply_vector(d, tt[1]);
-	sub2=subtraction_vector(&mult, &sub);
-	cyl->dist2 = dot_product_of_vectors(&cyl->orientation_vec, &sub2);
-	if (!((cyl->dist1 >= 0 && cyl->dist1 <= cyl->height
-					&& tt[0] > EPSILON)
-					|| (cyl->dist2 >= 0 && cyl->dist2 <= cyl->height
-					&& tt[1] > EPSILON)))
-	{
-		tt[0] = DBL_MAX;
-		tt[1] = DBL_MAX;
-	}
-	else
-		normilize_cy(tt, o, d, inf, cyl);
-}
+// 	mult=multiply_vector(d, tt[1]);
+// 	sub2=subtraction_vector(&mult, &sub);
+// 	cyl->dist2 = dot_product_of_vectors(&cyl->orientation_vec, &sub2);
+// 	if (!((cyl->dist1 >= 0 && cyl->dist1 <= cyl->height
+// 					&& tt[0] > EPSILON)
+// 					|| (cyl->dist2 >= 0 && cyl->dist2 <= cyl->height
+// 					&& tt[1] > EPSILON)))
+// 	{
+// 		tt[0] = DBL_MAX;
+// 		tt[1] = DBL_MAX;
+// 	}
+// 	else
+// 		normilize_cy(tt, o, d, inf, cyl);
+// }
 
 static double	cap_intersection(t_dot *o, t_dot *d, t_figure *cyl)
 {
@@ -167,7 +167,7 @@ double	capsssex(t_figure *cyl, t_dot *d, t_inter_point inter_point, t_dot *o)
 	ray.origin = *o;
 	ray.direction = *d;
 	ft_get_normal(ray, cyl->coordinates, &inter_point);
-	max = sqrt(pow(cyl->height / 2.0, 2) + pow(cyl->radius, 2));
+	max = sqrt(pow(cyl->height, 2) + pow(cyl->radius, 2));
 	if (get_norm(sub(inter_point.coord, cyl->coordinates)) > max)
 	{
 		inter_point.t = (inter_point.t2);
@@ -181,8 +181,10 @@ double	capsssex(t_figure *cyl, t_dot *d, t_inter_point inter_point, t_dot *o)
 	a = dot(ray.direction, inter_point.normal);
 	if (a > 0)
 		inter_point.normal = ft_scale(inter_point.normal, -1);
-	return (inter_point.t);
+	// return (inter_point.t);
 	double	lol = cap_intersection(o, d, cyl);
+	if (lol < inter_point.t && lol != DBL_MAX)
+		printf("hui\n");
 	return (lol < inter_point.t ? lol : inter_point.t);
 }
 
@@ -195,7 +197,6 @@ double	intersect_ray_cylinder(t_dot o, t_dot *d, t_figure *cyl,
 	t_dot	cross=vec_cross(d, &cyl->orientation_vec);
 	t_dot	c_to_o = subtraction_vector(&o, &cyl->coordinates);
 	t_dot	cross2=vec_cross(&c_to_o, &cyl->orientation_vec);
-	// t_dot	cross3=vec_cross(&c_to_o, &cyl->orientation_vec);
 	t_dot	sub=subtraction_vector(&o, &cyl->coordinates);
 	double	a = dot_product_of_vectors(&cross, &cross);
 	double	b = 2 * dot_product_of_vectors(&cross, &cross2);
