@@ -108,10 +108,12 @@ static char	set_cylinder(t_inf *inf, char **split, char type)
 	cylinder->type = type;
 	cylinder->coordinates = set_coordinates(inf, split[1]);
 	cylinder->orientation_vec = set_coordinates(inf, split[2]);
-	cylinder->radius = ft_dbatoi(split[3]) / 2;
+	//normalize_vector(&cylinder->orientation_vec);
+	//printf("%g:%g:%g\n", cylinder->orientation_vec.x, cylinder->orientation_vec.y, cylinder->orientation_vec.z);
+	cylinder->radius = ft_dbatoi(split[3]);
 	cylinder->height = (double)ft_dbatoi(split[4]);
-	if (type == CYLINDER_TYPE)
-		cylinder->height /= 2.0;
+	//if (type == CYLINDER_TYPE)
+	//	cylinder->height /= 2.0;
 	cylinder->rgb = set_rgb(inf, split[5]);
 	cylinder->refl = ft_atoi(split[6]);
 	cylinder->next = NULL;

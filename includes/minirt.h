@@ -194,7 +194,7 @@ t_dot		reflect_ray(t_dot *v1, t_dot *v2);
 void		ray_tracing(t_inf *inf, int mlx_y, int mlx_x, double y);
 char		is_intersect(t_intersec *cls, t_inf *inf, t_dot *origin, double flag);
 void		closest_sphere(t_dot *origin, t_figure *figure, t_inf *inf, t_intersec *cls);
-double		*intersect_ray_cylinder(t_dot cam_cyl, t_dot *ray,
+double		intersect_ray_cylinder(t_dot cam_cyl, t_dot *ray,
 t_figure *cyl, t_inf *inf);
 double		distance(t_dot p1, t_dot p2);
 t_dot	vec_cross(t_dot *vector_a, t_dot *vector_b);
