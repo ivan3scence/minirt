@@ -13,7 +13,7 @@ t_vplane	get_view_plane(double width, double height, unsigned char fov)
 	return (vplane);
 }
 
-double	intersect_ray_plane(t_dot *o, t_dot *ray, t_dot *coordinates, t_dot *orientation_vec, t_inf *inf)
+double	intersect_ray_plane(t_dot *o, t_dot *ray, t_dot *coordinates, t_dot *orientation_vec)
 {
 	t_dot	hui;
 	double	tt;
@@ -91,7 +91,7 @@ static void	disks(t_dot *o, t_dot *d, t_figure *cyl, t_inf *inf, double *tt)
 		normilize_cy(tt, o, d, inf, cyl);
 }
 
-static double	cap_intersection(t_dot *o, t_dot *d, t_figure *cyl, t_inf *inf)
+static double	cap_intersection(t_dot *o, t_dot *d, t_figure *cyl)
 {
 	double	id1;
 	double	id2;
@@ -101,8 +101,8 @@ static double	cap_intersection(t_dot *o, t_dot *d, t_figure *cyl, t_inf *inf)
 
 	ip1 = multiply_vector(&cyl->orientation_vec, cyl->height);
 	c2 = addition_vector(&cyl->coordinates, &ip1);
-	id1 = intersect_ray_plane(o, d, &cyl->coordinates, &cyl->orientation_vec, inf);
-	id2 = intersect_ray_plane(o, d, &c2, &cyl->orientation_vec, inf);
+	id1 = intersect_ray_plane(o, d, &cyl->coordinates, &cyl->orientation_vec);
+	id2 = intersect_ray_plane(o, d, &c2, &cyl->orientation_vec);
 	if (id1 < DBL_MAX || id2 < DBL_MAX)
 	{
 		t_dot	mult=multiply_vector(d, id1);
@@ -120,43 +120,98 @@ static double	cap_intersection(t_dot *o, t_dot *d, t_figure *cyl, t_inf *inf)
 	return (DBL_MAX);
 }
 
+// double	intersect_ray_cylinder(t_dot o, t_dot *d, t_figure *cyl,
+// 									t_inf *inf)
+// {
+// 	double	b;
+// 	double	c;
+// 	double	a;
+// 	double	disc;
+// 	double	tt[2];
+// 	double	tmp;
+
+// 	tt[0] = DBL_MAX;
+// 	tt[1] = DBL_MAX;
+// 	t_dot	mult = multiply_vector(&cyl->orientation_vec, dot_product_of_vectors(d,
+// 					&cyl->orientation_vec));
+// 	mult = subtraction_vector(d, &mult);
+// 	t_dot	sub=subtraction_vector(&o, &cyl->coordinates);
+// 	sub = multiply_vector(&cyl->orientation_vec, dot_product_of_vectors(&sub, &cyl->orientation_vec));
+// 	t_dot	sub2=subtraction_vector(&o, &cyl->coordinates);
+// 	sub = subtraction_vector(&sub2, &sub);
+// 	a = dot_product_of_vectors(&mult, &mult);
+// 	b = 2 * dot_product_of_vectors(&mult, &sub);
+// 	c = dot_product_of_vectors(&sub, &sub) - (cyl->radius * cyl->radius);
+// 	//	* dot_product_of_vectors(&cyl->orientation_vec, &cyl->orientation_vec));
+// 	disc = b * b - 4 * a * c;
+// 	//if (disc < 0)
+// 	//	return (DBL_MAX);
+// 	tt[0] = (-b - sqrt(disc)) / (2 * a);
+// 	tt[1] = (-b + sqrt(disc)) / (2 * a);
+// 	if (tt[0] < EPSILON && tt[1] < EPSILON)
+// 		return (DBL_MAX);
+// 	disks(&o, d, cyl, inf, tt);
+// 	double	dd;
+// 	dd = cap_intersection(&o, d, cyl, inf);
+// 	if (dd < tt[0])
+// 		return (dd);
+// 	return (tt[0]);
+// }
+
+
+double	capsssex(t_figure *cyl, t_dot *d, t_inter_point inter_point, t_dot *o)
+{
+	double a;
+	double max;
+	t_ray	ray;
+	ray.origin = *o;
+	ray.direction = *d;
+	ft_get_normal(ray, cyl->coordinates, &inter_point);
+	max = sqrt(pow(cyl->height / 2.0, 2) + pow(cyl->radius, 2));
+	if (get_norm(sub(inter_point.coord, cyl->coordinates)) > max)
+	{
+		inter_point.t = (inter_point.t2);
+		ft_get_normal(ray, cyl->coordinates, &inter_point);
+	}
+	if (get_norm(sub(inter_point.coord, cyl->coordinates)) > max)
+		return (DBL_MAX);
+	a = dot(cyl->orientation_vec, sub(inter_point.coord, cyl->coordinates));
+	inter_point.normal = normalize(sub(inter_point.coord, add(cyl->coordinates,
+									ft_scale(cyl->orientation_vec, a))));
+	a = dot(ray.direction, inter_point.normal);
+	if (a > 0)
+		inter_point.normal = ft_scale(inter_point.normal, -1);
+	return (inter_point.t);
+	double	lol = cap_intersection(o, d, cyl);
+	return (lol < inter_point.t ? lol : inter_point.t);
+}
+
 double	intersect_ray_cylinder(t_dot o, t_dot *d, t_figure *cyl,
 									t_inf *inf)
 {
-	double	b;
-	double	c;
-	double	a;
-	double	disc;
-	double	tt[2];
-	double	tmp;
+	t_inter_point	inter_point;
 
-	tt[0] = DBL_MAX;
-	tt[1] = DBL_MAX;
-	t_dot	mult = multiply_vector(&cyl->orientation_vec, dot_product_of_vectors(d,
-					&cyl->orientation_vec));
-	mult = subtraction_vector(d, &mult);
+	normalize_vector(&cyl->orientation_vec);
+	t_dot	cross=vec_cross(d, &cyl->orientation_vec);
+	t_dot	c_to_o = subtraction_vector(&o, &cyl->coordinates);
+	t_dot	cross2=vec_cross(&c_to_o, &cyl->orientation_vec);
+	// t_dot	cross3=vec_cross(&c_to_o, &cyl->orientation_vec);
 	t_dot	sub=subtraction_vector(&o, &cyl->coordinates);
-	sub = multiply_vector(&cyl->orientation_vec, dot_product_of_vectors(&sub, &cyl->orientation_vec));
-	t_dot	sub2=subtraction_vector(&o, &cyl->coordinates);
-	sub = subtraction_vector(&sub2, &sub);
-	a = dot_product_of_vectors(&mult, &mult);
-	b = 2 * dot_product_of_vectors(&mult, &sub);
-	c = dot_product_of_vectors(&sub, &sub) - (cyl->radius * cyl->radius);
-	//	* dot_product_of_vectors(&cyl->orientation_vec, &cyl->orientation_vec));
-	disc = b * b - 4 * a * c;
-	//if (disc < 0)
-	//	return (DBL_MAX);
-	tt[0] = (-b - sqrt(disc)) / (2 * a);
-	tt[1] = (-b + sqrt(disc)) / (2 * a);
-	if (tt[0] < EPSILON && tt[1] < EPSILON)
+	double	a = dot_product_of_vectors(&cross, &cross);
+	double	b = 2 * dot_product_of_vectors(&cross, &cross2);
+	double	c = dot_product_of_vectors(&cross2, &cross2) - cyl->radius * cyl->radius;
+	double	delta = b * b - 4 * c * a;
+	if (delta < 0)
 		return (DBL_MAX);
-	disks(&o, d, cyl, inf, tt);
-	double	dd;
-	dd = cap_intersection(&o, d, cyl, inf);
-	if (dd < tt[0])
-		return (dd);
-	return (tt[0]);
+	inter_point.t1 = (-b - sqrt(delta)) / (2 * a);
+	inter_point.t2 = (-b + sqrt(delta)) / (2 * a);
+	if (inter_point.t2 < 0 && inter_point.t1 < 0)
+		return (DBL_MAX);
+	inter_point.t = inter_point.t1 < inter_point.t2 ? inter_point.t1 : inter_point.t2;
+	// return (inter_point.t);
+	return (capsssex(cyl, d, inter_point, &o));
 }
+
 
 double	intersect_ray_sphere(t_dot cam_sphere, t_dot *ray, t_figure *sphere, t_inf *inf)
 {
@@ -233,7 +288,7 @@ void	closest_figure(t_dot *origin, t_figure *figure, t_inf *inf, t_intersec *cls
 		tt = intersect_ray_cone(subtraction_vector(origin,
 					&figure->coordinates), inf->ray, figure, inf);
 	else if (figure->type == PLANE_TYPE)
-		tt = intersect_ray_plane(&inf->cam.view_point, inf->ray, &figure->coordinates, &figure->orientation_vec, inf);
+		tt = intersect_ray_plane(&inf->cam.view_point, inf->ray, &figure->coordinates, &figure->orientation_vec);
 	else
 		return ;
 	if (tt > cls->t_min && tt < cls->closest_t)

@@ -112,3 +112,65 @@ double	distance(t_dot p1, t_dot p2)
 	d = sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2) + pow(p2.z - p1.z, 2));
 	return (d);
 }
+
+void	ft_get_normal(t_ray ray, t_dot obj_pos,
+		t_inter_point *inter_point)
+{
+	ray.direction.x *= inter_point->t;
+	ray.direction.y *= inter_point->t;
+	ray.direction.z *= inter_point->t;
+	inter_point->coord = addition_vector(&ray.origin, &ray.direction);
+	inter_point->normal = subtraction_vector(&inter_point->coord, &obj_pos);
+	normalize_vector(&inter_point->normal);
+}
+
+t_dot	sub(t_dot a, t_dot b)
+{
+	t_dot vect;
+
+	vect.x = a.x - b.x;
+	vect.y = a.y - b.y;
+	vect.z = a.z - b.z;
+	return (vect);
+}
+
+double	dot(t_dot a, t_dot b)
+{
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
+}
+
+double	get_norm(t_dot vect)
+{
+	return (sqrt(dot(vect, vect)));
+}
+
+t_dot	ft_scale(t_dot a, double b)
+{
+	a.x *= b;
+	a.y *= b;
+	a.z *= b;
+	return (a);
+}
+
+t_dot	add(t_dot a, t_dot b)
+{
+	t_dot vect;
+
+	vect.x = a.x + b.x;
+	vect.y = a.y + b.y;
+	vect.z = a.z + b.z;
+	return (vect);
+}
+
+t_dot	normalize(t_dot a)
+{
+	t_dot vect;
+	double len;
+
+	len = get_norm(a);
+	vect.x = a.x / len;
+	vect.y = a.y / len;
+	vect.z = a.z / len;
+	return (vect);
+}
+

@@ -86,6 +86,28 @@ typedef struct s_vplane
 	unsigned char		fov;
 }t_vplane;
 
+
+typedef struct	s_ray
+{
+	t_dot		origin;
+	t_dot		direction;
+}				t_ray;
+
+typedef struct	s_inter_point
+{
+	double		t;
+	double		t1;
+	double		t2;
+	t_dot		coord;
+	t_dot		normal;
+	int			hit;
+	double		pixel_intensity;
+	int			color;
+	int			id;
+	int			type;
+	t_ray		ray;
+}				t_inter_point;
+
 typedef struct s_ambient
 {
 	t_rgb				rgb;
@@ -197,7 +219,15 @@ void		closest_sphere(t_dot *origin, t_figure *figure, t_inf *inf, t_intersec *cl
 double		intersect_ray_cylinder(t_dot cam_cyl, t_dot *ray,
 t_figure *cyl, t_inf *inf);
 double		distance(t_dot p1, t_dot p2);
-t_dot	vec_cross(t_dot *vector_a, t_dot *vector_b);
-t_dot	vec_add(t_dot vector_a, t_dot vector_b);
+t_dot		vec_cross(t_dot *vector_a, t_dot *vector_b);
+t_dot		vec_add(t_dot vector_a, t_dot vector_b);
+t_dot		sub(t_dot a, t_dot b);
+double		dot(t_dot a, t_dot b);
+t_dot		normalize(t_dot a);
+t_dot		add(t_dot a, t_dot b);
+t_dot		ft_scale(t_dot a, double b);
+void		ft_get_normal(t_ray ray, t_dot obj_pos,
+		t_inter_point *inter_point);
+double		get_norm(t_dot vect);
 
 # endif
