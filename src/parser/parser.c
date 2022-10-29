@@ -56,7 +56,7 @@ static char	set_sphere(t_inf *inf, char **split)
 	sphere->type = SPHERE_TYPE;
 	sphere->coordinates = set_coordinates(inf, split[1]);
 	sphere->rgb = set_rgb(inf, split[3]);
-	sphere->radius = ft_dbatoi(split[2]) / 2;
+	sphere->radius = ft_dbatoi(split[2]) / 2.0;
 	sphere->refl = ft_atoi(split[4]);
 	sphere->next = NULL;
 	if (!inf->figures)
@@ -110,7 +110,7 @@ static char	set_cylinder(t_inf *inf, char **split, char type)
 	cylinder->orientation_vec = set_coordinates(inf, split[2]);
 	//normalize_vector(&cylinder->orientation_vec);
 	//printf("%g:%g:%g\n", cylinder->orientation_vec.x, cylinder->orientation_vec.y, cylinder->orientation_vec.z);
-	cylinder->radius = ft_dbatoi(split[3]);
+	cylinder->radius = ft_dbatoi(split[3]) / 2.0;
 	cylinder->height = (double)ft_dbatoi(split[4]);
 	//if (type == CYLINDER_TYPE)
 	//	cylinder->height /= 2.0;

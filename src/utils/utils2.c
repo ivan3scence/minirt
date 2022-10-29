@@ -60,3 +60,10 @@ void	*free_split(char **split)
 	free(split);
 	return (NULL);
 }
+
+double	min(double a, double b)
+{
+	if (a <= b)
+		return (a);
+	return (b);
+}
