@@ -1,5 +1,15 @@
 #include "minirt.h"
 
+t_rgb	change_color_light(t_inf *inf, t_rgb *start_rgb)
+{
+	t_rgb with_light;
+
+	with_light.r = start_rgb->r + inf->amb.rgb.r;
+	with_light.g = start_rgb->g + inf->amb.rgb.g;
+	with_light.b = start_rgb->b + inf->amb.rgb.b;
+	return (with_light);
+}
+
 t_rgb	change_color_intensity(t_rgb *color, double intense)
 {
 	t_rgb	rgb;
@@ -20,6 +30,7 @@ double	compute_lightning(t_dot vec_l, t_inf *inf, double spec)
 
 	intense = inf->amb.ratio;
 	inf->ray = &vec_l;
+
 	closest_intersection(&inf->params.point, inf, &cls);
 	if (is_intersect(&cls, inf, &inf->params.point, 0))
 		return (intense);

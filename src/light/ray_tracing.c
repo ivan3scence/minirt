@@ -64,6 +64,8 @@ double	intersect_ray_cone(t_dot cam, t_dot *ray,
 	double	tt[2];
 	double	tan;
 
+	(void)*inf;
+
 	tt[0] = DBL_MAX;
 	tt[1] = DBL_MAX;
 	tan = cone->radius * cone->radius / cone->height / cone->height;
@@ -168,6 +170,7 @@ void	get_color(t_dot *origin, t_rgb *rgb, char depth, t_inf *inf)
 {
 	t_intersec	cls;
 	t_rgb		color_without_reflection;
+	t_rgb		tmp_light;
 
 	if (!is_intersect(&cls, inf, origin, 1))
 		return (background(rgb));
@@ -179,7 +182,8 @@ void	get_color(t_dot *origin, t_rgb *rgb, char depth, t_inf *inf)
 	inf->params.normal = multiply_vector(&inf->params.normal, 1.0
 			/ vector_length(&inf->params.normal));
 	inf->params.view = multiply_vector(inf->ray, -1);
-	color_without_reflection = change_color_intensity(rgb,
+	tmp_light = change_color_light(inf, rgb);
+	color_without_reflection = change_color_intensity(&tmp_light,
 			compute_lightning(subtraction_vector(&inf->light.l_point,
 					&inf->params.normal), inf, 100));
 	if (depth == START_RECURSION)
@@ -199,6 +203,11 @@ void	ray_tracing(t_inf *inf, int mlx_y, int mlx_x, double y)
 	t_vplane	vplane;
 	t_dot		ray;
 	t_rgb		color;
+
+	// printf("%f--->r\n", inf->amb.rgb.r);
+	// printf("%f--->g\n", inf->amb.rgb.g);
+	// printf("%f--->b\n", inf->amb.rgb.b);
+	// inf->amb.rgb.r;
 
 	vplane = get_view_plane(WIDTH, HEIGHT, inf->cam.fov);
 	while (y > -HEIGHT / 2)

@@ -24,8 +24,8 @@
 # include "mlx.h"
 # include "get_next_line_bonus.h"
 
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 1280
+# define HEIGHT 720
 
 # define EPSILON 1e-5
 
@@ -231,5 +231,8 @@ void		ft_get_normal(t_ray ray, t_dot obj_pos,
 		t_inter_point *inter_point);
 double		get_norm(t_dot vect);
 double		min(double a, double b);
+
+
+t_rgb	change_color_light(t_inf *inf, t_rgb *start_rgb);
 
 # endif

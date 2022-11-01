@@ -57,6 +57,7 @@ double	intersect_ray_cylinder(t_dot *o, t_dot *d, t_figure *cyl)
 	t_dot	c_to_o = subtraction_vector(o, &cyl->coordinates);
 	t_dot	cross2=vec_cross(&c_to_o, &cyl->orientation_vec);
 	t_dot	sub=subtraction_vector(o, &cyl->coordinates);
+	(void)sub;
 	double	a = dot_product_of_vectors(&cross, &cross);
 	double	b = 2 * dot_product_of_vectors(&cross, &cross2);
 	double	c = dot_product_of_vectors(&cross2, &cross2) - cyl->radius * cyl->radius;
