@@ -13,22 +13,71 @@ t_vplane	get_view_plane(double width, double height, unsigned char fov)
 	return (vplane);
 }
 
+//double  plane_dist(t_dot *orientation_vec, t_dot *o, t_dot *coordinates)
+//{
+//    return (fabs(coordinates->x * orientation_vec->x + coordinates->y * orientation_vec->y + coordinates->z * orientation_vec->z
+//        - (coordinates->x * o->x + coordinates->y * o->y
+//        + coordinates->z * o->z)));
+//}
+//
+//double	intersect_ray_plane(t_dot *o, t_dot *ray, t_dot *coordinates, t_dot *orientation_vec)
+//{
+//	double	tt;
+//	double	denom;
+//
+//	tt = DBL_MAX;
+//    (void)ray;
+//
+//    denom = plane_dist(orientation_vec, o, coordinates);
+//    if (denom < tt)
+//        return (denom);
+//    else
+//        return (tt);
+//}
+
 double	intersect_ray_plane(t_dot *o, t_dot *ray, t_dot *coordinates, t_dot *orientation_vec)
 {
-	t_dot	hui;
-	double	tt;
-	double	denom;
+    t_dot	hui;
+    double	tt;
+    double  dist;
+    double	denom;
+    double result;
 
-	tt = DBL_MAX;
-	denom = dot_product_of_vectors(orientation_vec, ray);
-	if (denom == 0)
-		return (tt);
-	hui = subtraction_vector(coordinates, o);
-	tt = dot_product_of_vectors(orientation_vec, &hui) / denom;
-	if (tt <= 0)
-		return (DBL_MAX);
-	return (tt);
+    tt = 0;
+    dist = INT_MAX;
+    denom = dot_product_of_vectors(orientation_vec, ray);
+    hui = subtraction_vector(coordinates, o);
+    tt = dot_product_of_vectors(orientation_vec, &hui);
+    result = fabs(tt - denom);
+    if (result < dist)
+        return (result);
+    else
+        return (dist);
 }
+
+//double	intersect_ray_plane(t_dot *o, t_dot *ray, t_dot *coordinates, t_dot *orientation_vec)
+//{
+////    t_dot	hui;
+//    double	tt;
+//    double	denom;
+//    double result;
+//
+//    tt = DBL_MAX;
+//    (void)ray;
+//    denom = dot_product_of_vectors(orientation_vec, coordinates);
+////    if (denom == 0)
+////        return (tt);
+////    hui = subtraction_vector(coordinates, o);
+//    tt = dot_product_of_vectors(orientation_vec, o);
+//    result = fabs(tt - denom);
+//    if (result < INT_MAX)
+//        return (result);
+//    else
+//        return (INT_MAX);
+////    if (tt <= 0)
+////        return (DBL_MAX);
+////    return (tt);
+//}
 
 double	intersect_ray_sphere(t_dot cam_sphere, t_dot *ray, t_figure *sphere)
 {
