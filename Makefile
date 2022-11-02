@@ -1,5 +1,5 @@
 #CFLAGS =			-Wall -Wextra -Werror -g -fsanitize=address
-CFLAGS =			-g -fsanitize=address
+CFLAGS =			-g -fsanitize=address -D MACOS=1
 
 HDRS =				minirt.h
 

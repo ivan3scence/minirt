@@ -10,13 +10,15 @@ t_dot	new_dot(double x, double y, double z)
 	return (new);
 }
 
-t_rgb	new_rgb(unsigned char x, unsigned char y, unsigned char z)
+t_rgb	new_rgb(double x, double y, double z, t_inf *inf)
 {
 	t_rgb	new;
 
-	new.r = x;
-	new.g = y;
-	new.b = z;
+	if (x < 0 || y < 0 || z < 0)
+		free_exit(INCORRECT_RGB, inf, SYNTAX_ERROR);
+	new.r = (unsigned char)x % 256;
+	new.g = (unsigned char)y % 256;
+	new.b = (unsigned char)z % 256;
 	return (new);
 }
 

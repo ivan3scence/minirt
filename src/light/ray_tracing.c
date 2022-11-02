@@ -212,7 +212,7 @@ void	ray_tracing(t_inf *inf, int mlx_y, int mlx_x, double y)
 	vplane = get_view_plane(WIDTH, HEIGHT, inf->cam.fov);
 	while (y > -HEIGHT / 2)
 	{
-		write(1, "\7", 1);
+		//write(1, "\7", 1);
 		ray_coord[1] = y * vplane.y_pixel;
 		x = -WIDTH / 2;
 		mlx_x = -1;

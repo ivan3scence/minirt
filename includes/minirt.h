@@ -29,13 +29,30 @@
 
 # define EPSILON 1e-5
 
-# define SYNTAX "wrong scene syntax"
-# define MALLOC "malloc rip"
-# define BYE "bye, have a great time\n"
-# define RT "need *.rt file only"
-# define FILE_ERR "can not open file"
-# define ERROR "ERROR!"
 
+// ERROR MESSAGES
+# define SYNTAX "Wrong scene syntax"
+# define NO_TOKEN "Was found impossible token or second camera/ambiant light!"
+# define MALLOC "Malloc rip"
+# define BYE "bye, have a great time\n"
+# define RT "Need *.rt file only"
+# define FILE_ERR "Can not open file"
+# define COORD_RANGE "Too large coordinates, bro"
+# define ZERO_NORM "Normal can not be zero, bro"
+# define ERROR "ERROR!"
+# define INCORRECT_RGB "Incorrect rgb!"
+# define NUM_COORDS "Wrong number of coordinates!"
+# define NOT_DIGIT "Wrong numeric argument!"
+# define BAD_RADIUS "Too large radius, bro"
+# define WRONG_DOT "There is no integer part of number!"
+# define AMB_RANGE "Ambient ratio is not in range!"
+# define NORMAL_RANGE "Normal's range is [-1; 1]!"
+# define NO_CUUM "No camera is defined!"
+# define NO_AMB "No ambian light is defined!"
+# define FOV_GOVNO "Wrong fild of view, bro, try something like 30, 60 or maybe 179"
+
+
+// ERROR CODES
 # define SYNTAX_ERROR 228
 # define MALLOC_ERROR 11
 # define GAY 88
@@ -43,10 +60,13 @@
 # define SEX 13
 # define ERROR_CODE 15
 
+
+// FIGURES TYPES
 # define SPHERE_TYPE 1
 # define PLANE_TYPE 2
 # define CYLINDER_TYPE 3
 # define CONE_TYPE 4
+
 
 # define T_MIN 0
 # define T_MAX DBL_MAX
@@ -54,6 +74,22 @@
 # define ONLY_FREE -228
 
 # define START_RECURSION -2
+# define NORMAL 1
+# define NOT_NORMAL 0
+
+
+// KEYCODES 
+//
+// LINUX
+# ifdef LINUX
+# define ESC 65307
+
+# endif
+// MACOS
+# ifdef MACOS
+# define ESC 53
+
+# endif
 
 typedef struct s_env
 {
@@ -112,6 +148,7 @@ typedef struct s_ambient
 {
 	t_rgb				rgb;
 	double				ratio;
+	char 				quantity;
 }t_ambient;
 
 typedef struct s_camera
@@ -119,6 +156,7 @@ typedef struct s_camera
 	t_dot				view_point;
 	t_dot				n_vector;
 	unsigned char		fov;
+	char 				quantity;
 }t_camera;
 
 typedef struct s_light
@@ -192,14 +230,14 @@ double		vector_length(t_dot *vector);
 int			create_trgb(int t, int r, int g, int b);
 t_dot		subtraction_vector(t_dot *vector_a, t_dot *vector_b);
 void		my_mlx_pixel_put(t_inf *data, int x, int y, int color);
-t_rgb 		new_rgb(unsigned char x, unsigned char y, unsigned char z);
+t_rgb 		new_rgb(double x, double y, double z, t_inf *inf);
 t_dot 		new_dot(double x, double y, double z);
 t_inf		*parse(char *filename);
-double		ft_dbatoi(char *str);
+double		ft_dbatoi(char *str, t_inf *inf);
 int			ft_arrlen(char **split);
 void		ft_clean_split(char **split);
 t_rgb		set_rgb(t_inf *inf, char *str);
-t_dot		set_coordinates(t_inf *inf, char *str);
+t_dot		set_coordinates(t_inf *inf, char *str, char flag);
 t_figure	*ft_last_figure(t_figure *fig);
 void 		free_exit(char *desc, t_inf *inf, int exit_code);
 void		*free_split(char **split);
@@ -231,6 +269,7 @@ void		ft_get_normal(t_ray ray, t_dot obj_pos,
 		t_inter_point *inter_point);
 double		get_norm(t_dot vect);
 double		min(double a, double b);
+double		set_radius(double diametr, t_inf *inf);
 
 
 t_rgb	change_color_light(t_inf *inf, t_rgb *start_rgb);
