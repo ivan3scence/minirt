@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minirt.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdonny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/13 12:59:08 by sdonny            #+#    #+#             */
+/*   Updated: 2022/06/11 15:20:12 by sdonny           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
-double	cap_intersection(t_dot *o, t_dot *d, t_figure *cyl, t_dot (*func)(t_dot*, t_dot*))
+double	cap_intersection(t_dot *o, t_dot *d, t_figure *cyl,
+		t_dot (*func)(t_dot*, t_dot*))
 {
 	double	id1;
 	double	lol;
@@ -23,11 +36,13 @@ double	cap_intersection(t_dot *o, t_dot *d, t_figure *cyl, t_dot (*func)(t_dot*,
 	return (DBL_MAX);
 }
 
-static double	capsssex(t_figure *cyl, t_dot *d, t_inter_point inter_point, t_dot *o)
+static double	capsssex(t_figure *cyl, t_dot *d, t_inter_point inter_point,
+				t_dot *o)
 {
-	double a;
-	double max;
+	double	a;
+	double	max;
 	t_ray	ray;
+
 	ray.origin = *o;
 	ray.direction = *d;
 	ft_get_normal(ray, cyl->coordinates, &inter_point);
@@ -41,7 +56,7 @@ static double	capsssex(t_figure *cyl, t_dot *d, t_inter_point inter_point, t_dot
 		return (DBL_MAX);
 	a = dot(cyl->orientation_vec, sub(inter_point.coord, cyl->coordinates));
 	inter_point.normal = normalize(sub(inter_point.coord, add(cyl->coordinates,
-									ft_scale(cyl->orientation_vec, a))));
+					ft_scale(cyl->orientation_vec, a))));
 	a = dot(ray.direction, inter_point.normal);
 	if (a > 0)
 		inter_point.normal = ft_scale(inter_point.normal, -1);
@@ -51,34 +66,38 @@ static double	capsssex(t_figure *cyl, t_dot *d, t_inter_point inter_point, t_dot
 double	intersect_ray_cylinder(t_dot *o, t_dot *d, t_figure *cyl)
 {
 	t_inter_point	inter_point;
+	t_ri_cyl		ri;
 
 	normalize_vector(&cyl->orientation_vec);
-	t_dot	cross=vec_cross(d, &cyl->orientation_vec);
-	t_dot	c_to_o = subtraction_vector(o, &cyl->coordinates);
-	t_dot	cross2=vec_cross(&c_to_o, &cyl->orientation_vec);
-	t_dot	sub=subtraction_vector(o, &cyl->coordinates);
-	(void)sub;
-	double	a = dot_product_of_vectors(&cross, &cross);
-	double	b = 2 * dot_product_of_vectors(&cross, &cross2);
-	double	c = dot_product_of_vectors(&cross2, &cross2) - cyl->radius * cyl->radius;
-	double	delta = b * b - 4 * c * a;
-	if (delta < 0)
+	ri.cross = vec_cross(d, &cyl->orientation_vec);
+	ri.c_to_o = subtraction_vector(o, &cyl->coordinates);
+	ri.cross2 = vec_cross(&ri.c_to_o, &cyl->orientation_vec);
+	ri.sub = subtraction_vector(o, &cyl->coordinates);
+	ri.a = dot_product_of_vectors(&ri.cross, &ri.cross);
+	ri.b = 2 * dot_product_of_vectors(&ri.cross, &ri.cross2);
+	ri.c = dot_product_of_vectors(&ri.cross2, &ri.cross2)
+		- cyl->radius * cyl->radius;
+	ri.delta = ri.b * ri.b - 4 * ri.c * ri.a;
+	if (ri.delta < 0)
 		return (DBL_MAX);
-	inter_point.t1 = (-b - sqrt(delta)) / (2 * a);
-	inter_point.t2 = (-b + sqrt(delta)) / (2 * a);
+	inter_point.t1 = (-ri.b - sqrt(ri.delta)) / (2 * ri.a);
+	inter_point.t2 = (-ri.b + sqrt(ri.delta)) / (2 * ri.a);
 	if (inter_point.t2 < 0 && inter_point.t1 < 0)
 		return (DBL_MAX);
-	inter_point.t = inter_point.t1 < inter_point.t2 ? inter_point.t1 : inter_point.t2;
+	inter_point.t = inter_point.t1;
+	if (inter_point.t2 < inter_point.t1)
+		inter_point.t = inter_point.t2;
 	return (capsssex(cyl, d, inter_point, o));
 }
-
 
 double	cyl_and_cap_inter(t_dot o, t_dot *d, t_figure *cyl)
 {
 	double	cyl_iner;
-	double	cap1_inter=DBL_MAX;
-	double	cap2_inter=DBL_MAX;
+	double	cap1_inter;
+	double	cap2_inter;
 
+	cap1_inter = DBL_MAX;
+	cap2_inter = DBL_MAX;
 	cyl_iner = intersect_ray_cylinder(&o, d, cyl);
 	cap1_inter = cap_intersection(&o, d, cyl, &addition_vector);
 	cap1_inter = cap_intersection(&o, d, cyl, &subtraction_vector);

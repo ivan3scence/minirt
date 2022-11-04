@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minirt.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdonny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/13 12:59:08 by sdonny            #+#    #+#             */
+/*   Updated: 2022/06/11 15:20:12 by sdonny           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
 
 t_figure	*ft_last_figure(t_figure *fig)
@@ -59,11 +71,4 @@ void	*free_split(char **split)
 		free(split[i]);
 	free(split);
 	return (NULL);
-}
-
-double	min(double a, double b)
-{
-	if (a <= b)
-		return (a);
-	return (b);
 }

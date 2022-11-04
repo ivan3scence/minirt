@@ -12,48 +12,47 @@
 
 #include "minirt.h"
 
-t_dot	new_dot(double x, double y, double z)
+t_dot	vec_cross(t_dot *vector_a, t_dot *vector_b)
 {
-	t_dot	new;
+	t_dot	v;
 
-	new.x = x;
-	new.y = y;
-	new.z = z;
-	return (new);
+	v.x = vector_a->y * vector_b->z - vector_a->z * vector_b->y;
+	v.y = vector_a->z * vector_b->x - vector_a->x * vector_b->z;
+	v.z = vector_a->x * vector_b->y - vector_a->y * vector_b->x;
+	return (v);
 }
 
-t_rgb	new_rgb(double x, double y, double z, t_inf *inf)
+double	get_norm(t_dot vect)
 {
-	t_rgb	new;
-
-	if (x < 0 || y < 0 || z < 0)
-		free_exit(INCORRECT_RGB, inf, SYNTAX_ERROR);
-	new.r = (unsigned char)x % 256;
-	new.g = (unsigned char)y % 256;
-	new.b = (unsigned char)z % 256;
-	return (new);
+	return (sqrt(dot(vect, vect)));
 }
 
-t_dot	subtraction_vector(t_dot *vector_a, t_dot *vector_b)
+t_dot	ft_scale(t_dot a, double b)
 {
-	return (new_dot(vector_a->x - vector_b->x, vector_a->y - vector_b->y,
-			vector_a->z - vector_b->z));
+	a.x *= b;
+	a.y *= b;
+	a.z *= b;
+	return (a);
 }
 
-t_dot	addition_vector(t_dot *vector_a, t_dot *vector_b)
+t_dot	add(t_dot a, t_dot b)
 {
-	t_dot	vector_c;
+	t_dot	vect;
 
-	vector_c = new_dot(vector_a->x + vector_b->x, vector_a->y + vector_b->y,
-			vector_a->z + vector_b->z);
-	return (vector_c);
+	vect.x = a.x + b.x;
+	vect.y = a.y + b.y;
+	vect.z = a.z + b.z;
+	return (vect);
 }
 
-double	vector_length(t_dot *vector)
+t_dot	normalize(t_dot a)
 {
-	double	length;
+	t_dot	vect;
+	double	len;
 
-	length = sqrt((vector->x * vector->x)
-			+ (vector->y * vector->y) + (vector->z * vector->z));
-	return (length);
+	len = get_norm(a);
+	vect.x = a.x / len;
+	vect.y = a.y / len;
+	vect.z = a.z / len;
+	return (vect);
 }

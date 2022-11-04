@@ -12,48 +12,46 @@
 
 #include "minirt.h"
 
-t_dot	new_dot(double x, double y, double z)
+t_dot	vec_add(t_dot vector_a, t_dot vector_b)
 {
-	t_dot	new;
+	t_dot	v;
 
-	new.x = x;
-	new.y = y;
-	new.z = z;
-	return (new);
+	v.x = vector_a.x + vector_b.x;
+	v.y = vector_a.y + vector_b.y;
+	v.z = vector_a.z + vector_b.z;
+	return (v);
 }
 
-t_rgb	new_rgb(double x, double y, double z, t_inf *inf)
+double	distance(t_dot p1, t_dot p2)
 {
-	t_rgb	new;
+	double	d;
 
-	if (x < 0 || y < 0 || z < 0)
-		free_exit(INCORRECT_RGB, inf, SYNTAX_ERROR);
-	new.r = (unsigned char)x % 256;
-	new.g = (unsigned char)y % 256;
-	new.b = (unsigned char)z % 256;
-	return (new);
+	d = sqrt(pow(p2.x - p1.x, 2) + pow(p2.y - p1.y, 2) + pow(p2.z - p1.z, 2));
+	return (d);
 }
 
-t_dot	subtraction_vector(t_dot *vector_a, t_dot *vector_b)
+void	ft_get_normal(t_ray ray, t_dot obj_pos,
+		t_inter_point *inter_point)
 {
-	return (new_dot(vector_a->x - vector_b->x, vector_a->y - vector_b->y,
-			vector_a->z - vector_b->z));
+	ray.direction.x *= inter_point->t;
+	ray.direction.y *= inter_point->t;
+	ray.direction.z *= inter_point->t;
+	inter_point->coord = addition_vector(&ray.origin, &ray.direction);
+	inter_point->normal = subtraction_vector(&inter_point->coord, &obj_pos);
+	normalize_vector(&inter_point->normal);
 }
 
-t_dot	addition_vector(t_dot *vector_a, t_dot *vector_b)
+t_dot	sub(t_dot a, t_dot b)
 {
-	t_dot	vector_c;
+	t_dot	vect;
 
-	vector_c = new_dot(vector_a->x + vector_b->x, vector_a->y + vector_b->y,
-			vector_a->z + vector_b->z);
-	return (vector_c);
+	vect.x = a.x - b.x;
+	vect.y = a.y - b.y;
+	vect.z = a.z - b.z;
+	return (vect);
 }
 
-double	vector_length(t_dot *vector)
+double	dot(t_dot a, t_dot b)
 {
-	double	length;
-
-	length = sqrt((vector->x * vector->x)
-			+ (vector->y * vector->y) + (vector->z * vector->z));
-	return (length);
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
 }

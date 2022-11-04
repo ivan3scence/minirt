@@ -1,8 +1,34 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minirt.h                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: sdonny <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/13 12:59:08 by sdonny            #+#    #+#             */
+/*   Updated: 2022/06/11 15:20:12 by sdonny           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minirt.h"
+
+// KEYCODES
+// LINUX
+#ifdef LINUX
+# define ESC 65307
+
+#endif
+
+// MACOS
+
+#ifdef MACOS
+
+# define ESC 53
+
+#endif
 
 static int	close_win(void *inf)
 {
-	//free_exit(BYE, inf, 0);
 	ft_putstr_fd(BYE, 1);
 	exit(0);
 	(void)inf;
@@ -19,18 +45,18 @@ int	key(int keycode, t_inf *inf)
 int	main(int argc, char **argv)
 {
 	t_inf	*inf;
-	//printf("%g %g %g %g %g %g\n", ft_dbatoi("0"), ft_dbatoi("0.1"), ft_dbatoi("123.321"), ft_dbatoi("00000"), ft_dbatoi("123456"), ft_dbatoi("0.000004"));
+
 	printf("%g %g\n", DBL_MIN, DBL_MAX);
 	printf("%g %g\n", ft_dbatoi("-123", NULL), ft_dbatoi("-0.456", NULL));
 	printf("%g %g\n", DBL_MIN, DBL_MAX);
+	//printf("%g %g %g %g %g %g\n", ft_dbatoi("0"), ft_dbatoi("0.1"), ft_dbatoi("123.321"), ft_dbatoi("00000"), ft_dbatoi("123456"), ft_dbatoi("0.000004"));
 	if (argc < 2)
 	{
 		ft_putstr_fd("o_O?\twhere is the map?\n", 2);
 		exit(GAY);
 	}
-	//ft_memset(&inf, 0, sizeof(inf));
 	inf = parse(argv[1]);
-	//printf("ratio %g  r %g g %g b %g\n", inf->amb.ratio,  inf->amb.rgb.r,  inf->amb.rgb.g, inf->amb.rgb.b);
+		//printf("ratio %g  r %g g %g b %g\n", inf->amb.ratio,  inf->amb.rgb.r,  inf->amb.rgb.g, inf->amb.rgb.b);
 	//printf("refl: %d\n", inf->figures->refl);
 ////	printf("x %g y %g z %g x %g y %g z %g fov %d\n", inf->cam.view_point.x,inf->cam.view_point.y,inf->cam.view_point.z,  inf->cam.n_vector.x,inf->cam.n_vector.y,inf->cam.n_vector.z,  inf->cam.fov);
 	//// printf("x %g y %g z %g brightness %g r %g g %g b %g\n", inf->light.l_point.x,inf->light.l_point.y,inf->light.l_point.z, inf->light.brightness,inf->light.rgb.r, inf->light.rgb.g, inf->light.rgb.b);
@@ -47,10 +73,10 @@ int	main(int argc, char **argv)
 	inf->win = mlx_new_window(inf->mlx, WIDTH, HEIGHT, "miniRT");
 	inf->img = mlx_new_image(inf->mlx, WIDTH, HEIGHT);
 	inf->addr = mlx_get_data_addr(inf->img, &inf->bpp, &inf->line_length,
-								 &inf->endian);
+			&inf->endian);
 	ray_tracing(inf, 0, 0, (double)HEIGHT / 2);
 	printf("end\n");
 	mlx_key_hook(inf->win, key, &inf);
-	mlx_hook(inf->win, 17, 0, close_win, &inf);;
+	mlx_hook(inf->win, 17, 0, close_win, &inf);
 	mlx_loop(inf->mlx);
 }
