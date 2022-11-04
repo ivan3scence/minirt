@@ -1,3 +1,5 @@
+.vscode
+.idea
 minirt
 .DS_S*
 .git*
