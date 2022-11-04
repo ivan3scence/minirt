@@ -23,9 +23,9 @@ static void	closest_figure(t_dot *origin, t_figure *figure, t_inf *inf,
 	else if (figure->type == CYLINDER_TYPE)
 		tt = cyl_and_cap_inter(subtraction_vector(origin,
 					&figure->coordinates), inf->ray, figure);
-	// else if (figure->type == CONE_TYPE)
-	// 	tt = intersect_ray_cone(subtraction_vector(origin,
-	// 				&figure->coordinates), inf->ray, figure, inf);
+	else if (figure->type == CONE_TYPE)
+		tt = cone_and_cap_inter(subtraction_vector(origin,
+					&figure->coordinates), inf->ray, figure);
 	else if (figure->type == PLANE_TYPE)
 		tt = intersect_ray_plane(&inf->cam.view_point, inf->ray,
 				&figure->coordinates, &figure->orientation_vec);

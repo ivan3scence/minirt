@@ -103,3 +103,64 @@ double	cyl_and_cap_inter(t_dot o, t_dot *d, t_figure *cyl)
 	cap1_inter = cap_intersection(&o, d, cyl, &subtraction_vector);
 	return (min(min(cyl_iner, cap1_inter), cap2_inter));
 }
+
+
+// double	intersect_ray_cone(t_dot cam, t_dot *ray,
+// 		t_figure *cone, t_inf *inf)
+// {
+// 	double	b;
+// 	double	c;
+// 	double	a;
+// 	double	disc;
+// 	double	tt[2];
+// 	double	tan;
+
+// 	(void)*inf;
+
+// 	tt[0] = DBL_MAX;
+// 	tt[1] = DBL_MAX;
+// 	tan = cone->radius * cone->radius / cone->height / cone->height;
+// 	a = cone_dot_product_of_vectors(ray, ray, tan);
+// 	b = 2 * cone_dot_product_of_vectors(&cam, ray, tan);
+// 	c = cone_dot_product_of_vectors(&cam, &cam, tan);
+// 	disc = b * b - 4 * a * c;
+// 	if (disc < EPSILON)
+// 		return (DBL_MAX);
+// 	tt[0] = (-b - sqrt(disc)) / (2 * a);
+// 	tt[1] = (-b + sqrt(disc)) / (2 * a);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// 	double y1 = cam.y + tt[0] * ray->y;
+// 	double y2 = cam.y + tt[1] * ray->y;
+// 	double ymin = cone->coordinates.y - cone->height;
+// 	double ymax = cone->coordinates.y;
+// 	if (y1 < ymin || y1 > ymax || y2 < ymin || y2 > ymax)
+// 	{
+// 		tt[0] = DBL_MAX;
+// 		tt[1] = DBL_MAX;
+// 	}
+// 	if ((y1 < y2 && y1 < ymin && y2 > ymin)
+// 		|| (y1 > y2 && y2 < ymin && y1 > ymin))
+// 		tt[0] = (ymin - cam.y) / ray->y;
+// 	if (tt[0] <= tt[1])
+// 		return (tt[0]);
+// 	return (tt[1]);
+// }

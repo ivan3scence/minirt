@@ -61,8 +61,8 @@ static char	analize(t_inf *inf, char *line)
 		errors += set_plane(inf, split);
 	else if (ft_strncmp(split[0], "cy", 3) == 0)
 		errors += set_cylinder(inf, split, CYLINDER_TYPE);
-	// else if (ft_strncmp(split[0], "cn", 3) == 0)
-	// 	errors += set_cylinder(inf, split, CONE_TYPE);
+	else if (ft_strncmp(split[0], "cn", 3) == 0)
+		errors += set_cylinder(inf, split, CONE_TYPE);
 	else
 		free_exit(NO_TOKEN, inf, SYNTAX_ERROR);
 	if (!errors)

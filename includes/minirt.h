@@ -232,6 +232,8 @@ double		intersect_ray_sphere(t_dot cam_sphere, t_dot *ray,
 				t_figure *sphere);
 double		intersect_ray_plane(t_dot *o, t_dot *ray, t_dot *coordinates,
 				t_dot *orientation_vec);
+double		cone_dot_product_of_vectors(t_dot *vector_a, t_dot *vector_b,
+				double tan);
 double		vector_length(t_dot *vector);
 int			create_trgb(int t, int r, int g, int b);
 t_dot		subtraction_vector(t_dot *vector_a, t_dot *vector_b);
@@ -248,6 +250,7 @@ t_figure	*ft_last_figure(t_figure *fig);
 void		free_exit(char *desc, t_inf *inf, int exit_code);
 void		*free_split(char **split);
 t_rgb		change_color_intensity(t_rgb *color, double intense);
+double		cyl_and_cap_inter(t_dot o, t_dot *d, t_figure *cyl);
 double		compute_lightning(t_dot vec_l, t_inf *inf, double spec,
 				t_parametrs *params);
 t_dot		multiply_vector(t_dot *vector, double num);
@@ -267,11 +270,12 @@ void		closest_sphere(t_dot *origin, t_figure *figure, t_inf *inf,
 				t_intersec *cls);
 double		intersect_ray_plane(t_dot *o, t_dot *ray, t_dot *coordinates,
 				t_dot *orientation_vec);
-double		cyl_and_cap_inter(t_dot o, t_dot *d, t_figure *cyl);
+// double		cyl_and_cap_inter(t_dot o, t_dot *d, t_figure *cyl);
 double		distance(t_dot p1, t_dot p2);
 t_dot		vec_cross(t_dot *vector_a, t_dot *vector_b);
 t_dot		vec_add(t_dot vector_a, t_dot vector_b);
 t_dot		sub(t_dot a, t_dot b);
+double		cone_and_cap_inter(t_dot o, t_dot *d, t_figure *cyl);
 double		dot(t_dot a, t_dot b);
 t_dot		normalize(t_dot a);
 t_dot		add(t_dot a, t_dot b);
