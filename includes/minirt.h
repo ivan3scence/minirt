@@ -230,8 +230,6 @@ double		cyl_dot_product_of_vectors(t_dot *vector_a, t_dot *vector_b);
 void		normalize_vector(t_dot *vector);
 double		intersect_ray_sphere(t_dot cam_sphere, t_dot *ray,
 				t_figure *sphere);
-double		intersect_ray_plane(t_dot *o, t_dot *ray, t_dot *coordinates,
-				t_dot *orientation_vec);
 double		cone_dot_product_of_vectors(t_dot *vector_a, t_dot *vector_b,
 				double tan);
 double		vector_length(t_dot *vector);
@@ -268,8 +266,8 @@ void		reflection(t_rgb *rgb, t_parametrs *params,
 				t_inf *inf, char depth);
 void		closest_sphere(t_dot *origin, t_figure *figure, t_inf *inf,
 				t_intersec *cls);
-double		intersect_ray_plane(t_dot *o, t_dot *ray, t_dot *coordinates,
-				t_dot *orientation_vec);
+double	intersect_ray_plane(t_dot o, t_dot *ray, t_dot *coordinates,
+                              t_dot *orientation_vec);
 // double		cyl_and_cap_inter(t_dot o, t_dot *d, t_figure *cyl);
 double		distance(t_dot p1, t_dot p2);
 t_dot		vec_cross(t_dot *vector_a, t_dot *vector_b);

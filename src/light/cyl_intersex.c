@@ -23,7 +23,7 @@ double	cap_intersection(t_dot *o, t_dot *d, t_figure *cyl,
 
 	ip1 = multiply_vector(&cyl->orientation_vec, cyl->height / 2.0);
 	c1 = (*func)(&cyl->coordinates, &ip1);
-	id1 = intersect_ray_plane(o, d, &c1, &cyl->orientation_vec);
+	id1 = intersect_ray_plane(*o, d, &c1, &cyl->orientation_vec);
 	if (id1 < DBL_MAX)
 	{
 		mult = multiply_vector(d, id1);

@@ -12,26 +12,89 @@
 
 #include "minirt.h"
 
-double	intersect_ray_plane(t_dot *o, t_dot *ray, t_dot *coordinates,
-		t_dot *orientation_vec)
-{
-	t_dot	hui;
-	double	tt;
-	double	dist;
-	double	denom;
-	double	result;
 
-	tt = 0;
-	dist = INT_MAX;
-	denom = dot_product_of_vectors(orientation_vec, ray);
-	hui = subtraction_vector(coordinates, o);
-	tt = dot_product_of_vectors(orientation_vec, &hui);
-	result = fabs(tt - denom);
-	if (result < dist)
-		return (result);
-	else
-		return (dist);
+double	intersect_ray_plane(t_dot o, t_dot *ray, t_dot *coordinates,
+                              t_dot *orientation_vec)
+{
+	// double	a;
+	// double	b;
+	// double tt;
+	// t_dot tmp;
+
+	// tmp = subtraction_vector(coordinates, &o);
+	// a = dot_product_of_vectors(&tmp, orientation_vec);
+	// b = dot_product_of_vectors(ray, orientation_vec);
+	// if (b == 0 || (a < 0 && b < 0) || (a > 0 && b > 0))
+	// 	return (0);
+	// tt = -a / b;
+	// if (fabs(tt) < EPSILON || fabs(tt) >= 9999)
+	// 	return (0);
+	// return (tt);
+
+
+
+	// double	a;
+	// double	b;
+	// t_dot tmp;
+	// double tt;
+
+	// tmp = subtraction_vector(coordinates, &o);
+	// a = dot_product_of_vectors(&tmp, orientation_vec);
+	// b = dot_product_of_vectors(ray, orientation_vec);
+	// if (b == 0 || (a < 0 && b < 0) || (a > 0 && b > 0))
+	// 	return (0);
+	// tt = -a / b;
+	// if (tt < 0 || EPSILON < tt)
+	// 	return (DBL_MAX);
+	// return (tt);
+
+	// double	denom;
+	// double	tt;
+	// double	x;
+	// t_dot norm_vec;
+
+	// norm_vec = normalize(*orientation_vec);
+	// tt = INT_MAX;
+	// (void)coordinates;
+	// denom = dot_product_of_vectors(&norm_vec, ray);
+	// if (fabs(denom) > 0)
+	// {
+	// 	x = dot_product_of_vectors(&o, &norm_vec) / denom;
+	// 	if (x > EPSILON && x < INT_MAX)
+	// 	{
+	// 		// printf("i");
+	// 		// impact->normal = normalize(plane.normal);
+	// 		// impact->pos = add_vect(ray.pos, multi_vect(ray.dir, x));
+	// 		// impact->pos = add_vect(impact->pos, multi_vect(impact->normal, EPSILON));
+	// 		// impact->dist = x;
+	// 		// printf("\t%.2f", impact->dist);
+	// 		tt = x;
+	// 	}
+	// }
+	// return (tt);
+
+
+	double	numerator;
+	double	denominator;
+	double	sol;
+
+	double tt;
+
+	tt = INT_MAX;
+	(void)coordinates;
+	denominator = dot_product_of_vectors(ray, orientation_vec);
+	if (fabs(denominator) < EPSILON)
+		return (tt);
+	numerator = dot_product_of_vectors(&o, orientation_vec);
+	sol = numerator / denominator;
+	if (sol < EPSILON || DBL_MAX <= sol)
+		return (tt);
+	tt = sol;
+	return (tt);
+
 }
+
+// t_dot hui;
 
 double	intersect_ray_sphere(t_dot cam_sphere, t_dot *ray, t_figure *sphere)
 {
@@ -81,7 +144,7 @@ double	cone_cap_intersection(t_dot *o, t_dot *d, t_figure *cyl,
 
 	ip1 = multiply_vector(&cyl->orientation_vec, cyl->height / 2.0);
 	c1 = (*func)(&cyl->coordinates, &ip1);
-	id1 = intersect_ray_plane(o, d, &c1, &cyl->orientation_vec);
+	id1 = intersect_ray_plane(*o, d, &c1, &cyl->orientation_vec);
 	if (id1 < DBL_MAX)
 	{
 		mult = multiply_vector(d, id1);

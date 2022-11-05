@@ -27,7 +27,8 @@ static void	closest_figure(t_dot *origin, t_figure *figure, t_inf *inf,
 		tt = cone_and_cap_inter(subtraction_vector(origin,
 					&figure->coordinates), inf->ray, figure);
 	else if (figure->type == PLANE_TYPE)
-		tt = intersect_ray_plane(&inf->cam.view_point, inf->ray,
+		tt = intersect_ray_plane(subtraction_vector(&figure->coordinates,
+					origin), inf->ray,
 				&figure->coordinates, &figure->orientation_vec);
 	else
 		return ;
