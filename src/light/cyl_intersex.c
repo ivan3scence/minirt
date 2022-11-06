@@ -12,6 +12,24 @@
 
 #include "minirt.h"
 
+static double	cyl_intersect_ray_plane(t_dot *o, t_dot *ray,
+				t_dot *coordinates, t_dot *orientation_vec)
+{
+	t_dot	hui;
+	double	tt;
+	double	denom;
+
+	tt = DBL_MAX;
+	denom = dot_product_of_vectors(orientation_vec, ray);
+	if (denom == 0)
+		return (tt);
+	hui = subtraction_vector(coordinates, o);
+	tt = dot_product_of_vectors(orientation_vec, &hui) / denom;
+	if (tt <= 0)
+		return (DBL_MAX);
+	return (tt);
+}
+
 double	cap_intersection(t_dot *o, t_dot *d, t_figure *cyl,
 		t_dot (*func)(t_dot*, t_dot*))
 {
@@ -23,7 +41,7 @@ double	cap_intersection(t_dot *o, t_dot *d, t_figure *cyl,
 
 	ip1 = multiply_vector(&cyl->orientation_vec, cyl->height / 2.0);
 	c1 = (*func)(&cyl->coordinates, &ip1);
-	id1 = intersect_ray_plane(*o, d, &c1, &cyl->orientation_vec);
+	id1 = cyl_intersect_ray_plane(o, d, &c1, &cyl->orientation_vec);
 	if (id1 < DBL_MAX)
 	{
 		mult = multiply_vector(d, id1);
