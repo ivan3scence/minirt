@@ -151,11 +151,9 @@ typedef struct s_figure
 {
 	char				type;
 	t_dot				coordinates;
-//	double				oc;					//вектор от камеры до центра сферы, чтобы не пересчитывать каждый раз
 	t_rgb				rgb;
 	t_dot				orientation_vec;
 	double				radius;
-	// double				rr;			//радиус сферы в квадрате, чтобы его не пересчитывать каждый раз
 	double				height;
 	char				refl;
 	double				dist1;
@@ -266,9 +264,8 @@ void		reflection(t_rgb *rgb, t_parametrs *params,
 				t_inf *inf, char depth);
 void		closest_sphere(t_dot *origin, t_figure *figure, t_inf *inf,
 				t_intersec *cls);
-double	intersect_ray_plane(t_dot o, t_dot *ray, t_dot *coordinates,
-                              t_dot *orientation_vec);
-// double		cyl_and_cap_inter(t_dot o, t_dot *d, t_figure *cyl);
+double		intersect_ray_plane(t_dot o, t_dot *ray, t_dot *coordinates,
+				t_dot *orientation_vec);
 double		distance(t_dot p1, t_dot p2);
 t_dot		vec_cross(t_dot *vector_a, t_dot *vector_b);
 t_dot		vec_add(t_dot vector_a, t_dot vector_b);

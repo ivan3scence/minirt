@@ -12,73 +12,13 @@
 
 #include "minirt.h"
 
-
 double	intersect_ray_plane(t_dot o, t_dot *ray, t_dot *coordinates,
-                              t_dot *orientation_vec)
+			t_dot *orientation_vec)
 {
-	// double	a;
-	// double	b;
-	// double tt;
-	// t_dot tmp;
-
-	// tmp = subtraction_vector(coordinates, &o);
-	// a = dot_product_of_vectors(&tmp, orientation_vec);
-	// b = dot_product_of_vectors(ray, orientation_vec);
-	// if (b == 0 || (a < 0 && b < 0) || (a > 0 && b > 0))
-	// 	return (0);
-	// tt = -a / b;
-	// if (fabs(tt) < EPSILON || fabs(tt) >= 9999)
-	// 	return (0);
-	// return (tt);
-
-
-
-	// double	a;
-	// double	b;
-	// t_dot tmp;
-	// double tt;
-
-	// tmp = subtraction_vector(coordinates, &o);
-	// a = dot_product_of_vectors(&tmp, orientation_vec);
-	// b = dot_product_of_vectors(ray, orientation_vec);
-	// if (b == 0 || (a < 0 && b < 0) || (a > 0 && b > 0))
-	// 	return (0);
-	// tt = -a / b;
-	// if (tt < 0 || EPSILON < tt)
-	// 	return (DBL_MAX);
-	// return (tt);
-
-	// double	denom;
-	// double	tt;
-	// double	x;
-	// t_dot norm_vec;
-
-	// norm_vec = normalize(*orientation_vec);
-	// tt = INT_MAX;
-	// (void)coordinates;
-	// denom = dot_product_of_vectors(&norm_vec, ray);
-	// if (fabs(denom) > 0)
-	// {
-	// 	x = dot_product_of_vectors(&o, &norm_vec) / denom;
-	// 	if (x > EPSILON && x < INT_MAX)
-	// 	{
-	// 		// printf("i");
-	// 		// impact->normal = normalize(plane.normal);
-	// 		// impact->pos = add_vect(ray.pos, multi_vect(ray.dir, x));
-	// 		// impact->pos = add_vect(impact->pos, multi_vect(impact->normal, EPSILON));
-	// 		// impact->dist = x;
-	// 		// printf("\t%.2f", impact->dist);
-	// 		tt = x;
-	// 	}
-	// }
-	// return (tt);
-
-
 	double	numerator;
 	double	denominator;
 	double	sol;
-
-	double tt;
+	double	tt;
 
 	tt = INT_MAX;
 	(void)coordinates;
@@ -91,10 +31,7 @@ double	intersect_ray_plane(t_dot o, t_dot *ray, t_dot *coordinates,
 		return (tt);
 	tt = sol;
 	return (tt);
-
 }
-
-// t_dot hui;
 
 double	intersect_ray_sphere(t_dot cam_sphere, t_dot *ray, t_figure *sphere)
 {
@@ -120,19 +57,6 @@ double	intersect_ray_sphere(t_dot cam_sphere, t_dot *ray, t_figure *sphere)
 	return (tt[1]);
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 double	cone_cap_intersection(t_dot *o, t_dot *d, t_figure *cyl,
 		t_dot (*func)(t_dot*, t_dot*))
 {
@@ -157,8 +81,8 @@ double	cone_cap_intersection(t_dot *o, t_dot *d, t_figure *cyl,
 	return (DBL_MAX);
 }
 
-static double	cone_capsssex(t_figure *cyl, t_dot *d, t_inter_point inter_point,
-				t_dot *o)
+static double	cone_capsssex(t_figure *cyl, t_dot *d,
+			t_inter_point inter_point, t_dot *o)
 {
 	double	a;
 	double	max;
@@ -184,81 +108,39 @@ static double	cone_capsssex(t_figure *cyl, t_dot *d, t_inter_point inter_point,
 	return (inter_point.t);
 }
 
-double	intersect_ray_cone(t_dot *o, t_dot *d, t_figure *cone)
-{
-	t_inter_point	inter_point;
-	t_ri_cyl		ri;
+// double	intersect_ray_cone(t_dot *o, t_dot *d, t_figure *cone)
+// {
+// 	t_inter_point	inter_point;
+// 	t_ri_cyl		ri;
+// 	double			tan;
 
-	double	tan = cone->radius * cone->radius / cone->height / cone->height;
-	normalize_vector(&cone->orientation_vec);
-	ri.cross = *d;//vec_cross(d, &cone->orientation_vec);
-	ri.c_to_o = subtraction_vector(o, &cone->coordinates);
-	ri.cross2 = *o;//vec_cross(&ri.c_to_o, &cone->orientation_vec);
-	ri.sub = subtraction_vector(o, &cone->coordinates);
-	ri.a = cone_dot_product_of_vectors(&ri.cross, &ri.cross, tan);
-	ri.b = 2 * cone_dot_product_of_vectors(&ri.cross, &ri.cross2, tan);
-	ri.c = cone_dot_product_of_vectors(&ri.cross2, &ri.cross2, tan);
-	ri.delta = ri.b * ri.b - 4 * ri.c * ri.a;
-	if (ri.delta < EPSILON)
-		return (DBL_MAX);
-	inter_point.t1 = (-ri.b - sqrt(ri.delta)) / (2 * ri.a);
-	inter_point.t2 = (-ri.b + sqrt(ri.delta)) / (2 * ri.a);
-	if (inter_point.t2 < 0 && inter_point.t1 < 0)
-		return (DBL_MAX);
-	inter_point.t = inter_point.t1;
-	if (inter_point.t2 < inter_point.t1)
-		inter_point.t = inter_point.t2;
-	return (inter_point.t);
-	return (cone_capsssex(cone, d, inter_point, o));
+// 	tan = cone->radius * cone->radius / cone->height / cone->height;
+// 	normalize_vector(&cone->orientation_vec);
+// 	ri.cross = *d;
+// 	ri.c_to_o = subtraction_vector(o, &cone->coordinates);
+// 	ri.cross2 = *o;
+// 	ri.sub = subtraction_vector(o, &cone->coordinates);
+// 	ri.a = cone_dot_product_of_vectors(&ri.cross, &ri.cross, tan);
+// 	ri.b = 2 * cone_dot_product_of_vectors(&ri.cross, &ri.cross2, tan);
+// 	ri.c = cone_dot_product_of_vectors(&ri.cross2, &ri.cross2, tan);
+// 	ri.delta = ri.b * ri.b - 4 * ri.c * ri.a;
+// 	if (ri.delta < EPSILON)
+// 		return (DBL_MAX);
+// 	inter_point.t1 = (-ri.b - sqrt(ri.delta)) / (2 * ri.a);
+// 	inter_point.t2 = (-ri.b + sqrt(ri.delta)) / (2 * ri.a);
+// 	if (inter_point.t2 < 0 && inter_point.t1 < 0)
+// 		return (DBL_MAX);
+// 	inter_point.t = inter_point.t1;
+// 	if (inter_point.t2 < inter_point.t1)
+// 		inter_point.t = inter_point.t2;
+// 	return (inter_point.t);
+// 	return (cone_capsssex(cone, d, inter_point, o));
+// }
 
-	// 	double	b;
-	// double	c;
-	// double	a;
-	// double	disc;
-	// double	tt[2];
-	// double	tan;
+// double	cone_and_cap_inter(t_dot o, t_dot *d, t_figure *cyl)
+// {
+// 	double	cone_iner;
 
-	// // (void)*inf;
-
-	// tt[0] = DBL_MAX;
-	// tt[1] = DBL_MAX;
-	// tan = cone->radius * cone->radius / cone->height / cone->height;
-	// a = cone_dot_product_of_vectors(d, d, tan);
-	// b = 2 * cone_dot_product_of_vectors(o, d, tan);
-	// c = cone_dot_product_of_vectors(o, o, tan);
-	// disc = b * b - 4 * a * c;
-	// if (disc < EPSILON)
-	// 	return (DBL_MAX);
-	// tt[0] = (-b - sqrt(disc)) / (2 * a);
-	// tt[1] = (-b + sqrt(disc)) / (2 * a);
-	// // double y1 = o->y + tt[0] * d->y;
-	// // double y2 = o->y + tt[1] * d->y;
-	// // double ymin = cone->coordinates.y - cone->height;
-	// // double ymax = cone->coordinates.y;
-	// // if (y1 < ymin || y1 > ymax || y2 < ymin || y2 > ymax)
-	// // {
-	// // 	tt[0] = DBL_MAX;
-	// // 	tt[1] = DBL_MAX;
-	// // }
-	// // if ((y1 < y2 && y1 < ymin && y2 > ymin)
-	// // 	|| (y1 > y2 && y2 < ymin && y1 > ymin))
-	// // 	tt[0] = (ymin - o->y) / d->y;
-	// if (tt[0] <= tt[1])
-	// 	return (tt[0]);
-	// return (tt[1]);
-}
-
-double	cone_and_cap_inter(t_dot o, t_dot *d, t_figure *cyl)
-{
-	double	cone_iner;
-	// double	cap1_inter;
-	// double	cap2_inter;
-
-	// cap1_inter = DBL_MAX;
-	// cap2_inter = DBL_MAX;
-	cone_iner = intersect_ray_cone(&o, d, cyl);
-	// cap1_inter = cone_cap_intersection(&o, d, cyl, &addition_vector);
-	// cap1_inter = cone_cap_intersection(&o, d, cyl, &subtraction_vector);
-	// return (min(min(cone_iner, cap1_inter), cap2_inter));
-	return (cone_iner);
-}
+// 	cone_iner = intersect_ray_cone(&o, d, cyl);
+// 	return (cone_iner);
+// }

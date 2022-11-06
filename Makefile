@@ -18,7 +18,7 @@ NAME =				minirt
 SRC =				main.c parser/tokens.c parser/parser.c gnl/get_next_line_utils_bonus.c gnl/get_next_line_bonus.c\
 					utils/utils.c utils/set_params.c utils/utils2.c utils/vector_cop.c utils/vector2.c utils/vector_cop2.c\
 					utils/vector.c light/ray_tracing.c light/light_computing.c\
-					light/get_color.c light/inters.c light/reflection.c light/cyl_intersex.c
+					light/get_color.c light/inters.c light/inters_utils.c light/reflection.c light/cyl_intersex.c
 
 SRC_DIR =			./src/
 

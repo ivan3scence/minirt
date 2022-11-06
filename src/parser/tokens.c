@@ -104,7 +104,6 @@ char	set_cylinder(t_inf *inf, char **split, char type)
 	cylinder->radius = set_radius(ft_dbatoi(split[3], inf), inf);
 	cylinder->height = (double)ft_dbatoi(split[4], inf);
 	cylinder->rgb = set_rgb(inf, split[5]);
-	//cylinder->refl = ft_atoi(split[6]);
 	cylinder->next = NULL;
 	if (!inf->figures)
 		inf->figures = cylinder;
